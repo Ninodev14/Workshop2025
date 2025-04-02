@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu de Cuisine Collaboratif</title>
+    <link rel="stylesheet" href="src/css/main.css">
+</head>
+
+<body>
+    <h1>Jeu de Cuisine Collaboratif</h1>
+
+    <div id="game-container">
+        <h2>Choisissez une recette :</h2>
+        <select id="recipe-select"></select>
+
+        <h2>Nombre de joueurs :</h2>
+        <input type="number" id="player-count" min="2" max="5" value="2">
+        <button onclick="startGame()">Commencer</button>
+
+        <h2 id="current-player">Joueur 1, choisissez un ingrédient :</h2>
+        <select id="ingredient-select"></select>
+        <button onclick="addIngredient()">Ajouter</button>
+
+        <h2>Ingrédients ajoutés :</h2>
+        <ul id="ingredient-list"></ul>
+
+        <button onclick="calculateScore()">Voir le résultat</button>
+        <h2 id="result"></h2>
+    </div>
+
+    <script>
+        const recipes = {
+            "Pizza": {
+                correct: ["Farine", "Eau", "Levure", "Sel", "Tomate", "Fromage"],
+                incorrect: ["Chocolat", "Fraise", "Miel", "Curry", "Banane"]
+            },
+            "Salade": {
+                correct: ["Laitue", "Tomate", "Concombre", "Oignon", "Huile", "Sel"],
+                incorrect: ["Nutella", "Pâte à tartiner", "Beurre", "Ketchup", "Bonbon"]
+            }
+        };
+
+        let selectedRecipe = "";
+        let chosenIngredients = [];
+        let players = 2;
+        let currentPlayer = 1;
+        let totalRounds = 0;
+
+        function populateRecipeSelect() {
+            const select = document.getElementById("recipe-select");
+            select.innerHTML = Object.keys(recipes).map(r => `<option value="${r}">${r}</option>`).join("");
+        }
+
+        function startGame() {
+            selectedRecipe = document.getElementById("recipe-select").value;
+            players = parseInt(document.getElementById("player-count").value);
+            chosenIngredients = [];
+            currentPlayer = 1;
+            totalRounds = 0;
+            document.getElementById("ingredient-list").innerHTML = "";
+            document.getElementById("current-player").innerText = `Joueur ${currentPlayer}, choisissez un ingrédient :`;
+            populateIngredientSelect();
+        }
+
+        function populateIngredientSelect() {
+            const select = document.getElementById("ingredient-select");
+            const {
+                correct,
+                incorrect
+            } = recipes[selectedRecipe];
+
+            const allIngredients = [...correct, ...incorrect].sort(() => Math.random() - 0.5);
+            select.innerHTML = allIngredients.map(i => `<option value="${i}">${i}</option>`).join("");
+        }
+
+        function addIngredient() {
+            const ingredient = document.getElementById("ingredient-select").value;
+
+            if (chosenIngredients.includes(ingredient)) {
+                alert("Cet ingrédient a déjà été ajouté !");
+                return;
+            }
+
+            chosenIngredients.push(ingredient);
+            document.getElementById("ingredient-list").innerHTML += `<li>${ingredient} (Joueur ${currentPlayer})</li>`;
+
+            totalRounds++;
+
+            if (totalRounds >= recipes[selectedRecipe].correct.length) {
+                calculateScore();
+                return;
+            }
+
+            currentPlayer = (currentPlayer % players) + 1;
+            document.getElementById("current-player").innerText = `Joueur ${currentPlayer}, choisissez un ingrédient :`;
+            populateIngredientSelect();
+        }
+
+        function calculateScore() {
+            const {
+                correct,
+                incorrect
+            } = recipes[selectedRecipe];
+
+            let correctCount = chosenIngredients.filter(i => correct.includes(i)).length;
+            let incorrectCount = chosenIngredients.filter(i => incorrect.includes(i)).length;
+
+            let score = (correctCount / correct.length) * 100;
+            let penalty = incorrectCount * 10;
+
+            let finalScore = Math.max(0, score - penalty);
+
+            document.getElementById("result").innerText = `Recette suivie à ${finalScore.toFixed(1)}%`;
+        }
+
+        populateRecipeSelect();
+    </script>
+</body>
+
+</html>
