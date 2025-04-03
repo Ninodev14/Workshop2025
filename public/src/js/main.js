@@ -8,17 +8,22 @@ let currentPlayer = 1;
 let totalRounds = 0;
 let availableIngredients = {};
 let allIngredients = [];
+let roomId = ''; // ID de la room (partie) actuelle
 
 function nextStep(step) {
     document.getElementById("step-1").style.display = step === 1 ? "block" : "none";
     document.getElementById("step-2").style.display = step === 2 ? "block" : "none";
     document.getElementById("step-3").style.display = step === 3 ? "block" : "none";
+    document.getElementById("step-4").style.display = step === 4 ? "block" : "none";
 
     if (step === 2) {
         players = parseInt(document.getElementById("player-count").value);
         populateRecipeSelect();
     }
     if (step === 3) {
+        // Préparer l'étape de création/rejoindre la room
+    }
+    if (step === 4) {
         startGame();
     }
 }
@@ -26,6 +31,24 @@ function nextStep(step) {
 function populateRecipeSelect() {
     const select = document.getElementById("recipe-select");
     select.innerHTML = Object.keys(recipes).map(r => `<option value="${r}">${r}</option>`).join("");
+}
+
+function createOrJoinRoom() {
+    roomId = document.getElementById("room-id").value.trim();
+
+    if (!roomId) {
+        alert("Veuillez entrer un ID de room !");
+        return;
+    }
+
+    // Rejoindre ou créer la room
+    socket.emit('joinRoom', roomId, {
+        recipe: selectedRecipe,
+        players: players
+    });
+
+    // Passer à l'étape suivante
+    nextStep(4);
 }
 
 function startGame() {
@@ -38,12 +61,6 @@ function startGame() {
     document.getElementById("result-btn").style.display = "none";
     document.getElementById("restart-btn").style.display = "none";
     document.getElementById("current-player").innerText = `Joueur ${currentPlayer}, choisissez un ingrédient :`;
-
-    // Envoyer les données du jeu au serveur
-    socket.emit('joinGame', {
-        recipe: selectedRecipe,
-        players: players
-    });
 
     distributeIngredients();
     populateIngredientSelect();
@@ -130,7 +147,7 @@ function addIngredient() {
     socket.emit('addIngredient', {
         player: currentPlayer,
         ingredient: selectedIngredient
-    });
+    }, roomId);
 
     if (totalRounds >= recipes[selectedRecipe].correct.length) {
         document.getElementById("ingredient-container").style.display = "none";
@@ -142,46 +159,19 @@ function addIngredient() {
     nextPlayer();
 }
 
-
 function nextPlayer() {
     currentPlayer = (currentPlayer % players) + 1;
     document.getElementById("current-player").innerText = `Joueur ${currentPlayer}, choisissez un ingrédient :`;
 
     // Envoyer au serveur qu'on passe au joueur suivant
-    socket.emit('nextPlayer', currentPlayer);
-
-    populateIngredientSelect();
+    socket.emit('nextPlayer', roomId);
 }
-
-function calculateScore() {
-    const { correct, incorrect } = recipes[selectedRecipe];
-
-    let correctCount = chosenIngredients.filter(i => correct.includes(i)).length;
-    let incorrectCount = chosenIngredients.filter(i => incorrect.includes(i)).length;
-
-    let score = (correctCount / correct.length) * 100;
-    let penalty = incorrectCount * 10;
-
-    let finalScore = Math.max(0, score - penalty);
-
-    document.getElementById("result").innerText = `Recette suivie à ${finalScore.toFixed(1)}%`;
-    document.getElementById("result").style.display = "block";
-    document.getElementById("restart-btn").style.display = "block";
-}
-
-function restartGame() {
-    nextStep(1);
-}
-
-nextStep(1);
 
 socket.on('switchPlayer', (currentPlayer) => {
     document.getElementById("current-player").innerText = `Joueur ${currentPlayer}, choisissez un ingrédient :`;
     populateIngredientSelect();
 });
 
-// Écoute pour les ajouts d'ingrédient (pour tous les clients)
 socket.on('ingredientAdded', (ingredientData) => {
-    // Mettre à jour l'interface en fonction de l'ingrédient ajouté
     console.log(`${ingredientData.player} a ajouté ${ingredientData.ingredient}`);
 });
