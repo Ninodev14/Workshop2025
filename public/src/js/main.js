@@ -14,41 +14,23 @@ function nextStep(step) {
     document.getElementById("step-1").style.display = step === 1 ? "block" : "none";
     document.getElementById("step-2").style.display = step === 2 ? "block" : "none";
     document.getElementById("step-3").style.display = step === 3 ? "block" : "none";
-    document.getElementById("step-4").style.display = step === 4 ? "block" : "none";
 
     if (step === 2) {
         players = parseInt(document.getElementById("player-count").value);
         populateRecipeSelect();
     }
     if (step === 3) {
-        // Préparer l'étape de création/rejoindre la room
-    }
-    if (step === 4) {
+        createRoom();
         startGame();
     }
 }
 
-function populateRecipeSelect() {
-    const select = document.getElementById("recipe-select");
-    select.innerHTML = Object.keys(recipes).map(r => `<option value="${r}">${r}</option>`).join("");
-}
-
-function createOrJoinRoom() {
-    roomId = document.getElementById("room-id").value.trim();
-
-    if (!roomId) {
-        alert("Veuillez entrer un ID de room !");
-        return;
-    }
-
-    // Rejoindre ou créer la room
+function createRoom() {
+    roomId = "room-" + Math.random().toString(36).substring(7); // Générer un ID unique pour la room
     socket.emit('joinRoom', roomId, {
         recipe: selectedRecipe,
         players: players
     });
-
-    // Passer à l'étape suivante
-    nextStep(4);
 }
 
 function startGame() {

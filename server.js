@@ -6,58 +6,85 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-let rooms = {}; // Pour stocker les informations de chaque room
+let rooms = {}; // Stocke les rooms et les joueurs
 
 // Servir les fichiers statiques
 app.use(express.static('public'));
 
-// Connexion de Socket.io
 io.on('connection', (socket) => {
     console.log('Un joueur s\'est connecté');
 
-    // Joindre une room spécifique
-    socket.on('joinRoom', (roomId, gameData) => {
-        if (!rooms[roomId]) {
-            rooms[roomId] = {
-                players: [],
-                currentPlayer: 1,
-                gameData: gameData,
-            };
-        }
+    // Création d'une nouvelle room
+    socket.on('createRoom', (roomData) => {
+        const { roomId, maxPlayers } = roomData;
 
-        // Ajouter le joueur à la room
-        rooms[roomId].players.push(socket.id);
-        socket.join(roomId);
+        rooms[roomId] = {
+            players: [],
+            maxPlayers,
+            currentPlayer: 1,
+            gameData: {},
+        };
 
-        console.log(`Le joueur ${socket.id} a rejoint la room ${roomId}`);
-        socket.emit('gameUpdate', gameData); // Envoie les données du jeu au joueur
-        socket.emit('currentPlayer', 1); // Indique au joueur qu'il est le premier à jouer
+        console.log(`Room créée : ${roomId} (Max: ${maxPlayers} joueurs)`);
+        io.emit('updateRooms', rooms);
     });
 
-    // Ajouter un ingrédient à la sélection
+    // Rejoindre une room
+    socket.on('joinRoom', (roomId) => {
+        if (rooms[roomId] && rooms[roomId].players.length < rooms[roomId].maxPlayers) {
+            socket.join(roomId);
+            rooms[roomId].players.push(socket.id);
+            console.log(`Le joueur ${socket.id} a rejoint la room ${roomId}`);
+
+            // Mettre à jour les joueurs de la room
+            io.to(roomId).emit('gameUpdate', rooms[roomId].gameData);
+            io.to(roomId).emit('currentPlayer', rooms[roomId].currentPlayer);
+
+            io.emit('updateRooms', rooms);
+        }
+    });
+
+    // Ajouter un ingrédient
     socket.on('addIngredient', (ingredientData, roomId) => {
-        // Envoyer à tous les autres clients dans la même room que l'ingrédient a été ajouté
         io.to(roomId).emit('ingredientAdded', ingredientData);
-        rooms[roomId].currentPlayer = (rooms[roomId].currentPlayer % rooms[roomId].players.length) + 1;
-        io.to(roomId).emit('switchPlayer', rooms[roomId].currentPlayer); // Change le joueur
+
+        if (rooms[roomId]) {
+            rooms[roomId].currentPlayer = (rooms[roomId].currentPlayer % rooms[roomId].players.length) + 1;
+            io.to(roomId).emit('switchPlayer', rooms[roomId].currentPlayer);
+        }
     });
 
     // Passer au joueur suivant
     socket.on('nextPlayer', (roomId) => {
-        rooms[roomId].currentPlayer = (rooms[roomId].currentPlayer % rooms[roomId].players.length) + 1;
-        io.to(roomId).emit('switchPlayer', rooms[roomId].currentPlayer); // Passe au joueur suivant
+        if (rooms[roomId]) {
+            rooms[roomId].currentPlayer = (rooms[roomId].currentPlayer % rooms[roomId].players.length) + 1;
+            io.to(roomId).emit('switchPlayer', rooms[roomId].currentPlayer);
+        }
     });
 
-    // Déconnexion d'un joueur
+    // Gérer la déconnexion d'un joueur
     socket.on('disconnect', () => {
         console.log(`Le joueur ${socket.id} a quitté`);
-        for (let roomId in rooms) {
-            let index = rooms[roomId].players.indexOf(socket.id);
+        let roomToDelete = null;
+
+        for (const roomId in rooms) {
+            const index = rooms[roomId].players.indexOf(socket.id);
             if (index !== -1) {
                 rooms[roomId].players.splice(index, 1);
+
+                // Supprimer la room si elle est vide
+                if (rooms[roomId].players.length === 0) {
+                    roomToDelete = roomId;
+                }
                 break;
             }
         }
+
+        if (roomToDelete) {
+            delete rooms[roomToDelete];
+        }
+
+        io.emit('updateRooms', rooms);
     });
 });
 
