@@ -71,7 +71,7 @@
     <script>
         const socket = io();
         const roomId = new URLSearchParams(window.location.search).get('roomId');
-        let playerName = prompt("Enter your name:");
+
         const startGameBtn = document.getElementById('startGameBtn');
         const roomNameElement = document.getElementById('roomName');
         const roomStatusElement = document.getElementById('roomStatus');
@@ -82,8 +82,10 @@
 
         // Join the room
         socket.emit('joinRoom', roomId, playerName, socket.id, (response) => {
+            console.log(response)
             if (response.success) {
-                roomNameElement.querySelector('span').textContent = roomId;
+                // Set the room name and player list
+                roomNameElement.querySelector('span').textContent = response.name; // Update the room name
                 roomStatusElement.textContent = 'Status: Waiting for players';
                 updatePlayerList(response.players);
             } else {

@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="src/js/playerID.js"></script>
     <title>Créer une Room</title>
 </head>
 
@@ -24,26 +23,36 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
+        let playerNameTxt = prompt("Enter your name:");
+        // Récupère ou génère un playerId unique si pas déjà défini
+        if (!localStorage.getItem("playerId")) {
+            localStorage.setItem("playerId", Math.random().toString(36).substr(2, 9)); // Génère un ID unique
+        }
+        const playerId = localStorage.getItem("playerId");
+
         document.getElementById('create-form').addEventListener('submit', function(e) {
             e.preventDefault();
+
+            // Récupère les informations de la room
             const roomName = document.getElementById('room-name').value;
             const maxPlayers = document.getElementById('max-players').value;
-            const playerName = localStorage.getItem("playerName") || prompt("Entrez votre nom");
-            localStorage.setItem("playerName", playerName);
 
+            // Génère un ID unique pour la room
             const roomId = Math.random().toString(36).substr(2, 9);
-            const playerId = localStorage.getItem("playerId");
 
+            // Emmet la demande de création de room vers le serveur, avec le playerId
             socket.emit('createRoom', {
                 roomId,
                 roomName,
                 maxPlayers,
-                playerName,
-                playerId
+                playerName: "Joueur " + playerNameTxt, // Tu peux changer cela par un nom de joueur que tu choisis
+                playerId // Envoie le playerId généré
             }, (response) => {
                 if (response.success) {
+                    // Si la room est créée, redirige vers la page d'attente avec l'ID de la room
                     window.location.href = `waiting_room.html?roomId=${roomId}`;
                 } else {
+                    // Si la room ne peut pas être créée, affiche un message d'erreur
                     alert(response.message);
                 }
             });

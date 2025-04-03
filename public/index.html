@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby</title>
-    <script src="src/js/playerID.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <style>
         body {
@@ -52,6 +51,12 @@
     <script>
         const socket = io();
 
+        // Récupère ou génère un playerId unique si pas déjà défini
+        if (!localStorage.getItem("playerId")) {
+            localStorage.setItem("playerId", Math.random().toString(36).substr(2, 9)); // Génère un ID unique
+        }
+        const playerId = localStorage.getItem("playerId");
+
         function updateRooms() {
             socket.emit('requestRooms');
         }
@@ -87,15 +92,7 @@
                 return;
             }
 
-            // Vérifier si un ID unique existe déjà dans le localStorage, sinon le générer
-            let playerId = localStorage.getItem('playerId');
-            if (!playerId) {
-                // Générer un ID unique si ce n'est pas déjà fait
-                playerId = Math.random().toString(36).substr(2, 9); // ID unique
-                localStorage.setItem('playerId', playerId); // Sauvegarder l'ID pour la session
-            }
-
-            // Rejoindre la room avec cet ID unique
+            // Envoie au serveur le playerId et playerName
             socket.emit('joinRoom', roomId, playerName, playerId, (response) => {
                 if (response.success) {
                     window.location.href = `waiting_room.html?roomId=${roomId}`;
@@ -104,9 +101,6 @@
                 }
             });
         }
-
-
-
 
         // Rediriger vers la page de création de room
         function goToCreatePage() {

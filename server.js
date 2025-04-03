@@ -22,9 +22,10 @@ io.on('connection', (socket) => {
             return callback({ success: false, message: "Room déjà existante." });
         }
 
+        // Utilisation de playerId passé par le client
         rooms[roomId] = {
             name: roomName,
-            players: [{ id: playerId, name: playerName }], // Utilisation de playerId
+            players: [{ id: playerId, name: playerName }],
             maxPlayers: parseInt(maxPlayers),
             host: playerId
         };
@@ -35,7 +36,6 @@ io.on('connection', (socket) => {
         io.emit('updateRooms', rooms);
         callback({ success: true });
     });
-
 
     socket.on('joinRoom', (roomId, playerName, playerId, callback) => {
         console.log(`🔍 Tentative de rejoindre la room: ${roomId} par ${playerName} (${playerId})`);
@@ -60,12 +60,11 @@ io.on('connection', (socket) => {
         console.log(`✅ ${playerName} a rejoint la room ${roomId}`);
         console.log("📌 Nouvelle liste de joueurs:", rooms[roomId].players);
 
-        io.to(roomId).emit('updatePlayers', rooms[roomId].players); // Update the players list in the room
-        io.emit('updateRooms', rooms); // Update all rooms
+        io.to(roomId).emit('updatePlayers', rooms[roomId].players); // Mise à jour de la liste des joueurs
+        io.emit('updateRooms', rooms); // Mise à jour des rooms
 
-        callback({ success: true, players: rooms[roomId].players }); // Return the list of players in the callback
+        callback({ success: true, players: rooms[roomId].players, name: rooms[roomId].name });
     });
-
 
     socket.on('startGame', (roomId) => {
         if (rooms[roomId] && rooms[roomId].host === socket.id) {
@@ -78,7 +77,6 @@ io.on('connection', (socket) => {
 
         // Rechercher les rooms où ce joueur se trouve
         for (const roomId in rooms) {
-            // Filtrer les joueurs de la room pour retirer ce joueur par son ID
             rooms[roomId].players = rooms[roomId].players.filter(player => player.id !== socket.id);
 
             if (rooms[roomId].players.length === 0) {
@@ -92,7 +90,6 @@ io.on('connection', (socket) => {
 
         io.emit('updateRooms', rooms);
     });
-
 });
 
 const port = process.env.PORT || 3000;
