@@ -23,7 +23,7 @@
         const playerName = localStorage.getItem('playerName');
 
         if (!roomId || !playerName) {
-            alert("Erreur : Room ou nom invalide.");
+            alert("Erreur : Room ou nom invalide." + playerName + " " + roomId);
             window.location.href = "index.html";
         }
 
