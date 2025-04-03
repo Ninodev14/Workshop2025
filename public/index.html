@@ -13,13 +13,7 @@
 
     <div id="room-selection">
         <h2>Créer une nouvelle partie</h2>
-        <label for="max-players">Nombre de joueurs :</label>
-        <input type="number" id="max-players" min="2" max="5" value="2">
-        <button onclick="createRoom()">Créer une Room</button>
-
-        <h2>Ou rejoindre une partie existante</h2>
-        <input type="text" id="room-id" placeholder="Entrez l'ID de la room">
-        <button onclick="joinRoom()">Rejoindre</button>
+        <button onclick="goToCreatePage()">Créer une Room</button>
 
         <h2>Rooms ouvertes :</h2>
         <ul id="room-list"></ul>

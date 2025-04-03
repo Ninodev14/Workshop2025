@@ -6,26 +6,30 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-let rooms = {}; // Stocke les rooms et les joueurs
+let rooms = {}; // Stockage des rooms
 
 // Servir les fichiers statiques
 app.use(express.static('public'));
 
 io.on('connection', (socket) => {
-    console.log('Un joueur s\'est connecté');
+    console.log(`Joueur connecté: ${socket.id}`);
 
-    // Création d'une nouvelle room
-    socket.on('createRoom', (roomData) => {
-        const { roomId, maxPlayers } = roomData;
+    // Demande de la liste des rooms
+    socket.on('requestRooms', () => {
+        socket.emit('updateRooms', rooms);
+    });
 
+    // Création d'une room
+    socket.on('createRoom', ({ roomId, roomName, maxPlayers }) => {
         rooms[roomId] = {
+            name: roomName,
             players: [],
-            maxPlayers,
+            maxPlayers: parseInt(maxPlayers),
             currentPlayer: 1,
             gameData: {},
         };
 
-        console.log(`Room créée : ${roomId} (Max: ${maxPlayers} joueurs)`);
+        console.log(`Room créée : ${roomName} (${roomId}) - Max: ${maxPlayers} joueurs`);
         io.emit('updateRooms', rooms);
     });
 
@@ -34,21 +38,19 @@ io.on('connection', (socket) => {
         if (rooms[roomId] && rooms[roomId].players.length < rooms[roomId].maxPlayers) {
             socket.join(roomId);
             rooms[roomId].players.push(socket.id);
-            console.log(`Le joueur ${socket.id} a rejoint la room ${roomId}`);
+            console.log(`Joueur ${socket.id} a rejoint la room ${roomId}`);
 
-            // Mettre à jour les joueurs de la room
+            // Mise à jour des joueurs
             io.to(roomId).emit('gameUpdate', rooms[roomId].gameData);
             io.to(roomId).emit('currentPlayer', rooms[roomId].currentPlayer);
-
             io.emit('updateRooms', rooms);
         }
     });
 
     // Ajouter un ingrédient
     socket.on('addIngredient', (ingredientData, roomId) => {
-        io.to(roomId).emit('ingredientAdded', ingredientData);
-
         if (rooms[roomId]) {
+            io.to(roomId).emit('ingredientAdded', ingredientData);
             rooms[roomId].currentPlayer = (rooms[roomId].currentPlayer % rooms[roomId].players.length) + 1;
             io.to(roomId).emit('switchPlayer', rooms[roomId].currentPlayer);
         }
@@ -64,7 +66,7 @@ io.on('connection', (socket) => {
 
     // Gérer la déconnexion d'un joueur
     socket.on('disconnect', () => {
-        console.log(`Le joueur ${socket.id} a quitté`);
+        console.log(`Joueur déconnecté: ${socket.id}`);
         let roomToDelete = null;
 
         for (const roomId in rooms) {
@@ -81,6 +83,7 @@ io.on('connection', (socket) => {
         }
 
         if (roomToDelete) {
+            console.log(`Room supprimée : ${rooms[roomToDelete].name} (${roomToDelete})`);
             delete rooms[roomToDelete];
         }
 
@@ -88,8 +91,8 @@ io.on('connection', (socket) => {
     });
 });
 
-// Lancer le serveur sur le port 3000
+// Lancer le serveur
 const port = process.env.PORT || 3000;
 server.listen(port, () => {
-    console.log(`Serveur en écoute sur le port ${port}`);
+    console.log(`✅ Serveur en écoute sur le port ${port}`);
 });

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Création de Room</title>
+    <link rel="stylesheet" href="src/css/style.css">
+</head>
+
+<body>
+    <h1>Créer une Nouvelle Room</h1>
+
+    <div id="create-room">
+        <label for="room-name">Nom de la room :</label>
+        <input type="text" id="room-name" placeholder="Nom de la room">
+
+        <label for="max-players">Nombre de joueurs :</label>
+        <input type="number" id="max-players" min="2" max="5" value="2">
+
+        <button onclick="confirmCreateRoom()">Créer</button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="src/js/create.js"></script>
+</body>
+
+</html>
