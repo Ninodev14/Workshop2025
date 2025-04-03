@@ -4,25 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Création de Room</title>
-    <link rel="stylesheet" href="src/css/style.css">
+    <title>Créer une Room</title>
 </head>
 
 <body>
-    <h1>Créer une Nouvelle Room</h1>
+    <h1>Créer une Room</h1>
 
-    <div id="create-room">
-        <label for="room-name">Nom de la room :</label>
-        <input type="text" id="room-name" placeholder="Nom de la room">
+    <form id="create-form">
+        <label for="room-name">Nom de la room:</label>
+        <input type="text" id="room-name" required>
 
-        <label for="max-players">Nombre de joueurs :</label>
-        <input type="number" id="max-players" min="2" max="5" value="2">
+        <label for="max-players">Nombre de joueurs (2-4):</label>
+        <input type="number" id="max-players" min="2" max="4" required>
 
-        <button onclick="confirmCreateRoom()">Créer</button>
-    </div>
+        <button type="submit">Créer la Room</button>
+    </form>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="src/js/create.js"></script>
+    <script>
+        const socket = io();
+
+        document.getElementById('create-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const roomName = document.getElementById('room-name').value;
+            const maxPlayers = document.getElementById('max-players').value;
+            const playerName = prompt("Entrez votre nom :");
+
+            if (!playerName) {
+                alert("Vous devez entrer un nom !");
+                return;
+            }
+
+            localStorage.setItem('playerName', playerName);
+
+            const roomId = Math.random().toString(36).substr(2, 9);
+
+            socket.emit('createRoom', {
+                roomId,
+                roomName,
+                maxPlayers,
+                playerName
+            }, (response) => {
+                if (response.success) {
+                    window.location.href = `waiting_room.html?roomId=${roomId}`;
+                } else {
+                    alert(response.message);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

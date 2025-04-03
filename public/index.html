@@ -4,23 +4,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rejoindre une Partie</title>
-    <link rel="stylesheet" href="src/css/style.css">
+    <title>Lobby</title>
 </head>
 
 <body>
-    <h1>Bienvenue dans le Jeu de Cuisine !</h1>
+    <h1>Lobby - Choisissez une Room</h1>
 
-    <div id="room-selection">
-        <h2>Créer une nouvelle partie</h2>
-        <button onclick="goToCreatePage()">Créer une Room</button>
+    <!-- Bouton pour créer une room -->
+    <button onclick="goToCreatePage()">Créer une Room</button>
 
-        <h2>Rooms ouvertes :</h2>
-        <ul id="room-list"></ul>
-    </div>
+    <!-- Liste des rooms -->
+    <div id="room-list"></div>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="src/js/lobby.js"></script>
+    <script>
+        const socket = io();
+
+        // Demander la liste des rooms
+        socket.emit('requestRooms');
+
+        // Afficher la liste des rooms
+        socket.on('updateRooms', (rooms) => {
+            const roomList = document.getElementById('room-list');
+            roomList.innerHTML = ''; // Réinitialiser la liste des rooms
+
+            Object.entries(rooms).forEach(([roomId, room]) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${room.name}</strong> (${room.players.length}/${room.maxPlayers} joueurs) 
+                                <button onclick="joinRoom('${roomId}')">Rejoindre</button>`;
+                roomList.appendChild(li);
+            });
+        });
+
+        // Rejoindre une room
+        function joinRoom(roomId) {
+            const playerName = prompt('Entrez votre nom');
+            if (playerName) {
+                socket.emit('joinRoom', roomId, playerName, (response) => {
+                    if (response.success) {
+                        localStorage.setItem('playerName', playerName);
+                        window.location.href = `waiting_room.html?roomId=${roomId}`;
+                    } else {
+                        alert(response.message);
+                    }
+                });
+            }
+        }
+
+        // Rediriger vers la page de création de room
+        function goToCreatePage() {
+            window.location.href = "create_room.html"; // Page de création de la room
+        }
+    </script>
 </body>
 
 </html>

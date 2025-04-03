@@ -4,36 +4,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attente dans la Room</title>
-    <link rel="stylesheet" href="src/css/style.css">
+    <title>Salle d'attente</title>
 </head>
 
 <body>
-    <h1>Bienvenue dans la Room!</h1>
+    <h1>Salle d'attente</h1>
+    <p>En attente de joueurs...</p>
 
-    <div id="room-info">
-        <h2>Informations sur la Room</h2>
-        <p id="room-name"></p>
-        <p id="players-list"></p>
-    </div>
+    <ul id="player-list"></ul>
 
-    <div id="game-controls">
-        <button onclick="startGame()">Démarrer la Partie</button>
-    </div>
+    <button id="start-game" style="display: none;">Lancer la partie</button>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-        const roomId = new URLSearchParams(window.location.search).get('roomId');
-        socket.emit('getRoomInfo', roomId);
-        socket.on('roomInfo', (room) => {
-            document.getElementById("room-name").textContent = `Nom de la Room: ${room.name}`;
-            document.getElementById("players-list").textContent = `Joueurs: ${room.players.join(", ")}`;
+        const urlParams = new URLSearchParams(window.location.search);
+        const roomId = urlParams.get('roomId');
+        const playerName = localStorage.getItem('playerName');
+
+        if (!roomId || !playerName) {
+            alert("Erreur : Room ou nom invalide.");
+            window.location.href = "lobby.html";
+        }
+
+        // Rejoindre la room
+        socket.emit('joinRoom', roomId, playerName, (response) => {
+            if (!response.success) {
+                alert(response.message);
+                window.location.href = "lobby.html";
+            }
         });
 
-        function startGame() {
-            socket.emit('startGame', roomId);
-        }
+        // Mise à jour de la liste des joueurs
+        socket.on('updatePlayers', (players) => {
+            const playerList = document.getElementById("player-list");
+            playerList.innerHTML = '';
+
+            players.forEach(player => {
+                const li = document.createElement("li");
+                li.textContent = player.name;
+                playerList.appendChild(li);
+            });
+
+            // Afficher le bouton "Lancer la partie" seulement si l'utilisateur est l'hôte
+            if (players.length > 1 && players[0].id === socket.id) {
+                document.getElementById("start-game").style.display = "block";
+            }
+        });
+
+        // Lancer la partie
+        document.getElementById("start-game").addEventListener("click", () => {
+            socket.emit("startGame", roomId);
+        });
+
+        // Redirection lorsque la partie démarre
+        socket.on("gameStarted", () => {
+            window.location.href = `game.html?roomId=${roomId}`;
+        });
     </script>
 </body>
 
