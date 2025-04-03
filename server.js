@@ -40,18 +40,30 @@ io.on('connection', (socket) => {
     socket.on('joinRoom', (roomId, playerName, playerId, callback) => {
         console.log(`🔍 Tentative de rejoindre la room: ${roomId} par ${playerName} (${playerId})`);
 
+        // Vérification si la room existe
         if (!rooms[roomId]) {
             console.log(`❌ ERREUR : La room ${roomId} n'existe pas !`);
-            return callback({ success: false, message: "La room est introuvable." });
+            if (typeof callback === 'function') {
+                return callback({ success: false, message: "La room est introuvable." });
+            }
+            return;
         }
 
+        // Vérification si la room est pleine
         if (rooms[roomId].players.length >= rooms[roomId].maxPlayers) {
-            return callback({ success: false, message: "La room est pleine." });
+            if (typeof callback === 'function') {
+                return callback({ success: false, message: "La room est pleine." });
+            }
+            return;
         }
 
         const isAlreadyInRoom = rooms[roomId].players.some(player => player.id === playerId);
         if (isAlreadyInRoom) {
-            return callback({ success: false, message: "Vous êtes déjà dans cette room." });
+            console.log(`❌ Le joueur ${playerName} (${playerId}) essaie de rejoindre une room où il est déjà présent.`);
+            if (typeof callback === 'function') {
+                return callback({ success: false, message: "Vous êtes déjà dans cette room." });
+            }
+            return;
         }
 
         rooms[roomId].players.push({ id: playerId, name: playerName });
@@ -59,12 +71,15 @@ io.on('connection', (socket) => {
 
         console.log(`✅ ${playerName} a rejoint la room ${roomId}`);
         console.log("📌 Nouvelle liste de joueurs:", rooms[roomId].players);
+        io.to(roomId).emit('updatePlayers', rooms[roomId].players);
+        io.emit('updateRooms', rooms);
 
-        io.to(roomId).emit('updatePlayers', rooms[roomId].players); // Mise à jour de la liste des joueurs
-        io.emit('updateRooms', rooms); // Mise à jour des rooms
-
-        callback({ success: true, players: rooms[roomId].players, name: rooms[roomId].name });
+        if (typeof callback === 'function') {
+            callback({ success: true, players: rooms[roomId].players, name: rooms[roomId].name });
+        }
     });
+
+
 
     socket.on('startGame', (roomId) => {
         if (rooms[roomId] && rooms[roomId].host === socket.id) {

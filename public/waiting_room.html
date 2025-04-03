@@ -6,47 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Waiting Room</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 20px;
-        }
-        
-        h1 {
-            text-align: center;
-        }
-        
-        .room-info,
-        .player-list {
-            margin: 20px auto;
-            text-align: center;
-            padding: 10px;
-            border: 1px solid #ddd;
-            background-color: white;
-            width: 60%;
-        }
-        
-        .room-info {
-            margin-top: 40px;
-        }
-        
-        .player-list {
-            margin-top: 20px;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            margin: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .btn:disabled {
-            background-color: #ccc;
-        }
+        /* Ton style ici */
     </style>
 </head>
 
@@ -77,15 +37,14 @@
         const roomStatusElement = document.getElementById('roomStatus');
         const playerListElement = document.getElementById('playerList');
 
-        // Request room data from server
         socket.emit('requestRooms');
 
         // Join the room
-        socket.emit('joinRoom', roomId, playerName, socket.id, (response) => {
-            console.log(response)
+        socket.emit('joinRoom', roomId, socket.id, (response) => {
+            console.log(response);
             if (response.success) {
                 // Set the room name and player list
-                roomNameElement.querySelector('span').textContent = response.name; // Update the room name
+                roomNameElement.querySelector('span').textContent = response.name;
                 roomStatusElement.textContent = 'Status: Waiting for players';
                 updatePlayerList(response.players);
             } else {

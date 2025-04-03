@@ -23,7 +23,13 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-        let playerNameTxt = prompt("Enter your name:");
+        let playerNameTxt = prompt("Entrez votre nom :");
+
+        // Vérification que le joueur a bien donné un nom
+        while (!playerNameTxt || playerNameTxt.trim() === "") {
+            playerNameTxt = prompt("Vous devez entrer un nom :");
+        }
+
         // Récupère ou génère un playerId unique si pas déjà défini
         if (!localStorage.getItem("playerId")) {
             localStorage.setItem("playerId", Math.random().toString(36).substr(2, 9)); // Génère un ID unique
