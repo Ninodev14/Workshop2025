@@ -24,14 +24,14 @@
 
         if (!roomId || !playerName) {
             alert("Erreur : Room ou nom invalide.");
-            window.location.href = "lobby.html";
+            window.location.href = "index.html";
         }
 
         // Rejoindre la room
         socket.emit('joinRoom', roomId, playerName, (response) => {
             if (!response.success) {
                 alert(response.message);
-                window.location.href = "lobby.html";
+                window.location.href = "index.html";
             }
         });
 

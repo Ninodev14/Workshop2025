@@ -23,7 +23,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-
         document.getElementById('create-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const roomName = document.getElementById('room-name').value;

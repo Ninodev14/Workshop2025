@@ -38,18 +38,26 @@
 
         // Rejoindre une room
         function joinRoom(roomId) {
-            const playerName = prompt('Entrez votre nom');
-            if (playerName) {
-                socket.emit('joinRoom', roomId, playerName, (response) => {
-                    if (response.success) {
-                        localStorage.setItem('playerName', playerName);
-                        window.location.href = `waiting_room.html?roomId=${roomId}`;
-                    } else {
-                        alert(response.message);
-                    }
-                });
+            let playerName = localStorage.getItem('playerName');
+
+            if (!playerName) {
+                playerName = prompt("Entrez votre nom :");
+                if (!playerName) {
+                    alert("Vous devez entrer un nom !");
+                    return;
+                }
+                localStorage.setItem('playerName', playerName);
             }
+
+            socket.emit('joinRoom', roomId, playerName, (response) => {
+                if (response.success) {
+                    window.location.href = `waiting_room.html?roomId=${roomId}`;
+                } else {
+                    alert(response.message);
+                }
+            });
         }
+
 
         // Rediriger vers la page de création de room
         function goToCreatePage() {
