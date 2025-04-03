@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="src/js/playerID.js"></script>
     <title>Créer une Room</title>
 </head>
 
@@ -27,22 +28,18 @@
             e.preventDefault();
             const roomName = document.getElementById('room-name').value;
             const maxPlayers = document.getElementById('max-players').value;
-            const playerName = prompt("Entrez votre nom :");
-
-            if (!playerName) {
-                alert("Vous devez entrer un nom !");
-                return;
-            }
-
-            localStorage.setItem('playerName', playerName);
+            const playerName = localStorage.getItem("playerName") || prompt("Entrez votre nom");
+            localStorage.setItem("playerName", playerName);
 
             const roomId = Math.random().toString(36).substr(2, 9);
+            const playerId = localStorage.getItem("playerId");
 
             socket.emit('createRoom', {
                 roomId,
                 roomName,
                 maxPlayers,
-                playerName
+                playerName,
+                playerId
             }, (response) => {
                 if (response.success) {
                     window.location.href = `waiting_room.html?roomId=${roomId}`;

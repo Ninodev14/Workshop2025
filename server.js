@@ -17,39 +17,64 @@ io.on('connection', (socket) => {
         socket.emit('updateRooms', rooms);
     });
 
-    socket.on('createRoom', ({ roomId, roomName, maxPlayers, playerName }, callback) => {
+    socket.on('createRoom', ({ roomId, roomName, maxPlayers, playerName, playerId }, callback) => {
         if (rooms[roomId]) {
             return callback({ success: false, message: "Room déjà existante." });
         }
 
         rooms[roomId] = {
             name: roomName,
-            players: [{ id: socket.id, name: playerName }],
+            players: [{ id: playerId, name: playerName }], // Utilisation de playerId
             maxPlayers: parseInt(maxPlayers),
-            host: socket.id
+            host: playerId
         };
 
         socket.join(roomId);
-        console.log(`Room créée : ${roomName} (${roomId})`);
+        console.log(`✅ Room créée: ${roomName} (${roomId}) avec ${playerName} comme hôte`);
 
         io.emit('updateRooms', rooms);
         callback({ success: true });
     });
 
-    socket.on('joinRoom', (roomId, playerName, callback) => {
-        if (!rooms[roomId] || rooms[roomId].players.length >= rooms[roomId].maxPlayers) {
-            return callback({ success: false, message: "La room est pleine ou introuvable." });
+
+    socket.on('joinRoom', (roomId, playerName, playerId, callback) => {
+        console.log(`🔍 Tentative de rejoindre la room: ${roomId} par ${playerName} (${playerId})`);
+
+        if (!rooms[roomId]) {
+            console.log(`❌ ERREUR : La room ${roomId} n'existe pas !`);
+            // Si callback est passé, l'appeler, sinon ne rien faire
+            if (callback) {
+                return callback({ success: false, message: "La room est introuvable." });
+            }
         }
 
-        rooms[roomId].players.push({ id: socket.id, name: playerName });
+        if (rooms[roomId].players.length >= rooms[roomId].maxPlayers) {
+            if (callback) {
+                return callback({ success: false, message: "La room est pleine." });
+            }
+        }
+
+        const isAlreadyInRoom = rooms[roomId].players.some(player => player.id === playerId);
+        if (isAlreadyInRoom) {
+            if (callback) {
+                return callback({ success: false, message: "Vous êtes déjà dans cette room." });
+            }
+        }
+
+        rooms[roomId].players.push({ id: playerId, name: playerName });
         socket.join(roomId);
 
-        console.log(`${playerName} a rejoint la room ${roomId}`);
+        console.log(`✅ ${playerName} a rejoint la room ${roomId}`);
+        console.log("📌 Nouvelle liste de joueurs:", rooms[roomId].players);
 
         io.to(roomId).emit('updatePlayers', rooms[roomId].players);
         io.emit('updateRooms', rooms);
-        callback({ success: true });
+
+        if (callback) {
+            callback({ success: true });
+        }
     });
+
 
     socket.on('startGame', (roomId) => {
         if (rooms[roomId] && rooms[roomId].host === socket.id) {
@@ -60,7 +85,9 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         let roomToDelete = null;
 
+        // Rechercher les rooms où ce joueur se trouve
         for (const roomId in rooms) {
+            // Filtrer les joueurs de la room pour retirer ce joueur par son ID
             rooms[roomId].players = rooms[roomId].players.filter(player => player.id !== socket.id);
 
             if (rooms[roomId].players.length === 0) {
@@ -74,6 +101,7 @@ io.on('connection', (socket) => {
 
         io.emit('updateRooms', rooms);
     });
+
 });
 
 const port = process.env.PORT || 3000;

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="src/js/playerID.js"></script>
     <title>Salle d'attente</title>
 </head>
 
@@ -27,13 +28,14 @@
             window.location.href = "index.html";
         }
 
-        // Rejoindre la room
-        socket.emit('joinRoom', roomId, playerName, (response) => {
-            if (!response.success) {
+        socket.emit('joinRoom', roomId, playerName, playerId, (response) => {
+            if (response.success) {
+                window.location.href = `waiting_room.html?roomId=${roomId}`;
+            } else {
                 alert(response.message);
-                window.location.href = "index.html";
             }
         });
+
 
         // Mise à jour de la liste des joueurs
         socket.on('updatePlayers', (players) => {

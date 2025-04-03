@@ -5,6 +5,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby</title>
+    <script src="src/js/playerID.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        
+        #room-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .room-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin: 5px auto;
+            width: 50%;
+        }
+    </style>
 </head>
 
 <body>
@@ -14,23 +47,33 @@
     <button onclick="goToCreatePage()">Créer une Room</button>
 
     <!-- Liste des rooms -->
-    <div id="room-list"></div>
+    <ul id="room-list"></ul>
 
-    <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
 
-        // Demander la liste des rooms
-        socket.emit('requestRooms');
+        function updateRooms() {
+            socket.emit('requestRooms');
+        }
+
+        // Mise à jour automatique toutes les 5 secondes
+        setInterval(updateRooms, 5000);
+        updateRooms(); // Mise à jour immédiate au chargement
 
         // Afficher la liste des rooms
         socket.on('updateRooms', (rooms) => {
             const roomList = document.getElementById('room-list');
             roomList.innerHTML = ''; // Réinitialiser la liste des rooms
 
+            if (Object.keys(rooms).length === 0) {
+                roomList.innerHTML = '<p>Aucune room disponible.</p>';
+                return;
+            }
+
             Object.entries(rooms).forEach(([roomId, room]) => {
                 const li = document.createElement('li');
-                li.innerHTML = `<strong>${room.name}</strong> (${room.players.length}/${room.maxPlayers} joueurs) 
+                li.classList.add('room-item');
+                li.innerHTML = `<strong>${room.name}</strong> (${room.players.length}/${room.maxPlayers} joueurs)
                                 <button onclick="joinRoom('${roomId}')">Rejoindre</button>`;
                 roomList.appendChild(li);
             });
@@ -38,18 +81,22 @@
 
         // Rejoindre une room
         function joinRoom(roomId) {
-            let playerName = localStorage.getItem('playerName');
-
+            let playerName = prompt("Entrez votre nom :");
             if (!playerName) {
-                playerName = prompt("Entrez votre nom :");
-                if (!playerName) {
-                    alert("Vous devez entrer un nom !");
-                    return;
-                }
-                localStorage.setItem('playerName', playerName);
+                alert("Vous devez entrer un nom !");
+                return;
             }
 
-            socket.emit('joinRoom', roomId, playerName, (response) => {
+            // Vérifier si un ID unique existe déjà dans le localStorage, sinon le générer
+            let playerId = localStorage.getItem('playerId');
+            if (!playerId) {
+                // Générer un ID unique si ce n'est pas déjà fait
+                playerId = Math.random().toString(36).substr(2, 9); // ID unique
+                localStorage.setItem('playerId', playerId); // Sauvegarder l'ID pour la session
+            }
+
+            // Rejoindre la room avec cet ID unique
+            socket.emit('joinRoom', roomId, playerName, playerId, (response) => {
                 if (response.success) {
                     window.location.href = `waiting_room.html?roomId=${roomId}`;
                 } else {
@@ -59,9 +106,11 @@
         }
 
 
+
+
         // Rediriger vers la page de création de room
         function goToCreatePage() {
-            window.location.href = "create_room.html"; // Page de création de la room
+            window.location.href = "create_room.html";
         }
     </script>
 </body>
