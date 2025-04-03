@@ -39,8 +39,6 @@ io.on('connection', (socket) => {
 
     socket.on('joinRoom', (roomId, playerName, playerId, callback) => {
         console.log(`🔍 Tentative de rejoindre la room: ${roomId} par ${playerName} (${playerId})`);
-
-        // Vérification si la room existe
         if (!rooms[roomId]) {
             console.log(`❌ ERREUR : La room ${roomId} n'existe pas !`);
             if (typeof callback === 'function') {
@@ -79,6 +77,22 @@ io.on('connection', (socket) => {
         }
     });
 
+    socket.on('showRoomDetails', (roomId, callback) => {
+        console.log(`🔍 Demande de détails de la room: ${roomId}`);
+
+        // Vérifier si la room existe
+        if (!rooms[roomId]) {
+            console.log(`❌ ERREUR : La room ${roomId} n'existe pas !`);
+            return callback({ success: false, message: "La room est introuvable." });
+        }
+
+        // Renvoyer les détails de la room sans ajouter le joueur
+        callback({
+            success: true,
+            name: rooms[roomId].name,
+            players: rooms[roomId].players
+        });
+    });
 
 
     socket.on('startGame', (roomId) => {
