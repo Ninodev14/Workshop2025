@@ -4,25 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salle d'Attente</title>
+    <title>Attente dans la Room</title>
     <link rel="stylesheet" href="src/css/style.css">
 </head>
 
 <body>
-    <h1>Salle d'Attente</h1>
+    <h1>Bienvenue dans la Room!</h1>
 
     <div id="room-info">
-        <h2 id="room-name"></h2>
-        <p>Joueurs : <span id="player-count"></span>/<span id="max-players"></span></p>
+        <h2>Informations sur la Room</h2>
+        <p id="room-name"></p>
+        <p id="players-list"></p>
+    </div>
 
-        <h3>Liste des joueurs :</h3>
-        <ul id="player-list"></ul>
-
-        <button id="start-game-btn" style="display: none;" onclick="startGame()">Lancer la partie</button>
+    <div id="game-controls">
+        <button onclick="startGame()">Démarrer la Partie</button>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script src="src/js/lobby.js"></script>
+    <script>
+        const socket = io();
+        const roomId = new URLSearchParams(window.location.search).get('roomId');
+        socket.emit('getRoomInfo', roomId);
+        socket.on('roomInfo', (room) => {
+            document.getElementById("room-name").textContent = `Nom de la Room: ${room.name}`;
+            document.getElementById("players-list").textContent = `Joueurs: ${room.players.join(", ")}`;
+        });
+
+        function startGame() {
+            socket.emit('startGame', roomId);
+        }
+    </script>
 </body>
 
 </html>

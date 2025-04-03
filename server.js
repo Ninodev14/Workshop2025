@@ -89,7 +89,10 @@ io.on('connection', (socket) => {
             if (index !== -1) {
                 rooms[roomId].players.splice(index, 1);
 
-
+                // Si la room est vide, la supprimer
+                if (rooms[roomId].players.length === 0) {
+                    roomToDelete = roomId;
+                }
                 break;
             }
         }
