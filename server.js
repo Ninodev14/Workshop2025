@@ -42,23 +42,16 @@ io.on('connection', (socket) => {
 
         if (!rooms[roomId]) {
             console.log(`❌ ERREUR : La room ${roomId} n'existe pas !`);
-            // Si callback est passé, l'appeler, sinon ne rien faire
-            if (callback) {
-                return callback({ success: false, message: "La room est introuvable." });
-            }
+            return callback({ success: false, message: "La room est introuvable." });
         }
 
         if (rooms[roomId].players.length >= rooms[roomId].maxPlayers) {
-            if (callback) {
-                return callback({ success: false, message: "La room est pleine." });
-            }
+            return callback({ success: false, message: "La room est pleine." });
         }
 
         const isAlreadyInRoom = rooms[roomId].players.some(player => player.id === playerId);
         if (isAlreadyInRoom) {
-            if (callback) {
-                return callback({ success: false, message: "Vous êtes déjà dans cette room." });
-            }
+            return callback({ success: false, message: "Vous êtes déjà dans cette room." });
         }
 
         rooms[roomId].players.push({ id: playerId, name: playerName });
@@ -67,12 +60,10 @@ io.on('connection', (socket) => {
         console.log(`✅ ${playerName} a rejoint la room ${roomId}`);
         console.log("📌 Nouvelle liste de joueurs:", rooms[roomId].players);
 
-        io.to(roomId).emit('updatePlayers', rooms[roomId].players);
-        io.emit('updateRooms', rooms);
+        io.to(roomId).emit('updatePlayers', rooms[roomId].players); // Update the players list in the room
+        io.emit('updateRooms', rooms); // Update all rooms
 
-        if (callback) {
-            callback({ success: true });
-        }
+        callback({ success: true, players: rooms[roomId].players }); // Return the list of players in the callback
     });
 
 
