@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salle d'Attente</title>
+    <link rel="stylesheet" href="src/css/style.css">
+</head>
+
+<body>
+    <h1>Salle d'Attente</h1>
+
+    <div id="room-info">
+        <h2 id="room-name"></h2>
+        <p>Joueurs : <span id="player-count"></span>/<span id="max-players"></span></p>
+
+        <h3>Liste des joueurs :</h3>
+        <ul id="player-list"></ul>
+
+        <button id="start-game-btn" style="display: none;" onclick="startGame()">Lancer la partie</button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="src/js/lobby.js"></script>
+</body>
+
+</html>

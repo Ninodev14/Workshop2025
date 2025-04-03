@@ -11,6 +11,7 @@ let rooms = {}; // Stockage des rooms
 // Servir les fichiers statiques
 app.use(express.static('public'));
 
+// Connexion d'un joueur
 io.on('connection', (socket) => {
     console.log(`Joueur connecté: ${socket.id}`);
 
@@ -23,34 +24,47 @@ io.on('connection', (socket) => {
     socket.on('createRoom', ({ roomId, roomName, maxPlayers }) => {
         rooms[roomId] = {
             name: roomName,
-            players: [],
+            players: [socket.id],
             maxPlayers: parseInt(maxPlayers),
             currentPlayer: 1,
             gameData: {},
+            host: socket.id, // Le joueur qui a créé la room est l'hôte
         };
 
         console.log(`Room créée : ${roomName} (${roomId}) - Max: ${maxPlayers} joueurs`);
-        io.emit('updateRooms', rooms);
+        io.emit('updateRooms', rooms); // Mise à jour des rooms pour tous les clients
     });
 
     // Rejoindre une room
-    socket.on('joinRoom', (roomId) => {
+    socket.on('joinRoom', (roomId, callback) => {
         if (rooms[roomId] && rooms[roomId].players.length < rooms[roomId].maxPlayers) {
             socket.join(roomId);
             rooms[roomId].players.push(socket.id);
             console.log(`Joueur ${socket.id} a rejoint la room ${roomId}`);
 
-            // Mise à jour des joueurs
-            io.to(roomId).emit('gameUpdate', rooms[roomId].gameData);
+            // Mise à jour des joueurs et du joueur courant
+            io.to(roomId).emit('updatePlayers', rooms[roomId].players);
             io.to(roomId).emit('currentPlayer', rooms[roomId].currentPlayer);
-            io.emit('updateRooms', rooms);
+            io.emit('updateRooms', rooms); // Mise à jour globale des rooms
+
+            callback({ success: true });
+        } else {
+            callback({ success: false, message: "La room est pleine ou introuvable." });
         }
     });
 
-    // Ajouter un ingrédient
+    // Récupérer les informations d'une room
+    socket.on('getRoomInfo', (roomId) => {
+        if (rooms[roomId]) {
+            socket.emit('roomInfo', rooms[roomId]);
+        }
+    });
+
+    // Ajouter un ingrédient à la room
     socket.on('addIngredient', (ingredientData, roomId) => {
         if (rooms[roomId]) {
             io.to(roomId).emit('ingredientAdded', ingredientData);
+            // Passer au joueur suivant
             rooms[roomId].currentPlayer = (rooms[roomId].currentPlayer % rooms[roomId].players.length) + 1;
             io.to(roomId).emit('switchPlayer', rooms[roomId].currentPlayer);
         }
@@ -69,12 +83,13 @@ io.on('connection', (socket) => {
         console.log(`Joueur déconnecté: ${socket.id}`);
         let roomToDelete = null;
 
+        // Supprimer le joueur de la room à laquelle il appartient
         for (const roomId in rooms) {
             const index = rooms[roomId].players.indexOf(socket.id);
             if (index !== -1) {
                 rooms[roomId].players.splice(index, 1);
 
-                // Supprimer la room si elle est vide
+                // Si la room est vide, la supprimer
                 if (rooms[roomId].players.length === 0) {
                     roomToDelete = roomId;
                 }
@@ -82,12 +97,21 @@ io.on('connection', (socket) => {
             }
         }
 
+        // Si la room est vide, la supprimer
         if (roomToDelete) {
             console.log(`Room supprimée : ${rooms[roomToDelete].name} (${roomToDelete})`);
             delete rooms[roomToDelete];
         }
 
+        // Réémettre la liste des rooms après modification
         io.emit('updateRooms', rooms);
+    });
+
+    // Lancer une partie
+    socket.on('startGame', (roomId) => {
+        if (rooms[roomId] && rooms[roomId].host === socket.id) {
+            io.to(roomId).emit('gameStarted');
+        }
     });
 });
 

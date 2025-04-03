@@ -8,12 +8,19 @@ let currentPlayer = 1;
 let totalRounds = 0;
 let availableIngredients = {};
 let allIngredients = [];
-let roomId = ''; // ID de la room (partie) actuelle
+let roomId = "";
+
+// Simuler des recettes (à remplacer par une vraie base de données)
+const recipes = {
+    "Pasta": { correct: ["Tomate", "Pâtes", "Fromage"], incorrect: ["Chocolat", "Fraise", "Sardine"] },
+    "Pizza": { correct: ["Pâte", "Sauce", "Fromage"], incorrect: ["Banane", "Nutella", "Saumon"] }
+};
 
 function nextStep(step) {
     document.getElementById("step-1").style.display = step === 1 ? "block" : "none";
     document.getElementById("step-2").style.display = step === 2 ? "block" : "none";
     document.getElementById("step-3").style.display = step === 3 ? "block" : "none";
+    document.getElementById("step-4").style.display = step === 4 ? "block" : "none";
 
     if (step === 2) {
         players = parseInt(document.getElementById("player-count").value);
@@ -21,20 +28,20 @@ function nextStep(step) {
     }
     if (step === 3) {
         createRoom();
-        startGame();
     }
 }
 
 function createRoom() {
-    roomId = "room-" + Math.random().toString(36).substring(7); // Générer un ID unique pour la room
-    socket.emit('joinRoom', roomId, {
-        recipe: selectedRecipe,
-        players: players
-    });
+    roomId = "room-" + Math.random().toString(36).substring(7);
+    selectedRecipe = document.getElementById("recipe-select").value;
+
+    socket.emit("createRoom", { roomId, recipe: selectedRecipe, players });
+
+    nextStep(4);
+    startGame();
 }
 
 function startGame() {
-    selectedRecipe = document.getElementById("recipe-select").value;
     chosenIngredients = [];
     currentPlayer = 1;
     totalRounds = 0;
@@ -42,6 +49,7 @@ function startGame() {
     document.getElementById("result").style.display = "none";
     document.getElementById("result-btn").style.display = "none";
     document.getElementById("restart-btn").style.display = "none";
+
     document.getElementById("current-player").innerText = `Joueur ${currentPlayer}, choisissez un ingrédient :`;
 
     distributeIngredients();
@@ -68,7 +76,7 @@ function populateIngredientSelect() {
     container.innerHTML = "";
     selectedIngredient = null;
 
-    if (availableIngredients[currentPlayer].length === 0) {
+    if (!availableIngredients[currentPlayer] || availableIngredients[currentPlayer].length === 0) {
         nextPlayer();
         return;
     }
@@ -85,28 +93,24 @@ function populateIngredientSelect() {
 }
 
 function selectIngredient(imgElement, ingredient) {
-    // Enlever la sélection des autres
     document.querySelectorAll('.ingredient-img').forEach(img => img.classList.remove('selected'));
-
-    // Ajouter la sélection
     imgElement.classList.add('selected');
     selectedIngredient = ingredient;
 }
 
 function addIngredient() {
     if (!selectedIngredient) {
-        alert("Veuillez d'abord sélectionner un ingrédient !");
+        alert("Sélectionnez un ingrédient !");
         return;
     }
 
     if (chosenIngredients.includes(selectedIngredient)) {
-        alert("Cet ingrédient a déjà été ajouté !");
+        alert("Cet ingrédient est déjà ajouté !");
         return;
     }
 
     chosenIngredients.push(selectedIngredient);
 
-    // Ajoute l'ingrédient sous forme d'image dans la liste
     const ingredientList = document.getElementById("ingredient-list");
     const listItem = document.createElement("li");
 
@@ -119,21 +123,12 @@ function addIngredient() {
     ingredientList.appendChild(listItem);
 
     availableIngredients[currentPlayer] = availableIngredients[currentPlayer].filter(i => i !== selectedIngredient);
-    if (allIngredients.length > 0) {
-        availableIngredients[currentPlayer].push(allIngredients.shift());
-    }
 
     totalRounds++;
 
-    // Notifier le serveur qu'un ingrédient a été ajouté
-    socket.emit('addIngredient', {
-        player: currentPlayer,
-        ingredient: selectedIngredient
-    }, roomId);
+    socket.emit("addIngredient", { player: currentPlayer, ingredient: selectedIngredient }, roomId);
 
     if (totalRounds >= recipes[selectedRecipe].correct.length) {
-        document.getElementById("ingredient-container").style.display = "none";
-        document.getElementById("current-player").style.display = "none";
         document.getElementById("result-btn").style.display = "block";
         return;
     }
@@ -144,16 +139,11 @@ function addIngredient() {
 function nextPlayer() {
     currentPlayer = (currentPlayer % players) + 1;
     document.getElementById("current-player").innerText = `Joueur ${currentPlayer}, choisissez un ingrédient :`;
-
-    // Envoyer au serveur qu'on passe au joueur suivant
-    socket.emit('nextPlayer', roomId);
+    socket.emit("nextPlayer", roomId);
 }
 
-socket.on('switchPlayer', (currentPlayer) => {
+socket.on("switchPlayer", (player) => {
+    currentPlayer = player;
     document.getElementById("current-player").innerText = `Joueur ${currentPlayer}, choisissez un ingrédient :`;
     populateIngredientSelect();
-});
-
-socket.on('ingredientAdded', (ingredientData) => {
-    console.log(`${ingredientData.player} a ajouté ${ingredientData.ingredient}`);
 });

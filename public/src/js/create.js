@@ -20,5 +20,5 @@ function confirmCreateRoom() {
     sessionStorage.setItem('roomName', roomName);
 
     // Rediriger vers game.html
-    window.location.href = `game.html?room=${roomId}`;
+    window.location.href = `waiting_room.html?roomId=${roomId}`;
 }

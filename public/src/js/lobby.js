@@ -10,6 +10,7 @@ socket.on('updateRooms', (rooms) => {
     const roomList = document.getElementById("room-list");
     roomList.innerHTML = ""; // Réinitialiser la liste
 
+    // Affichage des rooms
     Object.entries(rooms).forEach(([roomId, room]) => {
         const li = document.createElement("li");
         li.innerHTML = `<strong>${room.name}</strong> - ${room.players.length}/${room.maxPlayers} joueurs 
@@ -18,17 +19,22 @@ socket.on('updateRooms', (rooms) => {
     });
 });
 
-// Aller sur la page de création
+// Aller sur la page de création de room
 function goToCreatePage() {
-    window.location.href = "create.html";
+    window.location.href = "create_room.html"; // Page de création d'une room
 }
 
 // Rejoindre une room
 function joinRoom(roomId) {
-    socket.emit('joinRoom', roomId);
-    sessionStorage.setItem('roomId', roomId);
-    window.location.href = `game.html?room=${roomId}`;
+    socket.emit('joinRoom', roomId, (response) => {
+        if (response.success) {
+            // Enregistrer l'ID de la room dans sessionStorage et aller sur la page du jeu
+            sessionStorage.setItem('roomId', roomId);
+            window.location.href = `waiting_room.html?roomId=${roomId}`; // Page d'attente pour rejoindre la partie
+        } else {
+            alert(response.message); // Afficher un message si l'on ne peut pas rejoindre la room
+        }
+    });
 }
 
-// Demande initiale des rooms
 socket.emit('requestRooms');
