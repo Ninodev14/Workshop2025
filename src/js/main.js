@@ -1,4 +1,4 @@
-// main.js
+let selectedIngredient = null;
 let selectedRecipe = "";
 let chosenIngredients = [];
 let players = 2;
@@ -57,27 +57,61 @@ function getNewIngredients() {
 }
 
 function populateIngredientSelect() {
-    const select = document.getElementById("ingredient-select");
+    const container = document.getElementById("ingredient-container");
+    container.innerHTML = "";
+    selectedIngredient = null;
 
     if (availableIngredients[currentPlayer].length === 0) {
         nextPlayer();
         return;
     }
 
-    select.innerHTML = availableIngredients[currentPlayer].map(i => `<option value="${i}">${i}</option>`).join("");
+    availableIngredients[currentPlayer].forEach(ingredient => {
+        const img = document.createElement("img");
+        img.src = `src/img/${ingredient.toLowerCase()}.png`;
+        img.alt = ingredient;
+        img.classList.add("ingredient-img");
+        img.onclick = () => selectIngredient(img, ingredient);
+
+        container.appendChild(img);
+    });
+}
+
+function selectIngredient(imgElement, ingredient) {
+    // Enlever la sélection des autres
+    document.querySelectorAll('.ingredient-img').forEach(img => img.classList.remove('selected'));
+
+    // Ajouter la sélection
+    imgElement.classList.add('selected');
+    selectedIngredient = ingredient;
 }
 
 function addIngredient() {
-    const ingredient = document.getElementById("ingredient-select").value;
+    if (!selectedIngredient) {
+        alert("Veuillez d'abord sélectionner un ingrédient !");
+        return;
+    }
 
-    if (chosenIngredients.includes(ingredient)) {
+    if (chosenIngredients.includes(selectedIngredient)) {
         alert("Cet ingrédient a déjà été ajouté !");
         return;
     }
 
-    chosenIngredients.push(ingredient);
-    document.getElementById("ingredient-list").innerHTML += `<li>${ingredient} (Joueur ${currentPlayer})</li>`;
-    availableIngredients[currentPlayer] = availableIngredients[currentPlayer].filter(i => i !== ingredient);
+    chosenIngredients.push(selectedIngredient);
+
+    // Ajoute l'ingrédient sous forme d'image dans la liste
+    const ingredientList = document.getElementById("ingredient-list");
+    const listItem = document.createElement("li");
+
+    const img = document.createElement("img");
+    img.src = `src/img/${selectedIngredient.toLowerCase()}.png`;
+    img.alt = selectedIngredient;
+    img.classList.add("selected-ingredient-img");
+
+    listItem.appendChild(img);
+    ingredientList.appendChild(listItem);
+
+    availableIngredients[currentPlayer] = availableIngredients[currentPlayer].filter(i => i !== selectedIngredient);
     if (allIngredients.length > 0) {
         availableIngredients[currentPlayer].push(allIngredients.shift());
     }
@@ -85,7 +119,7 @@ function addIngredient() {
     totalRounds++;
 
     if (totalRounds >= recipes[selectedRecipe].correct.length) {
-        document.getElementById("ingredient-select").style.display = "none";
+        document.getElementById("ingredient-container").style.display = "none";
         document.getElementById("current-player").style.display = "none";
         document.getElementById("result-btn").style.display = "block";
         return;
@@ -93,6 +127,7 @@ function addIngredient() {
 
     nextPlayer();
 }
+
 
 function nextPlayer() {
     currentPlayer = (currentPlayer % players) + 1;

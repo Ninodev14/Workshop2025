@@ -11,3 +11,71 @@ body {
     list-style-type: none;
     padding: 0;
 }
+
+.btnBoncy {
+    display: flex;
+    width: 240;
+    height: 80px;
+    padding: 28px 40px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    border-radius: 70px;
+    border: 3px solid #2A0343;
+    background: #5C0A96;
+    box-shadow: 0px 8px 0px 0px #2A0343;
+    color: #FFF;
+    text-align: center;
+    -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-color: #B06BCE;
+    font-family: Modak;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+}
+
+@keyframes bounceClick {
+    0% {
+        transform: scaleX(1) scaleY(1);
+    }
+
+    30% {
+        transform: scaleX(1.2) scaleY(0.9);
+    }
+
+    50% {
+        transform: scaleX(0.9) scaleY(1.1);
+    }
+
+    70% {
+        transform: scaleX(1.05) scaleY(0.95);
+    }
+
+    100% {
+        transform: scaleX(1) scaleY(1);
+    }
+}
+
+.bouncing {
+    animation: bounceClick 0.4s ease;
+}
+
+.ingredient-img {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.ingredient-img:hover {
+    transform: scale(1.05);
+}
+
+.ingredient-img.selected {
+    transform: scale(1.2);
+    border: 3px solid #B06BCE;
+    border-radius: 12px;
+}

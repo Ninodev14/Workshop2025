@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeu de Cuisine Collaboratif</title>
-    <link rel="stylesheet" href="src/css/main.css">
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -14,20 +17,20 @@
     <div id="game-container">
         <div id="step-1">
             <h2>Combien de joueurs ?</h2>
-            <input type="number" id="player-count" min="2" max="5" value="2">
-            <button onclick="nextStep(2)">Suivant</button>
+            <input type="number" id="player-count" min="1" max="5" value="2">
+            <button class="btnBoncy" onclick="nextStep(2)">Suivant</button>
         </div>
 
         <div id="step-2" style="display: none;">
             <h2>Choisissez une recette :</h2>
             <select id="recipe-select"></select>
-            <button onclick="nextStep(3)">Suivant</button>
+            <button class="btnBoncy" onclick="nextStep(3)">Suivant</button>
         </div>
 
         <div id="step-3" style="display: none;">
             <h2 id="current-player">Joueur 1, choisissez un ingrédient :</h2>
-            <select id="ingredient-select"></select>
-            <button onclick="addIngredient()">Ajouter</button>
+            <div id="ingredient-container"></div>
+            <button class="btnBoncy" onclick="addIngredient()">Ajouter</button>
 
             <h2>Ingrédients ajoutés :</h2>
             <ul id="ingredient-list"></ul>
@@ -40,6 +43,8 @@
 
     <script src="src/js/recipes.js"></script>
     <script src="src/js/main.js"></script>
+    <script src="src/js/server.js"></script>
+    <script src="src/js/boncy.js"></script>
 </body>
 
 </html>
