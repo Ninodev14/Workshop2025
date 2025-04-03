@@ -18,6 +18,8 @@
   "homepage": "https://github.com/Ninodev14/Workshop2025#readme",
   "description": "",
   "dependencies": {
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1",
     "ws": "^8.18.1"
   }
 }
