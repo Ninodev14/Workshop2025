@@ -83,6 +83,14 @@
         const roomStatusElement = document.getElementById('roomStatus');
         const playerListElement = document.getElementById('playerList');
 
+
+        socket.on('connect', () => {
+            console.log("🔄 Tentative de reconnexion...");
+            if (roomId && playerId) {
+                socket.emit('reconnectPlayer', roomId, playerId);
+            }
+        });
+
         socket.emit('showRoomDetails', roomId, (response) => {
             if (response.success) {
                 roomNameElement.querySelector('span').textContent = response.name;

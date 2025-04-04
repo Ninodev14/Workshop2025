@@ -1,4 +1,4 @@
-h1{
+h1 {
     color: #5C0A96;
     font-family: Modak;
     font-size: 92.759px;
@@ -7,6 +7,7 @@ h1{
     line-height: 130%; /* 120.586px */
     scale: 0.9;
 }
+
 #game-container {
     margin-top: 20px;
 }
@@ -42,8 +43,6 @@ button{
     font-weight: 400;
     line-height: 130%;
 }
-
-
 
 @keyframes bounceClick {
     0% {

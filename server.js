@@ -59,6 +59,18 @@ io.on('connection', (socket) => {
         callback({ success: true, players: rooms[roomId].players, name: rooms[roomId].name });
     });
 
+    socket.on('reconnectPlayer', (roomId, playerId) => {
+        if (rooms[roomId]) {
+            const player = rooms[roomId].players.find(p => p.id === playerId);
+            if (player) {
+                socket.join(roomId);
+                console.log(`🔄 Reconnexion du joueur ${player.name} (${playerId}) dans la room ${roomId}`);
+                io.to(roomId).emit('updatePlayers', rooms[roomId].players, rooms[roomId].host);
+            }
+        }
+    });
+
+
     socket.on('showRoomDetails', (roomId, callback) => {
         console.log(`🔍 Demande de détails de la room: ${roomId}`);
         if (!rooms[roomId]) {
