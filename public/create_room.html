@@ -32,8 +32,20 @@
             <label for="room-name">Nom de la room:</label>
             <input type="text" id="room-name" required>
 
-            <label for="max-players">Nombre de joueurs (2-4):</label>
-            <input type="number" id="max-players" min="2" max="4" required>
+            <div class="deroulejoueur">
+                <div class="Nbjoueur">
+                    <p>Nombre de joueurs</p>
+                </div>
+
+                <div class="nombrepersonne">
+                    <!-- fleche 1 -->
+                     <button><</button>
+                    <input type="number" id="max-players" min="2" max="4" required disabled>
+                    <!-- fleche 2 -->
+                    <button>></button>
+                </div>
+                
+            </div>
 
             <button type="submit" class="btnBoncy">Créer la Room</button>
         </form>
