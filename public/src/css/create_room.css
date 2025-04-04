@@ -1,19 +1,55 @@
-.container-create-formroom{
+.container-create-formroom {
     margin-bottom: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#create-form{
+#create-form {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    align-items: center;
 }
 
-#player-name{
+#player-name {
     background-color: #fff;
     height: 80px;
     width: 100%;
-    border: ;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    padding: 1.5px;
 }
+
+#player-name:focus {
+    padding: 0;
+    border-top: 2px solid #000;
+    border-left: 2px solid #000;
+    border-bottom: 2px solid #000;
+    text-decoration: none;
+}
+
+
+
+.inputGomme {
+    display: flex;
+    flex-direction: row-reverse;
+    height: fit-content;
+}
+
+.inputGomme img {
+    height: 80px;
+    padding-right: 1.5px;
+    border-left: none;
+    margin-left: -2px;
+    background-color: #fff;
+}
+
+.inputGomme:focus-within img {
+    padding: 0px;
+    border-top: 2px solid #000;
+    border-right: 2px solid #000;
+    border-bottom: 2px solid #000;
+}
+

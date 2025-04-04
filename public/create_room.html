@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
     <title>Créer une Room</title>
 </head>
 
@@ -22,19 +24,21 @@
 
     <div class="container-create-formroom">
         <form id="create-form">
-            <label for="player-name">Votre nom:</label>
-            <input type="text" id="player-name" required>
-    
+            <label for="player-name" class="h4">Votre nom: </label>
+            <div class="inputGomme">
+                <img src="src/img/Image pour la création d'équipe.svg" alt="">
+                <input type="text" id="player-name" placeholder="Écrire son nom ici " class="h3" required>
+            </div>
             <label for="room-name">Nom de la room:</label>
             <input type="text" id="room-name" required>
-    
+
             <label for="max-players">Nombre de joueurs (2-4):</label>
             <input type="number" id="max-players" min="2" max="4" required>
-    
+
             <button type="submit" class="btnBoncy">Créer la Room</button>
         </form>
     </div>
-    
+
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -45,7 +49,7 @@
         }
         const playerId = localStorage.getItem("playerId");
 
-        document.getElementById('create-form').addEventListener('submit', function(e) {
+        document.getElementById('create-form').addEventListener('submit', function (e) {
             e.preventDefault();
 
             const playerName = document.getElementById('player-name').value.trim();
@@ -73,7 +77,7 @@
                 }
             });
         });
-        
+
         function goToIndexPage() {
             window.location.href = "index.html";
         }
