@@ -20,43 +20,52 @@
 
 <body>
     <div class="top-page">
-        <button class="btnBoncy btnquitter" onclick="">
+        <button class="btnBoncy btnquitter" onclick="goToIndexPage()">
             <p>Quitter</p>
         </button>
     </div>
 
     <h1 class="Titre">Équipes disponibles</h1>
 
-
     <div class="container-liste-and-create">
-        <!-- Liste des rooms -->
         <div class="equipe-list">
             <ul id="room-list"></ul>
         </div>
 
         <div class="create-room">
-            <!-- Bouton pour créer une room -->
             <button class="btnBoncy btncreatroom" onclick="goToCreatePage()">Créer une Room</button>
         </div>
+    </div>
 
+
+    <div id="namePrompt" class="name-prompt" style="display: none;">
+
+        <div class="name-box">
+            <p id="roomNameDisplay">Vous rejoignez : <strong>Nom de la room</strong></p>
+            <div class="inputGomme">
+                <img src="src/img/Image pour la création d'équipe.svg" alt="">
+                <input type="text" id="player-name" class="h3" placeholder="Votre nom">
+            </div>
+            <button class="btnBoncy" onclick="confirmJoinRoom()">Confirmer</button>
+            <button class="btnBoncy btncancel" onclick="hideNamePrompt()">Annuler</button>
+        </div>
     </div>
 
     <script>
         const socket = io();
+        let selectedRoomId = null;
+        let selectedRoomName = "";
 
-        // Récupère ou génère un playerId unique si pas déjà défini
         if (!localStorage.getItem("playerId")) {
-            localStorage.setItem("playerId", Math.random().toString(36).substr(2, 9)); // Génère un ID unique
+            localStorage.setItem("playerId", Math.random().toString(36).substr(2, 9));
         }
         const playerId = localStorage.getItem("playerId");
 
-        // Demande la liste des rooms au chargement
         socket.emit('requestRooms');
 
-        // Met à jour la liste des rooms dynamiquement dès qu'il y a un changement
         socket.on('updateRooms', (rooms) => {
             const roomList = document.getElementById('room-list');
-            roomList.innerHTML = ''; // Réinitialiser la liste des rooms
+            roomList.innerHTML = '';
 
             if (Object.keys(rooms).length === 0) {
                 roomList.innerHTML = '<p>Aucune room disponible.</p>';
@@ -66,34 +75,49 @@
             Object.entries(rooms).forEach(([roomId, room]) => {
                 const li = document.createElement('li');
                 li.classList.add('room-item');
-                li.innerHTML = `<p class="h3">Equipe</p><div class="beautruc"><div></div><strong class="h3">${room.name}</strong> <div class="h3">(${room.players.length}/${room.maxPlayers} )</div></div>
-                                <button class="btnBoncy " onclick="joinRoom('${roomId}')">Rejoindre</button>`;
+                li.innerHTML = `
+                <p class="h3">Equipe</p>
+                <div class="beautruc">
+                    <div></div>
+                    <strong class="h3">${room.name}</strong> 
+                    <div class="h3">(${room.players.length}/${room.maxPlayers})</div>
+                </div>
+                <button class="btnBoncy" onclick="showNamePrompt('${roomId}', '${room.name}')">Rejoindre</button>
+            `;
                 roomList.appendChild(li);
             });
         });
 
-        // Rejoindre une room
-        function joinRoom(roomId) {
-            let playerName = prompt("Entrez votre nom :");
+        function showNamePrompt(roomId, roomName) {
+            selectedRoomId = roomId;
+            selectedRoomName = roomName;
+            document.getElementById("roomNameDisplay").innerHTML = `Vous rejoignez : <strong>${roomName}</strong>`;
+            document.getElementById("namePrompt").style.display = "flex";
+        }
+
+        function hideNamePrompt() {
+            document.getElementById("namePrompt").style.display = "none";
+            document.getElementById("player-name").value = "";
+        }
+
+        function confirmJoinRoom() {
+            let playerName = document.getElementById("player-name").value.trim();
             if (!playerName) {
-                alert("Vous devez entrer un nom !");
+                alert("Veuillez entrer un nom !");
                 return;
             }
 
-            socket.emit('joinRoom', roomId, playerName, playerId, (response) => {
+            socket.emit('joinRoom', selectedRoomId, playerName, playerId, (response) => {
                 if (response.success) {
-                    window.location.href = `waiting_room.html?roomId=${roomId}`;
+                    window.location.href = `waiting_room.html?roomId=${selectedRoomId}`;
                 } else {
                     alert(response.message);
                 }
             });
         }
-
-        // Rediriger vers la page de création de room
-        function goToCreatePage() {
-            window.location.href = "create_room.html";
-        }
     </script>
+
 </body>
+
 
 </html>

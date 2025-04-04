@@ -1,16 +1,15 @@
-body{
-    background-color: #F1E1E1;
-}
-
 /* Div du bouton création de chambre */
-.create-room{
+
+.create-room {
     display: flex;
     justify-content: center;
     margin: 15px;
 }
 
+
 /* Btn Créer une room */
-.btncreatroom{
+
+.btncreatroom {
     background: #FFFFFF;
     box-shadow: 0px 6px 0px 0px #5C0A96;
     color: #5C0A96;
@@ -20,3 +19,28 @@ body{
     -webkit-text-stroke-width: 0px;
 }
 
+.name-prompt {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #F1E1E1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.name-box {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.btncancel {
+    background: #c0392b;
+}
+
+.btncancel:hover {
+    background: #a93226;
+}

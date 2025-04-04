@@ -1,3 +1,7 @@
+body {
+    background-color: #F1E1E1;
+}
+
 h1 {
     color: #5C0A96;
     font-family: Modak;
@@ -137,7 +141,7 @@ button {
     }
 }
 
-.h4{
+.h4 {
     font-size: 35px;
     color: var(--Violet-2, #2A0343);
     font-family: Itim;
