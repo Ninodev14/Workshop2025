@@ -16,7 +16,7 @@
 <body>
     <div class="top-page">
         <button class="btnBoncy btnquitter" onclick="goToLobbyPage()">
-            <p>Quitter</p>
+            Quitter
         </button>
     </div>
 
@@ -39,12 +39,12 @@
 
                 <div class="nombrepersonne">
                     <!-- fleche 1 -->
-                     <button><</button>
+                    <button><</button>
                     <input type="number" id="max-players" min="2" max="4" required disabled>
                     <!-- fleche 2 -->
                     <button>></button>
                 </div>
-                
+
             </div>
 
             <button type="submit" class="btnBoncy">Créer la Room</button>
@@ -61,7 +61,7 @@
         }
         const playerId = localStorage.getItem("playerId");
 
-        document.getElementById('create-form').addEventListener('submit', function (e) {
+        document.getElementById('create-form').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const playerName = document.getElementById('player-name').value.trim();

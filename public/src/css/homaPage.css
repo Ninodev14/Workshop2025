@@ -2,17 +2,6 @@ body {
     text-align: center;
 }
 
-/* Le bouton quitter */
-
-.btnquitter {
-    border: 3px solid #62411D;
-    background: #DB995B;
-    box-shadow: 0px 8px 0px 0px #62411D;
-    -webkit-text-stroke-width: 0px;
-    margin: 10px 10px;
-    scale: 0.8;
-}
-
 .top-page {
     display: flex;
     justify-content: end;
@@ -47,7 +36,7 @@ body {
     gap: 25px;
 }
 
-.beautruc{
+.beautruc {
     background-color: #fff;
     height: 100%;
     width: 100%;
@@ -58,21 +47,24 @@ body {
     justify-content: space-around;
 }
 
-::-webkit-scrollbar{
-background-color: transparent;
-border-radius: 10px;
-margin-left: 10px;
+::-webkit-scrollbar {
+    background-color: transparent;
+    border-radius: 10px;
+    margin-left: 10px;
 }
 
+
 /* C'est le button qui bouge */
-::-webkit-scrollbar-thumb{
+
+::-webkit-scrollbar-thumb {
     background-color: black;
     border-radius: 10px;
 }
 
+
 /* C'est la barre du fond */
-::-webkit-scrollbar-track{
+
+::-webkit-scrollbar-track {
     background-color: #fff;
     border-radius: 10px;
 }
-

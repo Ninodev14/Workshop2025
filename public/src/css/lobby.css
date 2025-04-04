@@ -32,15 +32,24 @@
 }
 
 .name-box {
-    padding: 20px;
-    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
     text-align: center;
+    align-items: center;
+    gap: 20px;
+    width: 80vw;
 }
 
-.btncancel {
-    background: #c0392b;
+#roomNameDisplay {
+    background-color: #FFFFFF;
 }
 
-.btncancel:hover {
-    background: #a93226;
+.player-name-contener {
+    align-items: flex-start;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
 }

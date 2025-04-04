@@ -20,8 +20,8 @@
 
 <body>
     <div class="top-page">
-        <button class="btnBoncy btnquitter" onclick="goToIndexPage()">
-            <p>Quitter</p>
+        <button class="btnBoncy btnquitter" onclick="goToIndexPage()" style="z-index: 999999;">
+        Quitter
         </button>
     </div>
 
@@ -41,13 +41,17 @@
     <div id="namePrompt" class="name-prompt" style="display: none;">
 
         <div class="name-box">
-            <p id="roomNameDisplay">Vous rejoignez : <strong>Nom de la room</strong></p>
-            <div class="inputGomme">
-                <img src="src/img/Image pour la création d'équipe.svg" alt="">
-                <input type="text" id="player-name" class="h3" placeholder="Votre nom">
+            <h1 class="Titre">Équipe</h1>
+            <h3 id="roomNameDisplay">...</h3>
+            <div class="player-name-contener">
+                <p>Ton nom de joueur :</p>
+                <div class="inputGomme">
+                    <img src="src/img/Image pour la création d'équipe.svg" alt="">
+                    <input type="text" id="player-name" class="h3" placeholder="Votre nom">
+                </div>
             </div>
-            <button class="btnBoncy" onclick="confirmJoinRoom()">Confirmer</button>
-            <button class="btnBoncy btncancel" onclick="hideNamePrompt()">Annuler</button>
+            <button class="btnBoncy" onclick="confirmJoinRoom()">Rejoindre cette équipe</button>
+            <button class="btnBoncy btncreatroom" onclick="hideNamePrompt()">Retour</button>
         </div>
     </div>
 
@@ -91,7 +95,7 @@
         function showNamePrompt(roomId, roomName) {
             selectedRoomId = roomId;
             selectedRoomName = roomName;
-            document.getElementById("roomNameDisplay").innerHTML = `Vous rejoignez : <strong>${roomName}</strong>`;
+            document.getElementById("roomNameDisplay").innerHTML = `${roomName}`;
             document.getElementById("namePrompt").style.display = "flex";
         }
 
@@ -114,6 +118,14 @@
                     alert(response.message);
                 }
             });
+        }
+
+        function goToCreatePage() {
+            window.location.href = "create_room.html";
+        }
+
+        function goToIndexPage() {
+            window.location.href = "index.html";
         }
     </script>
 

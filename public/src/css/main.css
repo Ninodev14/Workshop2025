@@ -13,6 +13,29 @@ h1 {
     scale: 0.9;
 }
 
+h3,
+.h3 {
+    font-size: 50px;
+    color: var(--Violet-2, #2A0343);
+    font-family: Itim;
+}
+
+.h4 {
+    font-size: 35px;
+    color: var(--Violet-2, #2A0343);
+    font-family: Itim;
+}
+
+p {
+    color: var(--Violet-2, #2A0343);
+    font-family: Itim;
+    font-size: 44px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    /* 57.2px */
+}
+
 .body-lobby {
     background: url(../img/lobby.jpg) no-repeat center center fixed;
     background-size: cover;
@@ -25,6 +48,28 @@ h1 {
 
 #game-container {
     margin-top: 20px;
+}
+
+.inputGomme {
+    display: flex;
+    flex-direction: row-reverse;
+    height: fit-content;
+    width: 100%;
+}
+
+.inputGomme img {
+    height: 80px;
+    padding-right: 1.5px;
+    border-left: none;
+    margin-left: -2px;
+    background-color: #fff;
+}
+
+.inputGomme:focus-within img {
+    padding: 0px;
+    border-top: 2px solid #000;
+    border-right: 2px solid #000;
+    border-bottom: 2px solid #000;
 }
 
 button {
@@ -64,19 +109,15 @@ button {
     0% {
         transform: scaleX(1) scaleY(1);
     }
-
     30% {
         transform: scaleX(1.2) scaleY(0.9);
     }
-
     50% {
         transform: scaleX(0.9) scaleY(1.1);
     }
-
     70% {
         transform: scaleX(1.05) scaleY(0.95);
     }
-
     100% {
         transform: scaleX(1) scaleY(1);
     }
@@ -108,12 +149,6 @@ button {
     border-radius: 12px;
 }
 
-.h3 {
-    font-size: 50px;
-    color: var(--Violet-2, #2A0343);
-    font-family: Itim;
-}
-
 .logoHomeMenu {
     height: auto;
     max-width: 60%;
@@ -141,8 +176,14 @@ button {
     }
 }
 
-.h4 {
-    font-size: 35px;
-    color: var(--Violet-2, #2A0343);
-    font-family: Itim;
+
+/* Le bouton quitter */
+
+.btnquitter {
+    border: 3px solid #62411D;
+    background: #DB995B;
+    box-shadow: 0px 8px 0px 0px #62411D;
+    -webkit-text-stroke-width: 0px;
+    margin: 10px 10px;
+    scale: 0.8;
 }

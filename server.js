@@ -120,7 +120,7 @@ io.on('connection', (socket) => {
     });
 
 
-}); // 👈 Ajoute cette accolade ici pour fermer la connexion socket
+});
 
 const port = process.env.PORT || 3000;
 server.listen(port, () => {
