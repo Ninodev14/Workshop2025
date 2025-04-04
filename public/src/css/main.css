@@ -114,3 +114,25 @@ button {
     height: auto;
     max-width: 60%;
 }
+
+@media screen and (max-width: 1100px) and (min-width: 500px) {
+    .btnBoncy {
+        height: 60px;
+        padding: 20px 10px;
+        background: #5C0A96;
+        box-shadow: 0px 4px 0px 0px #2A0343;
+        -webkit-text-stroke-width: 2px;
+        font-size: 34px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .btnBoncy {
+        height: 40px;
+        padding: 14px 20px;
+        background: #5C0A96;
+        -webkit-text-stroke-width: 1px;
+        box-shadow: 0px 2px 0px 0px #2A0343;
+        font-size: 24px;
+    }
+}
