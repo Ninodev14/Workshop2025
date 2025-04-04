@@ -40,47 +40,44 @@
         socket.emit('showRoomDetails', roomId, (response) => {
             console.log(response);
             if (response.success) {
-                // Set the room name and player list
                 roomNameElement.querySelector('span').textContent = response.name;
                 roomStatusElement.textContent = 'Status: Waiting for players';
                 updatePlayerList(response.players);
             } else {
                 alert(response.message);
-                window.location.href = '/'; // Redirect to the homepage in case of error
+                window.location.href = '/';
             }
         });
 
-
-        // Écouter les mises à jour des joueurs
         socket.on('updatePlayers', (players) => {
             updatePlayerList(players);
         });
 
-        // Mettre à jour la liste des joueurs dans la salle d'attente
         function updatePlayerList(players) {
-            playerListElement.innerHTML = ''; // Effacer la liste actuelle
+            playerListElement.innerHTML = '';
             players.forEach(player => {
                 const li = document.createElement('li');
                 li.textContent = player.name;
                 playerListElement.appendChild(li);
             });
 
-            // Activer le bouton de démarrage si le joueur est l'hôte et que le nombre max de joueurs est atteint
-            if (players.length === 3 && players[0].id === socket.id) {
-                startGameBtn.disabled = false;
-            }
+            socket.emit('showRoomDetails', roomId, (response) => {
+                if (response.success) {
+                    const maxPlayers = response.players.length;
+                    const isHost = response.players[0].id === socket.id;
+                    startGameBtn.disabled = !(maxPlayers >= response.maxPlayers && isHost);
+                }
+            });
         }
 
-        // Démarrer le jeu lorsque l'hôte clique sur le bouton
         startGameBtn.addEventListener('click', () => {
             socket.emit('startGame', roomId);
             roomStatusElement.textContent = 'Status: Game started!';
             startGameBtn.disabled = true;
         });
 
-        // Écouter le signal de démarrage du jeu du serveur
         socket.on('gameStarted', () => {
-            window.location.href = '/game'; // Rediriger vers la page de jeu
+            window.location.href = '/game';
         });
     </script>
 
