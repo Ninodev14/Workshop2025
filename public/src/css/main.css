@@ -4,12 +4,15 @@ h1 {
     font-size: 92.759px;
     font-style: normal;
     font-weight: 400;
-    line-height: 130%;
-    /* 120.586px */
+    line-height: 130%; /* 120.586px */
+    scale: 0.9;
 }
 
 #game-container {
     margin-top: 20px;
+}
+button{
+    cursor: pointer;
 }
 
 #ingredient-list {
@@ -87,4 +90,10 @@ h1 {
     transform: scale(1.2);
     border: 3px solid #B06BCE;
     border-radius: 12px;
+}
+
+.h3{
+    font-size: 50px;
+    color: var(--Violet-2, #2A0343);
+    font-family: Itim;
 }

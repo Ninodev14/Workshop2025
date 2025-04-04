@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="src/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
     <script src="/socket.io/socket.io.js"></script>
     <style>
@@ -17,12 +20,12 @@
 
 <body>
     <div class="top-page">
-        <div class="btnBoncy btnquitter" onclick="">
+        <button class="btnBoncy btnquitter" onclick="">
             <p>Quitter</p>
-        </div>
+        </button>
     </div>
 
-    <h1 class="Titre">Equipe disponible</h1>
+    <h1 class="Titre">Équipes disponibles</h1>
 
 
     <div class="container-liste-and-create">
@@ -63,7 +66,7 @@
             Object.entries(rooms).forEach(([roomId, room]) => {
                 const li = document.createElement('li');
                 li.classList.add('room-item');
-                li.innerHTML = `<p class="equipe">Equipe</p><strong>${room.name}</strong> (${room.players.length}/${room.maxPlayers} joueurs)
+                li.innerHTML = `<p class="h3">Equipe</p><div class="beautruc"><div></div><strong class="h3">${room.name}</strong> <div class="h3">(${room.players.length}/${room.maxPlayers} )</div></div>
                                 <button class="btnBoncy " onclick="joinRoom('${roomId}')">Rejoindre</button>`;
                 roomList.appendChild(li);
             });
