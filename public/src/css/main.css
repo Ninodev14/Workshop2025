@@ -1,8 +1,6 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-}
+h1{
 
+}
 #game-container {
     margin-top: 20px;
 }
@@ -34,6 +32,9 @@ body {
     font-style: normal;
     font-weight: 400;
     line-height: 130%;
+}
+.btnOrange{
+    background: #0ae766;
 }
 
 @keyframes bounceClick {
