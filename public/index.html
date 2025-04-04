@@ -40,7 +40,6 @@
 <body>
     <div class="top-page">
         <div class="btnBoncy btnquitter" onclick="">
-        <div class="btnBoncy btnquitter" onclick="">
             <p>Quitter</p>
         </div>
     </div>
@@ -48,18 +47,6 @@
     <h1 class="Titre">Equipe disponible</h1>
 
 
-    <div class="container-liste-and-create">
-        <!-- Liste des rooms -->
-         <div class="equipe-list">
-            <ul id="room-list"></ul>
-         </div>
-
-        <div class="create-room">
-            <!-- Bouton pour créer une room -->
-            <button class="btnBoncy btncreatroom" onclick="goToCreatePage()">Créer une Room</button>
-        </div>
-
-    </div>
     <div class="container-liste-and-create">
         <!-- Liste des rooms -->
          <div class="equipe-list">
@@ -98,8 +85,6 @@
             Object.entries(rooms).forEach(([roomId, room]) => {
                 const li = document.createElement('li');
                 li.classList.add('room-item');
-                li.innerHTML = `<p class="equipe">Equipe</p><strong>${room.name}</strong> (${room.players.length}/${room.maxPlayers} joueurs)
-                                <button class="btnBoncy " onclick="joinRoom('${roomId}')">Rejoindre</button>`;
                 li.innerHTML = `<p class="equipe">Equipe</p><strong>${room.name}</strong> (${room.players.length}/${room.maxPlayers} joueurs)
                                 <button class="btnBoncy " onclick="joinRoom('${roomId}')">Rejoindre</button>`;
                 roomList.appendChild(li);
