@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
     <script src="/socket.io/socket.io.js"></script>
     <style>
         body {
@@ -16,11 +20,7 @@
             margin-bottom: 20px;
         }
         
-        button {
-            padding: 10px;
-            margin: 10px;
-            font-size: 16px;
-        }
+
         
         #room-list {
             list-style: none;
@@ -43,7 +43,7 @@
     <h1>Lobby - Choisissez une Room</h1>
 
     <!-- Bouton pour créer une room -->
-    <button onclick="goToCreatePage()">Créer une Room</button>
+    <button class="btnBoncy" onclick="goToCreatePage()">Créer une Room</button>
 
     <!-- Liste des rooms -->
     <ul id="room-list"></ul>
@@ -79,7 +79,7 @@
                 const li = document.createElement('li');
                 li.classList.add('room-item');
                 li.innerHTML = `<strong>${room.name}</strong> (${room.players.length}/${room.maxPlayers} joueurs)
-                                <button onclick="joinRoom('${roomId}')">Rejoindre</button>`;
+                                <button class="btnBoncy" onclick="joinRoom('${roomId}')">Rejoindre</button>`;
                 roomList.appendChild(li);
             });
         });
