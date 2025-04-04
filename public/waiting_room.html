@@ -9,9 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
     <title>Waiting Room</title>
-    <style>
-        /* Ton style ici */
-    </style>
 </head>
 
 <body>
@@ -67,9 +64,10 @@
 
             socket.emit('showRoomDetails', roomId, (response) => {
                 if (response.success) {
-                    const maxPlayers = response.players.length;
                     const isHost = response.players[0].id === socket.id;
-                    startGameBtn.disabled = !(maxPlayers >= response.maxPlayers && isHost);
+                    const maxPlayers = response.maxPlayers;
+
+                    startGameBtn.disabled = !(players.length >= maxPlayers && isHost);
                 }
             });
         }
