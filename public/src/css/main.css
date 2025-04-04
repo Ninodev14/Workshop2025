@@ -12,7 +12,7 @@ h1{
 
 .btnBoncy {
     display: flex;
-    width: 240;
+    width: fit-content;
     height: 80px;
     padding: 28px 40px;
     justify-content: center;
@@ -35,6 +35,25 @@ h1{
 }
 .btnOrange{
     background: #0ae766;
+}
+
+/* Le bouton quitter */
+.btnquitter{
+    border: 3px solid #62411D;
+    background: #DB995B;
+    box-shadow: 0px 8px 0px 0px #62411D;
+    -webkit-text-stroke-color: #B06BCE;
+    margin: 30px 20px;
+}
+
+.top-page{
+    display: flex;
+    justify-content: end;
+}
+
+.Titre{
+    color: #5C0A96;
+    font-family: Modak;
 }
 
 @keyframes bounceClick {
