@@ -15,7 +15,7 @@
 
 <body>
     <div class="top-page">
-        <button class="btnBoncy btnquitter" onclick="goToIndexPage()">
+        <button class="btnBoncy btnquitter" onclick="goToLobbyPage()">
             <p>Quitter</p>
         </button>
     </div>
@@ -77,6 +77,10 @@
                 }
             });
         });
+
+        function goToLobbyPage() {
+            window.location.href = "lobby.html";
+        }
 
         function goToIndexPage() {
             window.location.href = "index.html";
