@@ -1,51 +1,78 @@
-        body {
-            text-align: center;
-        }
+body {
+    text-align: center;
+}
 
-        /* Le bouton quitter */
+/* Le bouton quitter */
 
-        .btnquitter {
-            border: 3px solid #62411D;
-            background: #DB995B;
-            box-shadow: 0px 8px 0px 0px #62411D;
-            -webkit-text-stroke-width: 0px;
-            margin: 30px 20px;
-        }
+.btnquitter {
+    border: 3px solid #62411D;
+    background: #DB995B;
+    box-shadow: 0px 8px 0px 0px #62411D;
+    -webkit-text-stroke-width: 0px;
+    margin: 10px 10px;
+    scale: 0.8;
+}
 
-        .top-page {
-            display: flex;
-            justify-content: end;
-        }
+.top-page {
+    display: flex;
+    justify-content: end;
+}
 
-        #room-list {
-            list-style: none;
-            height: 40vh;
-            padding: 0;
-            overflow: hidden;
-            overflow-y: auto;
-            width: 70vw;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
+#room-list {
+    list-style: none;
+    height: 54vh;
+    padding-left: 100px;
+    padding-right: 100px;
+    overflow: hidden;
+    overflow-y: auto;
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
 
-        .equipe-list {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.equipe-list {
+    display: flex;
+    justify-content: center;
+    scale: 0.8;
+}
 
-        .room-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #ccc;
-            margin: 5px auto;
-            width: 100%;
-        }
+.room-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border: 1px solid #ccc; */
+    margin: 5px auto;
+    width: 100%;
+    gap: 25px;
+}
 
-        ::-webkit-scrollbar {
-            background-color: #62411D;
-        }
+.beautruc{
+    background-color: #fff;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+    justify-content: space-around;
+}
 
-        /* Fin de la div btn */
+::-webkit-scrollbar{
+background-color: transparent;
+border-radius: 10px;
+margin-left: 10px;
+}
+
+/* C'est le button qui bouge */
+::-webkit-scrollbar-thumb{
+    background-color: black;
+    border-radius: 10px;
+}
+
+/* C'est la barre du fond */
+::-webkit-scrollbar-track{
+    background-color: #fff;
+    border-radius: 10px;
+}
+
