@@ -4,14 +4,26 @@ h1 {
     font-size: 92.759px;
     font-style: normal;
     font-weight: 400;
-    line-height: 130%; /* 120.586px */
+    line-height: 130%;
+    /* 120.586px */
     scale: 0.9;
+}
+
+.body-lobby {
+    background: url(../img/lobby.jpg) no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #game-container {
     margin-top: 20px;
 }
-button{
+
+button {
     cursor: pointer;
 }
 
@@ -92,8 +104,13 @@ button{
     border-radius: 12px;
 }
 
-.h3{
+.h3 {
     font-size: 50px;
     color: var(--Violet-2, #2A0343);
     font-family: Itim;
+}
+
+.logoHomeMenu {
+    height: auto;
+    max-width: 60%;
 }

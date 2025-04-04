@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="top-page">
+        <button class="btnBoncy btnquitter" onclick="">
+            <p>Quitter</p>
+        </button>
+    </div>
+
+    <h1 class="Titre">Équipes disponibles</h1>
+
+
+    <div class="container-liste-and-create">
+        <!-- Liste des rooms -->
+        <div class="equipe-list">
+            <ul id="room-list"></ul>
+        </div>
+
+        <div class="create-room">
+            <!-- Bouton pour créer une room -->
+            <button class="btnBoncy btncreatroom" onclick="goToCreatePage()">Créer une Room</button>
+        </div>
+
+    </div>
+
+    <script>
+        const socket = io();
+
+        // Récupère ou génère un playerId unique si pas déjà défini
+        if (!localStorage.getItem("playerId")) {
+            localStorage.setItem("playerId", Math.random().toString(36).substr(2, 9)); // Génère un ID unique
+        }
+        const playerId = localStorage.getItem("playerId");
+
+        // Demande la liste des rooms au chargement
+        socket.emit('requestRooms');
+
+        // Met à jour la liste des rooms dynamiquement dès qu'il y a un changement
+        socket.on('updateRooms', (rooms) => {
+            const roomList = document.getElementById('room-list');
+            roomList.innerHTML = ''; // Réinitialiser la liste des rooms
+
+            if (Object.keys(rooms).length === 0) {
+                roomList.innerHTML = '<p>Aucune room disponible.</p>';
+                return;
+            }
+
+            Object.entries(rooms).forEach(([roomId, room]) => {
+                const li = document.createElement('li');
+                li.classList.add('room-item');
+                li.innerHTML = `<p class="h3">Equipe</p><div class="beautruc"><div></div><strong class="h3">${room.name}</strong> <div class="h3">(${room.players.length}/${room.maxPlayers} )</div></div>
+                                <button class="btnBoncy " onclick="joinRoom('${roomId}')">Rejoindre</button>`;
+                roomList.appendChild(li);
+            });
+        });
+
+        // Rejoindre une room
+        function joinRoom(roomId) {
+            let playerName = prompt("Entrez votre nom :");
+            if (!playerName) {
+                alert("Vous devez entrer un nom !");
+                return;
+            }
+
+            socket.emit('joinRoom', roomId, playerName, playerId, (response) => {
+                if (response.success) {
+                    window.location.href = `waiting_room.html?roomId=${roomId}`;
+                } else {
+                    alert(response.message);
+                }
+            });
+        }
+
+        // Rediriger vers la page de création de room
+        function goToCreatePage() {
+            window.location.href = "create_room.html";
+        }
+    </script>
+</body>
+
+</html>
