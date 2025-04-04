@@ -1,15 +1,51 @@
-/* Le bouton quitter */
-.btnquitter{
-    border: 3px solid #62411D;
-    background: #DB995B;
-    box-shadow: 0px 8px 0px 0px #62411D;
-    -webkit-text-stroke-width: 0px;
-    margin: 30px 20px;
-}
+        body {
+            text-align: center;
+        }
 
-.top-page{
-    display: flex;
-    justify-content: end;
-}
-/* Fin de la div btn */
+        /* Le bouton quitter */
 
+        .btnquitter {
+            border: 3px solid #62411D;
+            background: #DB995B;
+            box-shadow: 0px 8px 0px 0px #62411D;
+            -webkit-text-stroke-width: 0px;
+            margin: 30px 20px;
+        }
+
+        .top-page {
+            display: flex;
+            justify-content: end;
+        }
+
+        #room-list {
+            list-style: none;
+            height: 40vh;
+            padding: 0;
+            overflow: hidden;
+            overflow-y: auto;
+            width: 70vw;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .equipe-list {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .room-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #ccc;
+            margin: 5px auto;
+            width: 100%;
+        }
+
+        ::-webkit-scrollbar {
+            background-color: #62411D;
+        }
+
+        /* Fin de la div btn */

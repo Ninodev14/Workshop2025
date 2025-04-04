@@ -11,29 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
     <script src="/socket.io/socket.io.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        
-        h1 {
-            margin-bottom: 20px;
-        }
-        
-        #room-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .room-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            border: 1px solid #ccc;
-            margin: 5px auto;
-            width: 50%;
-        }
+
     </style>
 </head>
 
@@ -49,9 +27,9 @@
 
     <div class="container-liste-and-create">
         <!-- Liste des rooms -->
-         <div class="equipe-list">
+        <div class="equipe-list">
             <ul id="room-list"></ul>
-         </div>
+        </div>
 
         <div class="create-room">
             <!-- Bouton pour créer une room -->
