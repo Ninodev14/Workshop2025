@@ -1,0 +1,25 @@
+body{
+    background-color: #F1E1E1;
+}
+
+/* Div du bouton création de chambre */
+.create-room{
+    display: flex;
+    justify-content: center;
+    margin: 15px;
+}
+
+/* Btn Créer une room */
+.btncreatroom{
+    background: #FFFFFF;
+    box-shadow: 0px 6px 0px 0px #5C0A96;
+    color: #5C0A96;
+    text-shadow: none;
+    text-align: center;
+    font-family: Modak;
+    -webkit-text-stroke-width: 0px;
+}
+
+.equipe{
+    font-size: 50px;
+}

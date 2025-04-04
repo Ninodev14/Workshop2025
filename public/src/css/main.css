@@ -1,5 +1,10 @@
 h1{
-
+    color: #5C0A96;
+    font-family: Modak;
+    font-size: 92.759px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 120.586px */
 }
 #game-container {
     margin-top: 20px;
@@ -33,28 +38,8 @@ h1{
     font-weight: 400;
     line-height: 130%;
 }
-.btnOrange{
-    background: #0ae766;
-}
 
-/* Le bouton quitter */
-.btnquitter{
-    border: 3px solid #62411D;
-    background: #DB995B;
-    box-shadow: 0px 8px 0px 0px #62411D;
-    -webkit-text-stroke-color: #B06BCE;
-    margin: 30px 20px;
-}
 
-.top-page{
-    display: flex;
-    justify-content: end;
-}
-
-.Titre{
-    color: #5C0A96;
-    font-family: Modak;
-}
 
 @keyframes bounceClick {
     0% {
@@ -82,6 +67,10 @@ h1{
     animation: bounceClick 0.4s ease;
 }
 
+.btnBoncy:hover {
+    animation: bounceClick 0.4s ease;
+}
+
 .ingredient-img {
     width: 100px;
     height: 100px;
@@ -99,3 +88,4 @@ h1{
     border: 3px solid #B06BCE;
     border-radius: 12px;
 }
+

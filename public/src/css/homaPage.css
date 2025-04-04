@@ -1,0 +1,15 @@
+/* Le bouton quitter */
+.btnquitter{
+    border: 3px solid #62411D;
+    background: #DB995B;
+    box-shadow: 0px 8px 0px 0px #62411D;
+    -webkit-text-stroke-width: 0px;
+    margin: 30px 20px;
+}
+
+.top-page{
+    display: flex;
+    justify-content: end;
+}
+/* Fin de la div btn */
+
