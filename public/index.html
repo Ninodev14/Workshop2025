@@ -20,8 +20,6 @@
             margin-bottom: 20px;
         }
         
-
-        
         #room-list {
             list-style: none;
             padding: 0;
@@ -45,7 +43,7 @@
             <p>Quitter</p>
         </div>
     </div>
-   
+
     <h1 class="Titre">Equipe disponible</h1>
 
     <!-- Bouton pour créer une room -->
@@ -63,15 +61,10 @@
         }
         const playerId = localStorage.getItem("playerId");
 
-        function updateRooms() {
-            socket.emit('requestRooms');
-        }
+        // Demande la liste des rooms au chargement
+        socket.emit('requestRooms');
 
-        // Mise à jour automatique toutes les 5 secondes
-        setInterval(updateRooms, 5000);
-        updateRooms(); // Mise à jour immédiate au chargement
-
-        // Afficher la liste des rooms
+        // Met à jour la liste des rooms dynamiquement dès qu'il y a un changement
         socket.on('updateRooms', (rooms) => {
             const roomList = document.getElementById('room-list');
             roomList.innerHTML = ''; // Réinitialiser la liste des rooms
@@ -85,21 +78,19 @@
                 const li = document.createElement('li');
                 li.classList.add('room-item');
                 li.innerHTML = `<strong>${room.name}</strong> (${room.players.length}/${room.maxPlayers} joueurs)
-                                <button class="btnBoncy" onclick="joinRoom('${roomId}')">Rejoindre</button>`;
+                        <button class="btnBoncy" onclick="joinRoom('${roomId}')">Rejoindre</button>`;
                 roomList.appendChild(li);
             });
         });
 
         // Rejoindre une room
         function joinRoom(roomId) {
-            console.log("LA")
             let playerName = prompt("Entrez votre nom :");
             if (!playerName) {
                 alert("Vous devez entrer un nom !");
                 return;
             }
 
-            // Envoie au serveur le playerId et playerName
             socket.emit('joinRoom', roomId, playerName, playerId, (response) => {
                 if (response.success) {
                     window.location.href = `waiting_room.html?roomId=${roomId}`;
