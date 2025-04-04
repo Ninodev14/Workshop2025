@@ -2,7 +2,7 @@ const socket = io();
 let selectedIngredient = null;
 let selectedRecipe = "";
 let chosenIngredients = [];
-let players = 2;
+let players = 2; // Par défaut à 2, mais cela peut être modifié jusqu'à 4 joueurs
 let currentPlayer = 1;
 let totalRounds = 0;
 let availableIngredients = {};
@@ -20,6 +20,7 @@ const recipes = {
     }
 };
 
+// Fonction pour obtenir une recette aléatoire
 function getRandomRecipe() {
     const recipeNames = Object.keys(recipes);
     const randomIndex = Math.floor(Math.random() * recipeNames.length);
@@ -52,8 +53,10 @@ function startGame() {
 
     distributeIngredients();
     populateIngredientSelect();
+    managePlayerButtons();
 }
 
+// Distribution des ingrédients entre les joueurs
 function distributeIngredients() {
     const { correct, incorrect } = recipes[selectedRecipe];
     allIngredients = [...correct, ...incorrect].sort(() => Math.random() - 0.5);
@@ -65,10 +68,12 @@ function distributeIngredients() {
     }
 }
 
+// Distribution des nouveaux ingrédients à chaque joueur
 function getNewIngredients() {
     return allIngredients.splice(0, 3);
 }
 
+// Remplissage de la sélection des ingrédients pour le joueur actuel
 function populateIngredientSelect() {
     const container = document.getElementById("ingredient-container");
     container.innerHTML = "";
@@ -134,14 +139,36 @@ function addIngredient() {
     nextPlayer();
 }
 
+// Passer au joueur suivant
 function nextPlayer() {
     currentPlayer = (currentPlayer % players) + 1;
     document.getElementById("current-player").innerText = `Joueur ${currentPlayer}, choisissez un ingrédient :`;
     socket.emit("nextPlayer", roomId);
+    managePlayerButtons(); // Gérer l'état des boutons pour le joueur actuel
 }
 
+// Gérer l'état des boutons (activer/désactiver selon le joueur)
+function managePlayerButtons() {
+    // Désactiver tous les boutons
+    const addButton = document.querySelector(".btnBoncy");
+    addButton.disabled = true;
+
+    // Activer le bouton pour le joueur actuel
+    if (currentPlayer === 1) {
+        addButton.disabled = false;
+    } else if (currentPlayer === 2) {
+        addButton.disabled = false;
+    } else if (currentPlayer === 3) {
+        addButton.disabled = false;
+    } else if (currentPlayer === 4) {
+        addButton.disabled = false;
+    }
+}
+
+// Gestion du changement de joueur via socket
 socket.on("switchPlayer", (player) => {
     currentPlayer = player;
     document.getElementById("current-player").innerText = `Joueur ${currentPlayer}, choisissez un ingrédient :`;
     populateIngredientSelect();
+    managePlayerButtons(); // Mise à jour de l'état des boutons
 });
