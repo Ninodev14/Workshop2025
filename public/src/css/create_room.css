@@ -1,0 +1,19 @@
+.container-create-formroom{
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#create-form{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#player-name{
+    background-color: #fff;
+    height: 80px;
+    width: 100%;
+    border: ;
+}
