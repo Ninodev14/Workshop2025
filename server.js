@@ -1,179 +1,128 @@
-const socket = io();
-let selectedIngredient = null;
-let selectedRecipe = "";
-let chosenIngredients = [];
-let players = 2;
-let currentPlayer = 1;
-let totalRounds = 0;
-let availableIngredients = {};
-let allIngredients = [];
-let roomId = "";
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
 
-const recipes = {
-    "Pizza": {
-        correct: ["Farine", "Eau", "Levure", "Sel", "Tomate", "Fromage"],
-        incorrect: ["Chocolat", "Fraise", "Miel", "Curry", "Banane"]
-    },
-    "Salade": {
-        correct: ["Laitue", "Tomate", "Concombre", "Oignon", "Huile", "Sel"],
-        incorrect: ["Nutella", "Pâte à tartiner", "Beurre", "Ketchup", "Bonbon"]
-    }
-};
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 
-function getRandomRecipe() {
-    const recipeNames = Object.keys(recipes);
-    const randomIndex = Math.floor(Math.random() * recipeNames.length);
-    return recipeNames[randomIndex];
-}
+let rooms = {};
 
-document.addEventListener("DOMContentLoaded", () => {
-    selectedRecipe = getRandomRecipe();
-    document.getElementById("recipe-name").innerText = selectedRecipe;
-    nextStep(2); // Passe à l'étape 2 après avoir choisi la recette
-});
+app.use(express.static('public'));
 
-socket.on('gameData', (gameState) => {
-    console.log("Données du jeu reçues :", gameState);
+io.on('connection', (socket) => {
+    console.log(`Joueur connecté: ${socket.id}`);
 
-    if (gameState.gameState === 'waiting') {
-        document.getElementById('step-1').style.display = 'block';
-        document.getElementById('step-2').style.display = 'none';
-        document.getElementById('step-3').style.display = 'none';
-    } else if (gameState.gameState === 'started') {
-        document.getElementById('step-1').style.display = 'none';
-        document.getElementById('step-2').style.display = 'none';
-        document.getElementById('step-3').style.display = 'block';
-    }
-});
-
-function startGame() {
-    socket.emit('startCooking', roomId);
-}
-
-function createRoom() {
-    roomId = "room-" + Math.random().toString(36).substring(7);
-    selectedRecipe = getRandomRecipe(); // Choix aléatoire de la recette
-
-    console.log(`Recette sélectionnée : ${selectedRecipe}`); // Pour vérifier la recette choisie
-
-    socket.emit("createRoom", { roomId, recipe: selectedRecipe, players });
-
-    nextStep(2);
-}
-
-function nextStep(step) {
-    if (step === 2) {
-        document.getElementById('step-1').style.display = 'none';
-        document.getElementById('step-2').style.display = 'block';
-    } else if (step === 3) {
-        document.getElementById('step-2').style.display = 'none';
-        document.getElementById('step-3').style.display = 'block';
-    }
-}
-
-function startGame() {
-    chosenIngredients = [];
-    currentPlayer = 1;
-    totalRounds = 0;
-    document.getElementById("ingredient-list").innerHTML = "";
-    document.getElementById("result").style.display = "none";
-    document.getElementById("result-btn").style.display = "none";
-    document.getElementById("restart-btn").style.display = "none";
-
-    document.getElementById("current-player").innerText = `Joueur ${currentPlayer}, choisissez un ingrédient :`;
-
-    distributeIngredients();
-    populateIngredientSelect();
-}
-
-function distributeIngredients() {
-    const { correct, incorrect } = recipes[selectedRecipe];
-    allIngredients = [...correct, ...incorrect].sort(() => Math.random() - 0.5);
-
-    availableIngredients = {};
-
-    for (let i = 1; i <= players; i++) {
-        availableIngredients[i] = getNewIngredients();
-    }
-}
-
-function getNewIngredients() {
-    return allIngredients.splice(0, 3);
-}
-
-function populateIngredientSelect() {
-    const container = document.getElementById("ingredient-container");
-    container.innerHTML = "";
-    selectedIngredient = null;
-
-    if (!availableIngredients[currentPlayer] || availableIngredients[currentPlayer].length === 0) {
-        nextPlayer();
-        return;
-    }
-
-    availableIngredients[currentPlayer].forEach(ingredient => {
-        const img = document.createElement("img");
-        img.src = `src/img/${ingredient.toLowerCase()}.png`;
-        img.alt = ingredient;
-        img.classList.add("ingredient-img");
-        img.onclick = () => selectIngredient(img, ingredient);
-
-        container.appendChild(img);
+    socket.on('requestRooms', () => {
+        socket.emit('updateRooms', rooms);
     });
-}
 
-function selectIngredient(imgElement, ingredient) {
-    document.querySelectorAll('.ingredient-img').forEach(img => img.classList.remove('selected'));
-    imgElement.classList.add('selected');
-    selectedIngredient = ingredient;
-}
+    socket.on('createRoom', ({ roomId, roomName, maxPlayers, playerName, playerId }, callback) => {
+        if (rooms[roomId]) {
+            return callback({ success: false, message: "Room déjà existante." });
+        }
 
-function addIngredient() {
-    if (!selectedIngredient) {
-        alert("Sélectionnez un ingrédient !");
-        return;
-    }
+        // Utilisation de playerId passé par le client
+        rooms[roomId] = {
+            name: roomName,
+            players: [{ id: playerId, name: playerName }],
+            maxPlayers: parseInt(maxPlayers),
+            host: playerId
+        };
 
-    if (chosenIngredients.includes(selectedIngredient)) {
-        alert("Cet ingrédient est déjà ajouté !");
-        return;
-    }
+        socket.join(roomId);
+        console.log(`✅ Room créée: ${roomName} (${roomId}) avec ${playerName} comme hôte`);
 
-    chosenIngredients.push(selectedIngredient);
+        io.emit('updateRooms', rooms);
+        callback({ success: true });
+    });
 
-    const ingredientList = document.getElementById("ingredient-list");
-    const listItem = document.createElement("li");
+    socket.on('joinRoom', (roomId, playerName, playerId, callback) => {
+        if (!rooms[roomId]) return callback({ success: false, message: "La room est introuvable." });
 
-    const img = document.createElement("img");
-    img.src = `src/img/${selectedIngredient.toLowerCase()}.png`;
-    img.alt = selectedIngredient;
-    img.classList.add("selected-ingredient-img");
+        if (rooms[roomId].players.length >= rooms[roomId].maxPlayers) {
+            return callback({ success: false, message: "La room est pleine." });
+        }
 
-    listItem.appendChild(img);
-    ingredientList.appendChild(listItem);
+        const isAlreadyInRoom = rooms[roomId].players.some(player => player.id === playerId);
+        if (isAlreadyInRoom) {
+            return callback({ success: false, message: "Vous êtes déjà dans cette room." });
+        }
 
-    availableIngredients[currentPlayer] = availableIngredients[currentPlayer].filter(i => i !== selectedIngredient);
+        rooms[roomId].players.push({ id: playerId, name: playerName });
+        socket.join(roomId);
 
-    totalRounds++;
+        io.to(roomId).emit('updatePlayers', rooms[roomId].players, rooms[roomId].host);
 
-    socket.emit("addIngredient", { player: currentPlayer, ingredient: selectedIngredient }, roomId);
+        io.emit('updateRooms', rooms);
 
-    if (totalRounds >= recipes[selectedRecipe].correct.length) {
-        document.getElementById("result-btn").style.display = "block";
-        return;
-    }
+        callback({ success: true, players: rooms[roomId].players, name: rooms[roomId].name });
+    });
 
-    nextPlayer();
-}
+    socket.on('reconnectPlayer', (roomId, playerId) => {
+        if (rooms[roomId]) {
+            const player = rooms[roomId].players.find(p => p.id === playerId);
+            if (player) {
+                socket.join(roomId);
+                console.log(`🔄 Reconnexion du joueur ${player.name} (${playerId}) dans la room ${roomId}`);
+                io.to(roomId).emit('updatePlayers', rooms[roomId].players, rooms[roomId].host);
+            }
+        }
+    });
 
-function nextPlayer() {
-    currentPlayer = (currentPlayer % players) + 1;
-    document.getElementById("current-player").innerText = `Joueur ${currentPlayer}, choisissez un ingrédient :`;
-    socket.emit("nextPlayer", roomId);
-}
 
-socket.on("switchPlayer", (player) => {
-    currentPlayer = player;
-    document.getElementById("current-player").innerText = `Joueur ${currentPlayer}, choisissez un ingrédient :`;
-    populateIngredientSelect();
+    socket.on('showRoomDetails', (roomId, callback) => {
+        console.log(`🔍 Demande de détails de la room: ${roomId}`);
+        if (!rooms[roomId]) {
+            console.log(`❌ ERREUR : La room ${roomId} n'existe pas !`);
+            return callback({ success: false, message: "La room est introuvable." });
+        }
+        callback({
+            success: true,
+            name: rooms[roomId].name,
+            players: rooms[roomId].players,
+            host: rooms[roomId].host
+        });
+    });
+
+
+    socket.on('startGame', (roomId, playerId) => {
+        if (rooms[roomId] && rooms[roomId].host === playerId) {
+            console.log(`🎮 Démarrage de la partie dans la room ${roomId}`);
+            io.to(roomId).emit('gameStarted');
+        } else {
+            console.log(`❌ Tentative de démarrage refusée pour le joueur ${playerId}`);
+        }
+    });
+
+
+
+    socket.on('disconnect', () => {
+        let roomToDelete = null;
+
+        for (const roomId in rooms) {
+            rooms[roomId].players = rooms[roomId].players.filter(player => player.id !== socket.id);
+
+            if (rooms[roomId].host === socket.id) {
+                if (rooms[roomId].players.length > 0) {
+                    rooms[roomId].host = rooms[roomId].players[0].id;
+                } else {
+                    roomToDelete = roomId;
+                }
+            }
+        }
+
+        if (roomToDelete) {
+            delete rooms[roomToDelete];
+        }
+
+        io.emit('updateRooms', rooms);
+    });
+
+
+}); // 👈 Ajoute cette accolade ici pour fermer la connexion socket
+
+const port = process.env.PORT || 3000;
+server.listen(port, () => {
+    console.log(`✅ Serveur en écoute sur le port ${port}`);
 });
