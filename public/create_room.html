@@ -15,6 +15,9 @@
     <h1>Créer une Room</h1>
 
     <form id="create-form">
+        <label for="player-name">Votre nom:</label>
+        <input type="text" id="player-name" required>
+
         <label for="room-name">Nom de la room:</label>
         <input type="text" id="room-name" required>
 
@@ -27,42 +30,36 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-        let playerNameTxt = prompt("Entrez votre nom :");
 
-        // Vérification que le joueur a bien donné un nom
-        while (!playerNameTxt || playerNameTxt.trim() === "") {
-            playerNameTxt = prompt("Vous devez entrer un nom :");
-        }
-
-        // Récupère ou génère un playerId unique si pas déjà défini
         if (!localStorage.getItem("playerId")) {
-            localStorage.setItem("playerId", Math.random().toString(36).substr(2, 9)); // Génère un ID unique
+            localStorage.setItem("playerId", Math.random().toString(36).substr(2, 9));
         }
         const playerId = localStorage.getItem("playerId");
 
         document.getElementById('create-form').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Récupère les informations de la room
-            const roomName = document.getElementById('room-name').value;
+            const playerName = document.getElementById('player-name').value.trim();
+            const roomName = document.getElementById('room-name').value.trim();
             const maxPlayers = document.getElementById('max-players').value;
 
-            // Génère un ID unique pour la room
+            if (!playerName) {
+                alert("Veuillez entrer votre nom.");
+                return;
+            }
+
             const roomId = Math.random().toString(36).substr(2, 9);
 
-            // Emmet la demande de création de room vers le serveur, avec le playerId
             socket.emit('createRoom', {
                 roomId,
                 roomName,
                 maxPlayers,
-                playerName: "Joueur " + playerNameTxt, // Tu peux changer cela par un nom de joueur que tu choisis
-                playerId // Envoie le playerId généré
+                playerName,
+                playerId
             }, (response) => {
                 if (response.success) {
-                    // Si la room est créée, redirige vers la page d'attente avec l'ID de la room
                     window.location.href = `waiting_room.html?roomId=${roomId}`;
                 } else {
-                    // Si la room ne peut pas être créée, affiche un message d'erreur
                     alert(response.message);
                 }
             });

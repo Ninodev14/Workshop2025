@@ -136,7 +136,7 @@
 
         socket.on('gameStarted', () => {
             roomStatusElement.textContent = 'Status: Game started!';
-            window.location.href = '/game';
+            window.location.href = `/game.html?roomId=${roomId}`;
         });
     </script>
 

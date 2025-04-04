@@ -1,5 +1,4 @@
 const socket = io();
-
 let selectedIngredient = null;
 let selectedRecipe = "";
 let chosenIngredients = [];
@@ -10,34 +9,33 @@ let availableIngredients = {};
 let allIngredients = [];
 let roomId = "";
 
-// Simuler des recettes (à remplacer par une vraie base de données)
 const recipes = {
-    "Pasta": { correct: ["Tomate", "Pâtes", "Fromage"], incorrect: ["Chocolat", "Fraise", "Sardine"] },
-    "Pizza": { correct: ["Pâte", "Sauce", "Fromage"], incorrect: ["Banane", "Nutella", "Saumon"] }
+    "Pizza": {
+        correct: ["Farine", "Eau", "Levure", "Sel", "Tomate", "Fromage"],
+        incorrect: ["Chocolat", "Fraise", "Miel", "Curry", "Banane"]
+    },
+    "Salade": {
+        correct: ["Laitue", "Tomate", "Concombre", "Oignon", "Huile", "Sel"],
+        incorrect: ["Nutella", "Pâte à tartiner", "Beurre", "Ketchup", "Bonbon"]
+    }
 };
 
-function nextStep(step) {
-    document.getElementById("step-1").style.display = step === 1 ? "block" : "none";
-    document.getElementById("step-2").style.display = step === 2 ? "block" : "none";
-    document.getElementById("step-3").style.display = step === 3 ? "block" : "none";
-    document.getElementById("step-4").style.display = step === 4 ? "block" : "none";
-
-    if (step === 2) {
-        players = parseInt(document.getElementById("player-count").value);
-        populateRecipeSelect();
-    }
-    if (step === 3) {
-        createRoom();
-    }
+function getRandomRecipe() {
+    const recipeNames = Object.keys(recipes);
+    const randomIndex = Math.floor(Math.random() * recipeNames.length);
+    return recipeNames[randomIndex];
 }
 
-function createRoom() {
-    roomId = "room-" + Math.random().toString(36).substring(7);
-    selectedRecipe = document.getElementById("recipe-select").value;
+document.addEventListener("DOMContentLoaded", () => {
+    selectedRecipe = getRandomRecipe();
+    document.getElementById("recipe-name").innerText = selectedRecipe;
+    document.getElementById("recipe-name-play").innerText = selectedRecipe; // Pour l'affichage pendant le jeu
+});
 
-    socket.emit("createRoom", { roomId, recipe: selectedRecipe, players });
+function continueGame() {
+    document.getElementById("recipe-selection").style.display = "none"; // Cacher la sélection de recette
+    document.getElementById("game-play").style.display = "block"; // Afficher le jeu
 
-    nextStep(4);
     startGame();
 }
 

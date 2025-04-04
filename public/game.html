@@ -15,30 +15,20 @@
     <h1>Jeu de Cuisine Collaboratif</h1>
 
     <div id="game-container">
-        <div id="step-1">
-            <h2>Combien de joueurs ?</h2>
-            <input type="number" id="player-count" min="1" max="5" value="2">
-            <button class="btnBoncy" onclick="nextStep(2)">Suivant</button>
+        <div id="recipe-selection">
+            <h2>Recette choisie : <span id="recipe-name"></span></h2>
+            <button class="btnBoncy" onclick="continueGame()">Continuer</button>
         </div>
 
-        <div id="step-2" style="display: none;">
-            <h2>Choisissez une recette :</h2>
-            <select id="recipe-select"></select>
-            <button class="btnBoncy" onclick="nextStep(3)">Suivant</button>
-        </div>
-
-        <div id="step-3" style="display: none;">
-            <h2>Préparation de la partie...</h2>
-            <button class="btnBoncy" onclick="startGame()">Commencer</button>
-        </div>
-
-        <div id="step-4" style="display: none;">
+        <div id="game-play" style="display: none;">
             <h2 id="current-player">Joueur 1, choisissez un ingrédient :</h2>
             <div id="ingredient-container"></div>
             <button class="btnBoncy" onclick="addIngredient()">Ajouter</button>
 
             <h2>Ingrédients ajoutés :</h2>
             <ul id="ingredient-list"></ul>
+
+            <h2>Recette : <span id="recipe-name-play"></span></h2>
 
             <button id="result-btn" onclick="calculateScore()" style="display: none;">Voir le résultat</button>
             <h2 id="result" style="display: none;"></h2>
