@@ -52,58 +52,51 @@ io.on('connection', (socket) => {
         rooms[roomId].players.push({ id: playerId, name: playerName });
         socket.join(roomId);
 
-        io.to(roomId).emit('updatePlayers', rooms[roomId].players);
+        io.to(roomId).emit('updatePlayers', rooms[roomId].players, rooms[roomId].host);
+
         io.emit('updateRooms', rooms);
 
         callback({ success: true, players: rooms[roomId].players, name: rooms[roomId].name });
     });
 
-    socket.on('disconnect', () => {
-        let roomToDelete = null;
-
-        for (const roomId in rooms) {
-            rooms[roomId].players = rooms[roomId].players.filter(player => player.id !== socket.id);
-            if (rooms[roomId].players.length === 0) roomToDelete = roomId;
-        }
-
-        if (roomToDelete) delete rooms[roomToDelete];
-
-        io.emit('updateRooms', rooms);
-    });
-
     socket.on('showRoomDetails', (roomId, callback) => {
         console.log(`🔍 Demande de détails de la room: ${roomId}`);
-
-        // Vérifier si la room existe
         if (!rooms[roomId]) {
             console.log(`❌ ERREUR : La room ${roomId} n'existe pas !`);
             return callback({ success: false, message: "La room est introuvable." });
         }
-
-        // Renvoyer les détails de la room sans ajouter le joueur
         callback({
             success: true,
             name: rooms[roomId].name,
-            players: rooms[roomId].players
+            players: rooms[roomId].players,
+            host: rooms[roomId].host
         });
     });
 
 
-    socket.on('startGame', (roomId) => {
-        if (rooms[roomId] && rooms[roomId].host === socket.id) {
+    socket.on('startGame', (roomId, playerId) => {
+        if (rooms[roomId] && rooms[roomId].host === playerId) {
+            console.log(`🎮 Démarrage de la partie dans la room ${roomId}`);
             io.to(roomId).emit('gameStarted');
+        } else {
+            console.log(`❌ Tentative de démarrage refusée pour le joueur ${playerId}`);
         }
     });
+
+
 
     socket.on('disconnect', () => {
         let roomToDelete = null;
 
-        // Rechercher les rooms où ce joueur se trouve
         for (const roomId in rooms) {
             rooms[roomId].players = rooms[roomId].players.filter(player => player.id !== socket.id);
 
-            if (rooms[roomId].players.length === 0) {
-                roomToDelete = roomId;
+            if (rooms[roomId].host === socket.id) {
+                if (rooms[roomId].players.length > 0) {
+                    rooms[roomId].host = rooms[roomId].players[0].id;
+                } else {
+                    roomToDelete = roomId;
+                }
             }
         }
 
@@ -113,7 +106,9 @@ io.on('connection', (socket) => {
 
         io.emit('updateRooms', rooms);
     });
-});
+
+
+}); // 👈 Ajoute cette accolade ici pour fermer la connexion socket
 
 const port = process.env.PORT || 3000;
 server.listen(port, () => {

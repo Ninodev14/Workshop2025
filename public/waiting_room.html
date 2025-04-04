@@ -9,16 +9,61 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
     <title>Waiting Room</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        
+        .room-info {
+            margin: 20px 0;
+        }
+        
+        .player-list {
+            margin: 20px auto;
+            max-width: 400px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .player-item {
+            padding: 5px;
+            margin: 5px 0;
+            background: #f4f4f4;
+            border-radius: 5px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+        }
+        
+        .btn:disabled {
+            background: #aaa;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 
 <body>
 
-    <h1>Welcome to the Waiting Room</h1>
+    <h1>Waiting Room</h1>
 
     <div class="room-info">
         <h2 id="roomName">Room: <span>loading...</span></h2>
-        <p id="roomStatus">Status: Waiting for players</p>
-        <button class="btn" id="startGameBtn" disabled>Start Game</button>
+        <p id="roomStatus">Status: Waiting for players...</p>
+        <a class="btn" id="startGameBtn" href="game.html" disabled>Start Game</a>
     </div>
 
     <div class="player-list">
@@ -28,57 +73,61 @@
         </ul>
     </div>
 
-    <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
         const roomId = new URLSearchParams(window.location.search).get('roomId');
-
+        const playerId = localStorage.getItem("playerId");
+        console.log("Mon Player ID:", playerId);
         const startGameBtn = document.getElementById('startGameBtn');
         const roomNameElement = document.getElementById('roomName');
         const roomStatusElement = document.getElementById('roomStatus');
         const playerListElement = document.getElementById('playerList');
 
         socket.emit('showRoomDetails', roomId, (response) => {
-            console.log(response);
             if (response.success) {
                 roomNameElement.querySelector('span').textContent = response.name;
-                roomStatusElement.textContent = 'Status: Waiting for players';
-                updatePlayerList(response.players);
+                updatePlayerList(response.players, response.host);
             } else {
                 alert(response.message);
                 window.location.href = '/';
             }
         });
 
-        socket.on('updatePlayers', (players) => {
-            updatePlayerList(players);
+        socket.on('updatePlayers', (players, hostId) => {
+            updatePlayerList(players, hostId);
         });
 
-        function updatePlayerList(players) {
+        function updatePlayerList(players, hostId) {
+            console.log("👥 Mise à jour des joueurs :", players);
+            console.log("🏠 Host ID :", hostId);
+            console.log("🎮 Mon Player ID :", playerId);
+            console.log("👥 Nombre de joueurs :", players.length);
+            console.log("🔍 Condition :", playerId === hostId, players.length > 1);
+
             playerListElement.innerHTML = '';
             players.forEach(player => {
                 const li = document.createElement('li');
-                li.textContent = player.name;
+                li.classList.add('player-item');
+                li.textContent = player.name + (player.id === hostId ? " (Host)" : "");
                 playerListElement.appendChild(li);
             });
 
-            socket.emit('showRoomDetails', roomId, (response) => {
-                if (response.success) {
-                    const isHost = response.players[0].id === socket.id;
-                    const maxPlayers = response.maxPlayers;
-
-                    startGameBtn.disabled = !(players.length >= maxPlayers && isHost);
-                }
-            });
+            if (playerId && hostId && playerId === hostId && players.length > 1) {
+                startGameBtn.disabled = false;
+                console.log("✅ Le bouton Start Game est activé !");
+            } else {
+                startGameBtn.disabled = true;
+                console.log("❌ Le bouton Start Game reste désactivé.");
+            }
         }
 
+
         startGameBtn.addEventListener('click', () => {
-            socket.emit('startGame', roomId);
-            roomStatusElement.textContent = 'Status: Game started!';
-            startGameBtn.disabled = true;
+            socket.emit('startGame', roomId, playerId);
         });
 
         socket.on('gameStarted', () => {
+            roomStatusElement.textContent = 'Status: Game started!';
             window.location.href = '/game';
         });
     </script>
