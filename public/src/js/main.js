@@ -41,7 +41,7 @@ function step3() {
 
 function readyToStartP1() {
     document.getElementById("step3-instructions-P1").style.display = "none";
-    socket.emit("playerReadyForGame", roomId, playerId); // Envoie l'événement pour signaler que P1 est prêt
+    socket.emit("playerReadyForGame", roomId, playerId);
 }
 
 function readyToStartP2() {
@@ -49,8 +49,13 @@ function readyToStartP2() {
     socket.emit("playerReadyForGame", roomId, playerId);
 }
 
-
-// Game
+const additionalImages = [
+    "src/img/ingredients/tomato.png",
+    "src/img/ingredients/cheese.png",
+    "src/img/ingredients/lettuce.png",
+    "src/img/ingredients/cucumber.png",
+    "src/img/ingredients/pepperoni.png"
+];
 
 function displayRandomRecipe(targetDivId) {
     const recipe = recipes[Math.floor(Math.random() * recipes.length)];
@@ -66,8 +71,11 @@ function displayRandomRecipe(targetDivId) {
 
     recipe.ingredients.forEach(imgSrc => {
         const img = document.createElement("img");
+
+        const altText = imgSrc.split('/').pop().replace('.png', '');
+
         img.src = imgSrc;
-        img.alt = "ingrédient";
+        img.alt = altText;
         img.style.width = "60px";
         img.style.height = "60px";
         ingredientsDiv.appendChild(img);
@@ -81,22 +89,40 @@ function displayRandomRecipe(targetDivId) {
 
     recipe.ingredients.forEach((src, index) => {
         const animatedImg = document.createElement("img");
+        const altText = src.split('/').pop().replace('.png', '');
+
         animatedImg.src = src;
+        animatedImg.alt = altText;
         animatedImg.classList.add("ingredient-img");
+        animatedImg.draggable = true;
         animatedImg.style.animationDelay = `${index * 1}s`;
 
         animationZone.appendChild(animatedImg);
     });
 
-    recipe.ingredients.forEach(src => {
-        const duplicatedImg = document.createElement("img");
-        duplicatedImg.src = src;
-        duplicatedImg.classList.add("ingredient-img");
-        animationZone.appendChild(duplicatedImg);
-    });
+    const randomImage = additionalImages[Math.floor(Math.random() * additionalImages.length)];
+    const randomImg = document.createElement("img");
+    const altText = randomImage.split('/').pop().replace('.png', '');
+
+    randomImg.src = randomImage;
+    randomImg.alt = altText;
+    randomImg.classList.add("ingredient-img");
+    randomImg.draggable = true;
+    randomImg.style.animationDelay = `${recipe.ingredients.length}s`;
+
+    animationZone.appendChild(randomImg); // Ajoute une seule image parmi celles disponibles
 }
 
+// Utilisation de Dragula pour gérer les zones de drag-and-drop
+const drake = dragula([document.querySelector('#Player1IngredientZone'), document.querySelector('#Player2IngredientZone')]);
 
+drake.on('drag', (el) => {
+    el.classList.add('dragging');
+});
+
+drake.on('dragend', (el) => {
+    el.classList.remove('dragging');
+});
 
 socket.on("GameCanBigin", () => {
     console.log("🎮 Le jeu peut commencer!");

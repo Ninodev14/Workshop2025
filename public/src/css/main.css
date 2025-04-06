@@ -109,15 +109,19 @@ button {
     0% {
         transform: scaleX(1) scaleY(1);
     }
+
     30% {
         transform: scaleX(1.2) scaleY(0.9);
     }
+
     50% {
         transform: scaleX(0.9) scaleY(1.1);
     }
+
     70% {
         transform: scaleX(1.05) scaleY(0.95);
     }
+
     100% {
         transform: scaleX(1) scaleY(1);
     }
@@ -129,24 +133,6 @@ button {
 
 .btnBoncy:hover {
     animation: bounceClick 0.4s ease;
-}
-
-.ingredient-img {
-    width: 100px;
-    height: 100px;
-    margin: 10px;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-.ingredient-img:hover {
-    transform: scale(1.05);
-}
-
-.ingredient-img.selected {
-    transform: scale(1.2);
-    border: 3px solid #B06BCE;
-    border-radius: 12px;
 }
 
 .logoHomeMenu {

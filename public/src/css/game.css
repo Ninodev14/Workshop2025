@@ -4,24 +4,33 @@
     height: 150px;
     overflow: hidden;
     margin-top: 20px;
+    border: 1px solid #ccc;
 }
 
 .ingredient-img {
+    user-select: none;
     border: 1px solid #ccc;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    right: 100%;
     width: 60px;
     height: 60px;
-    animation: moveLeft 5s linear infinite;
+    cursor: grab;
+    transition: transform 0.3s ease-in-out;
+    animation: moveright 10s linear infinite;
 }
 
-@keyframes moveLeft {
+.ingredient-img.dragging {
+    opacity: 0.5;
+}
+
+@keyframes moveright {
     0% {
-        left: 100%;
+        right: 100%;
     }
 
     100% {
-        left: -80px;
+        right: -80px;
     }
 }
