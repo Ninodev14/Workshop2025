@@ -7,6 +7,8 @@ const server = http.createServer(app);
 const io = socketIo(server);
 
 let rooms = {};
+let roomReadyPlayers = {};
+
 
 app.use(express.static('public'));
 
@@ -52,12 +54,20 @@ io.on('connection', (socket) => {
         rooms[roomId].players.push({ id: playerId, name: playerName });
         socket.join(roomId);
 
-        io.to(roomId).emit('updatePlayers', rooms[roomId].players, rooms[roomId].host);
+        const playerIndex = rooms[roomId].players.length - 1;
+        const role = playerIndex === 0 ? "P1" : "P2";
+        io.to(socket.id).emit("assignRole", role);
 
+        io.to(roomId).emit('updatePlayers', rooms[roomId].players, rooms[roomId].host);
         io.emit('updateRooms', rooms);
 
-        callback({ success: true, players: rooms[roomId].players, name: rooms[roomId].name });
+        callback({
+            success: true,
+            players: rooms[roomId].players,
+            name: rooms[roomId].name
+        });
     });
+
 
     socket.on('reconnectPlayer', (roomId, playerId) => {
         if (rooms[roomId]) {
@@ -94,6 +104,23 @@ io.on('connection', (socket) => {
             console.log(`❌ Tentative de démarrage refusée pour le joueur ${playerId}`);
         }
     });
+    socket.on('playerReadyForStepper', (roomId, playerId) => {
+        if (!roomReadyPlayers[roomId]) {
+            roomReadyPlayers[roomId] = new Set();
+        }
+
+        roomReadyPlayers[roomId].add(playerId);
+        console.log(`✅ ${playerId} est prêt pour le jeu (Room: ${roomId})`);
+
+        const playersInRoom = (rooms[roomId] && rooms[roomId].players) ? rooms[roomId].players.length : 0;
+
+
+        if (roomReadyPlayers[roomId].size === playersInRoom) {
+            console.log(`🎉 Tous les joueurs sont prêts dans la room ${roomId}. Lancement du jeu.`);
+            io.to(roomId).emit('startGame');
+            roomReadyPlayers[roomId] = new Set();
+        }
+    });
 
 
 
@@ -102,6 +129,9 @@ io.on('connection', (socket) => {
 
         for (const roomId in rooms) {
             rooms[roomId].players = rooms[roomId].players.filter(player => player.id !== socket.id);
+            if (roomReadyPlayers[roomId]) {
+                roomReadyPlayers[roomId].delete(socket.id);
+            }
 
             if (rooms[roomId].host === socket.id) {
                 if (rooms[roomId].players.length > 0) {

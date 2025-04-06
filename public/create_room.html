@@ -32,21 +32,6 @@
             <label for="room-name">Nom de la room:</label>
             <input type="text" id="room-name" required>
 
-            <div class="deroulejoueur">
-                <div class="Nbjoueur">
-                    <p>Nombre de joueurs</p>
-                </div>
-
-                <div class="nombrepersonne">
-                    <!-- fleche 1 -->
-                    <button><</button>
-                    <input type="number" id="max-players" min="2" max="4" required disabled>
-                    <!-- fleche 2 -->
-                    <button>></button>
-                </div>
-
-            </div>
-
             <button type="submit" class="btnBoncy">Créer la Room</button>
         </form>
     </div>
@@ -66,7 +51,8 @@
 
             const playerName = document.getElementById('player-name').value.trim();
             const roomName = document.getElementById('room-name').value.trim();
-            const maxPlayers = document.getElementById('max-players').value;
+            const maxPlayers = 2;
+
 
             if (!playerName) {
                 alert("Veuillez entrer votre nom.");
