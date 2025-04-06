@@ -46,10 +46,66 @@ function readyToStartP1() {
 
 function readyToStartP2() {
     document.getElementById("step3-instructions-P2").style.display = "none";
-    socket.emit("playerReadyForGame", roomId, playerId); // Envoie l'événement pour signaler que P2 est prêt
+    socket.emit("playerReadyForGame", roomId, playerId);
 }
 
+
+// Game
+
+function displayRandomRecipe(targetDivId) {
+    const recipe = recipes[Math.floor(Math.random() * recipes.length)];
+    const container = document.getElementById(targetDivId);
+
+    const title = document.createElement("h3");
+    title.textContent = `Recette : ${recipe.name}`;
+    container.appendChild(title);
+
+    const ingredientsDiv = document.createElement("div");
+    ingredientsDiv.style.display = "flex";
+    ingredientsDiv.style.gap = "10px";
+
+    recipe.ingredients.forEach(imgSrc => {
+        const img = document.createElement("img");
+        img.src = imgSrc;
+        img.alt = "ingrédient";
+        img.style.width = "60px";
+        img.style.height = "60px";
+        ingredientsDiv.appendChild(img);
+    });
+
+    container.appendChild(ingredientsDiv);
+
+    const zoneId = targetDivId === "Player1Recipe" ? "Player1IngredientZone" : "Player2IngredientZone";
+    const animationZone = document.getElementById(zoneId);
+    animationZone.innerHTML = "";
+
+    recipe.ingredients.forEach((src, index) => {
+        const animatedImg = document.createElement("img");
+        animatedImg.src = src;
+        animatedImg.classList.add("ingredient-img");
+        animatedImg.style.animationDelay = `${index * 1}s`;
+
+        animationZone.appendChild(animatedImg);
+    });
+
+    recipe.ingredients.forEach(src => {
+        const duplicatedImg = document.createElement("img");
+        duplicatedImg.src = src;
+        duplicatedImg.classList.add("ingredient-img");
+        animationZone.appendChild(duplicatedImg);
+    });
+}
+
+
+
 socket.on("GameCanBigin", () => {
-    console.log("🎮 Le jeu peut commencer!"); // Ajoutez un log pour vérifier si l'événement est bien reçu
-    document.getElementById("Player1And2Ready").style.display = "block";
+    console.log("🎮 Le jeu peut commencer!");
+    document.getElementById("title").style.display = "none";
+    if (playerRole === "P1") {
+        document.getElementById("Player1Game").style.display = "block";
+        displayRandomRecipe("Player1Recipe");
+    } else if (playerRole === "P2") {
+        document.getElementById("Player2Game").style.display = "block";
+        displayRandomRecipe("Player2Recipe");
+    }
 });

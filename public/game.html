@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <h1>Jeu de Cuisine Collaboratif</h1>
+    <h1 id="title">Jeu de Cuisine Collaboratif</h1>
 
     <div id="start-instructions">
         <h2>Vous avez 2 min<br />pour réaliser minimum<br /><strong>3 recettes !</strong></h2>
@@ -34,11 +34,22 @@
         <button class="btnBoncy" id="btn-p2" onclick="readyToStartP2()" disabled>Suivant</button>
     </div>
 
-    <div id="Player1And2Ready" style="display: none;">
+    <div id="Player1Game" style="display: none;">
         <h2>Le Jeu</h2>
+        <div id="Player1Recipe"></div>
+        <div class="ingredient-zone" id="Player1IngredientZone"></div>
     </div>
 
+    <div id="Player2Game" style="display: none;">
+        <h2>Un autre rôle, un autre affichage !</h2>
+        <div id="Player2Recipe"></div>
+        <div class="ingredient-zone" id="Player2IngredientZone"></div>
+    </div>
+
+
+
     <script src="/socket.io/socket.io.js"></script>
+    <script src="src/js/recipes.js"></script>
     <script src="src/js/main.js"></script>
     <script src="src/js/boncy.js"></script>
 </body>
