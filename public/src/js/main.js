@@ -5,11 +5,15 @@ const roomId = new URLSearchParams(window.location.search).get('roomId');
 const playerId = localStorage.getItem("playerId");
 const playerName = localStorage.getItem("playerName");
 
-socket.on("assignRole", (role) => {
-    playerRole = role;
-    console.log("🎭 Rôle reçu :", playerRole);
-    document.getElementById("start-instructions").style.display = "block";
-    document.getElementById("btn-step1").disabled = false;
+socket.emit('requestRole', roomId, playerId, (response) => {
+    if (response.success) {
+        playerRole = response.role;
+        console.log("🎭 Rôle assigné à l'entrée du jeu :", playerRole);
+        document.getElementById("start-instructions").style.display = "block";
+        document.getElementById("btn-step1").disabled = false;
+    } else {
+        console.error("❌ Impossible d'assigner un rôle :", response.message);
+    }
 });
 
 function step2() {

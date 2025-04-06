@@ -54,10 +54,6 @@ io.on('connection', (socket) => {
         rooms[roomId].players.push({ id: playerId, name: playerName });
         socket.join(roomId);
 
-        const playerIndex = rooms[roomId].players.length - 1;
-        const role = playerIndex === 0 ? "P1" : "P2";
-        io.to(socket.id).emit("assignRole", role);
-
         io.to(roomId).emit('updatePlayers', rooms[roomId].players, rooms[roomId].host);
         io.emit('updateRooms', rooms);
 
@@ -66,6 +62,16 @@ io.on('connection', (socket) => {
             players: rooms[roomId].players,
             name: rooms[roomId].name
         });
+    });
+    socket.on('requestRole', (roomId, playerId, callback) => {
+        const room = rooms[roomId];
+        if (!room) return callback({ success: false, message: "Room introuvable" });
+
+        const index = room.players.findIndex(p => p.id === playerId);
+        if (index === -1) return callback({ success: false, message: "Joueur introuvable dans la room" });
+
+        const role = index === 0 ? "P1" : "P2";
+        callback({ success: true, role });
     });
 
 
