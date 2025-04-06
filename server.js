@@ -110,37 +110,23 @@ io.on('connection', (socket) => {
             console.log(`❌ Tentative de démarrage refusée pour le joueur ${playerId}`);
         }
     });
-    socket.on('playerReadyForStepper', (roomId, playerId) => {
-        if (!roomReadyPlayers[roomId]) {
-            roomReadyPlayers[roomId] = new Set();
-        }
-
-        roomReadyPlayers[roomId].add(playerId);
-        console.log(`✅ ${playerId} est prêt pour le jeu (Room: ${roomId})`);
-
-        const playersInRoom = (rooms[roomId] && rooms[roomId].players) ? rooms[roomId].players.length : 0;
-
-
-        if (roomReadyPlayers[roomId].size === playersInRoom) {
-            console.log(`🎉 Tous les joueurs sont prêts dans la room ${roomId}. Lancement du jeu.`);
-            io.to(roomId).emit('startGame');
-            roomReadyPlayers[roomId] = new Set();
-        }
-    });
 
     socket.on('playerReadyForGame', (roomId, playerId) => {
+        socket.join(roomId);
+
         if (!roomReadyPlayers[roomId]) {
             roomReadyPlayers[roomId] = new Set();
         }
 
         roomReadyPlayers[roomId].add(playerId);
         console.log(`✅ ${playerId} est prêt pour le jeu (Room: ${roomId})`);
+
         const playersInRoom = rooms[roomId].players.length;
 
         if (roomReadyPlayers[roomId].size === playersInRoom) {
             console.log(`🎉 Tous les joueurs sont prêts dans la room ${roomId}. Lancement du jeu.`);
-            io.to(roomId).emit('startGame');
-            roomReadyPlayers[roomId] = new Set();
+            console.log(`Les joueurs dans la room ${roomId}:`, rooms[roomId].players);
+            io.to(roomId).emit('GameCanBigin');
         }
     });
 
@@ -169,7 +155,6 @@ io.on('connection', (socket) => {
 
         io.emit('updateRooms', rooms);
     });
-
 });
 
 

@@ -49,7 +49,7 @@ function readyToStartP2() {
     socket.emit("playerReadyForGame", roomId, playerId); // Envoie l'événement pour signaler que P2 est prêt
 }
 
-socket.on("startGame", () => {
-    // Quand les deux joueurs sont prêts, on affiche l'écran Player1And2Ready
+socket.on("GameCanBigin", () => {
+    console.log("🎮 Le jeu peut commencer!"); // Ajoutez un log pour vérifier si l'événement est bien reçu
     document.getElementById("Player1And2Ready").style.display = "block";
 });
