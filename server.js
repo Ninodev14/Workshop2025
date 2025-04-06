@@ -128,6 +128,21 @@ io.on('connection', (socket) => {
         }
     });
 
+    socket.on('playerReadyForGame', (roomId, playerId) => {
+        if (!roomReadyPlayers[roomId]) {
+            roomReadyPlayers[roomId] = new Set();
+        }
+
+        roomReadyPlayers[roomId].add(playerId);
+        console.log(`✅ ${playerId} est prêt pour le jeu (Room: ${roomId})`);
+        const playersInRoom = rooms[roomId].players.length;
+
+        if (roomReadyPlayers[roomId].size === playersInRoom) {
+            console.log(`🎉 Tous les joueurs sont prêts dans la room ${roomId}. Lancement du jeu.`);
+            io.to(roomId).emit('startGame');
+            roomReadyPlayers[roomId] = new Set();
+        }
+    });
 
 
     socket.on('disconnect', () => {
@@ -155,8 +170,9 @@ io.on('connection', (socket) => {
         io.emit('updateRooms', rooms);
     });
 
-
 });
+
+
 
 const port = process.env.PORT || 3000;
 server.listen(port, () => {

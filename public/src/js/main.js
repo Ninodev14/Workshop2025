@@ -41,14 +41,15 @@ function step3() {
 
 function readyToStartP1() {
     document.getElementById("step3-instructions-P1").style.display = "none";
-    socket.emit("playerReadyForGame");
+    socket.emit("playerReadyForGame", roomId, playerId); // Envoie l'événement pour signaler que P1 est prêt
 }
 
 function readyToStartP2() {
     document.getElementById("step3-instructions-P2").style.display = "none";
-    socket.emit("playerReadyForGame");
+    socket.emit("playerReadyForGame", roomId, playerId); // Envoie l'événement pour signaler que P2 est prêt
 }
 
 socket.on("startGame", () => {
-    document.getElementById("StartGame").style.display = "block";
+    // Quand les deux joueurs sont prêts, on affiche l'écran Player1And2Ready
+    document.getElementById("Player1And2Ready").style.display = "block";
 });
