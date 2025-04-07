@@ -84,17 +84,6 @@
     background-position: right center;
 }
 
-.verification-zone {
-    width: 200px;
-    height: 200px;
-    border: 2px dashed #ff0000;
-    margin: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
 .success-message {
     background-color: #c8f7c5;
     color: green;
@@ -119,4 +108,41 @@
     border: none;
     border-radius: 8px;
     cursor: pointer;
+}
+
+.verification-zone {
+    width: 200px;
+    height: 140px;
+    border: 2px dashed #ff0000;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0.1);
+    position: relative;
+    gap: 30px;
+}
+
+.casserole {
+    width: fit-content;
+    height: fit-content;
+    background-color: #f8f9fa;
+    position: relative;
+}
+
+.casserole img {
+    width: 160%;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100000;
+}
+
+.verification-zone img {
+    z-index: 1;
+    margin-top: -60px;
+    margin-left: -60px;
+    width: 60px;
+    height: 60px;
 }

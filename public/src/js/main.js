@@ -140,16 +140,18 @@ function displayRandomRecipe(targetDivId) {
         animationZone.appendChild(animatedImg);
         registerInitialZone(animatedImg, animationZone);
     });
-    if (recipe.ingredients.length === 6) {
-        const validateButton = document.createElement("button");
-        validateButton.textContent = "Vérifier la recette";
-        validateButton.classList.add("validate-btn");
-        validateButton.addEventListener("click", () => {
-            validateRecipeCompletion(targetDivId);
-        });
+    const validateButtonId = targetDivId === "Player1Recipe" ? "validateButtonP1" : "validateButtonP2";
+    const dropZoneId = targetDivId === "Player1Recipe" ? "Player1DropZone" : "Player2DropZone";
 
-        container.appendChild(validateButton);
-    }
+    const validateButton = document.getElementById(validateButtonId);
+    validateButton.disabled = true;
+    validateButton.addEventListener("click", () => {
+        validateRecipeCompletion(targetDivId);
+    });
+
+    // Lancer la surveillance du drop-zone
+    monitorDropZone(dropZoneId, validateButtonId);
+
     const randomImage = weightedPool[Math.floor(Math.random() * weightedPool.length)];
     const randomImg = document.createElement("img");
     const randomAltText = randomImage.split('/').pop().replace('.png', '');
@@ -160,6 +162,22 @@ function displayRandomRecipe(targetDivId) {
     randomImg.style.animationDelay = `${recipe.ingredients.length}s`;
     animationZone.appendChild(randomImg);
     registerInitialZone(randomImg, animationZone);
+}
+
+function monitorDropZone(zoneId, buttonId) {
+    const zone = document.getElementById(zoneId);
+    const button = document.getElementById(buttonId);
+
+    const observer = new MutationObserver(() => {
+        const images = Array.from(zone.children).filter(child => child.tagName === "IMG");
+        if (images.length === 6) {
+            button.disabled = false;
+        } else {
+            button.disabled = true;
+        }
+    });
+
+    observer.observe(zone, { childList: true });
 }
 
 function validateRecipeCompletion(targetDivId) {

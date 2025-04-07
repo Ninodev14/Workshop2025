@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Jeu de Cuisine Collaboratif</title>
-    <link rel="stylesheet" href="src/css/style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dragula@3.7.3/dist/dragula.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/dragula@3.7.3/dist/dragula.min.js"></script>
+<link rel="stylesheet" href="src/css/style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dragula@3.7.3/dist/dragula.min.css">
+<script src="https://cdn.jsdelivr.net/npm/dragula@3.7.3/dist/dragula.min.js"></script>
 
 </head>
 
@@ -45,8 +40,11 @@
         </div>
         <div class="drop-zone" id="Player1DropZone">
         </div>
-        <div class="verification-zone" id="Player1VerificationZone">
+        <div class="casserole"> <img src="src/img/game/casserole.png" alt="">
+            <div class="verification-zone" id="Player1VerificationZone">
+            </div>
         </div>
+        <button id="validateButtonP1" disabled>Vérifier la recette</button>
     </div>
     <div id="Player2Game" style="display: none;">
         <h2>Le Jeu - Joueur 2</h2>
@@ -56,8 +54,12 @@
         </div>
         <div class="drop-zone" id="Player2DropZone">
         </div>
-        <div class="verification-zone" id="Player2VerificationZone">
+        <div class="casserole">
+            <img src="src/img/game/casserole.png" alt="">
+            <div class="verification-zone" id="Player2VerificationZone">
+            </div>
         </div>
+        <button id="validateButton"></button>
     </div>
     <div id="recipe-validation-message" style="display: none;"></div>
 
