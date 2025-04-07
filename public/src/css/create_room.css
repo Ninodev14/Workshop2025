@@ -4,8 +4,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 80px;
-}
+    }
 
 #create-form {
     display: flex;

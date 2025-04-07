@@ -8,36 +8,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dragula@3.7.3/dist/dragula.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
     <title>Waiting Room</title>
     <script src="/socket.io/socket.io.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        
-        .room-info {
-            margin: 20px 0;
-        }
-        
-        .player-list {
-            margin: 20px auto;
-            max-width: 400px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 10px;
-        }
-        
+    <style>        
+          
         ul {
             list-style: none;
             padding: 0;
-        }
-        
-        .player-item {
-            padding: 5px;
-            margin: 5px 0;
-            background: #f4f4f4;
-            border-radius: 5px;
         }
         
         .btn {
@@ -66,16 +46,21 @@
     <h1>Waiting Room</h1>
 
     <div class="room-info">
-        <h2 id="roomName">Room: <span>loading...</span></h2>
-        <p id="roomStatus">Status: Waiting for players...</p>
-        <button class="btn" id="startGameBtn" disabled>Start Game</button>
+        <div class="encadreroomName">
+            <h2 id="roomName" class="h4"><!--Room: --><span>loading...</span></h2>
+        </div>
+        <!-- <p id="roomStatus">Status: Waiting for players...</p> -->
     </div>
 
     <div class="player-list">
         <h3>Players:</h3>
-        <ul id="playerList">
+        <ul id="playerList" class="h4">
             <!-- Players will be listed here -->
         </ul>
+    </div>
+
+    <div class="room-info">
+        <button class="btn" id="startGameBtn" disabled>Start Game</button>
     </div>
 
     <script>
@@ -121,7 +106,7 @@
             players.forEach(player => {
                 const li = document.createElement('li');
                 li.classList.add('player-item');
-                li.textContent = player.name + (player.id === hostId ? " (Host)" : "");
+                li.textContent = "Player" + " " + player.name + (player.id === hostId ? " (Host)" : "");
                 playerListElement.appendChild(li);
             });
 
@@ -131,6 +116,7 @@
             } else {
                 startGameBtn.disabled = true;
                 console.log("❌ Le bouton Start Game reste désactivé.");
+                print
             }
         }
 
