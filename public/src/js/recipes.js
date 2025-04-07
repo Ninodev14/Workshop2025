@@ -33,7 +33,7 @@ const recipes = [{
         ingredients: [
             "src/img/ingredients/Pain.png",
             "src/img/ingredients/Steack.png",
-            "src/img/ingredients/Frite.png",
+            "src/img/ingredients/Patate.png",
             "src/img/ingredients/Sauce.png",
             "src/img/ingredients/Salade.png"
         ]
