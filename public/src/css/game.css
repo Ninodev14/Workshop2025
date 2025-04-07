@@ -8,8 +8,6 @@
 }
 
 .ingredient-img {
-    user-select: none;
-    border: 1px solid #ccc;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -18,11 +16,12 @@
     height: 60px;
     cursor: grab;
     transition: transform 0.3s ease-in-out;
-    animation: moveright 10s linear infinite;
+    animation: moveright 10s linear;
+    z-index: 2;
 }
 
 .ingredient-img.dragging {
-    opacity: 0.5;
+    opacity: 1;
 }
 
 @keyframes moveright {
@@ -33,4 +32,27 @@
     100% {
         right: -80px;
     }
+}
+
+.drop-zone {
+    width: 200px;
+    height: 200px;
+    border: 2px dashed #333;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.drop-zone img {
+    right: 0;
+    top: 0;
+    transform: translateY(0%);
+}
+
+.ingredient-img {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
 }
