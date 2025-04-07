@@ -98,6 +98,7 @@ function displayRandomRecipe(targetDivId) {
         animatedImg.style.animationDelay = `${index * 1}s`;
 
         animationZone.appendChild(animatedImg);
+        registerInitialZone(animatedImg, animationZone);
     });
 
     const randomImage = additionalImages[Math.floor(Math.random() * additionalImages.length)];
@@ -110,20 +111,22 @@ function displayRandomRecipe(targetDivId) {
     randomImg.draggable = true;
     randomImg.style.animationDelay = `${recipe.ingredients.length}s`;
 
-    animationZone.appendChild(randomImg); // Ajoute une seule image parmi celles disponibles
+    animationZone.appendChild(randomImg);
+    registerInitialZone(randomImg, animationZone);
 }
 
-// Utilisation de Dragula pour gérer les zones de drag-and-drop
 const drake = dragula([document.querySelector('#Player1IngredientZone'), document.querySelector('#Player2IngredientZone')]);
 
-drake.on('drag', (el) => {
-    el.classList.add('dragging');
-});
+function registerInitialZone(imgElement, zone) {
 
-drake.on('dragend', (el) => {
-    el.classList.remove('dragging');
-});
+    drake.on('drag', (el) => {
+        el.classList.add('dragging');
+    });
 
+    drake.on('dragend', (el) => {
+        el.classList.remove('dragging');
+    });
+}
 socket.on("GameCanBigin", () => {
     console.log("🎮 Le jeu peut commencer!");
     document.getElementById("title").style.display = "none";
