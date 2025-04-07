@@ -1,7 +1,7 @@
 const socket = io();
 
 let playerRole = null;
-let maxIngredients = 1;
+let maxIngredients = 2;
 const roomId = new URLSearchParams(window.location.search).get('roomId');
 const playerId = localStorage.getItem("playerId");
 const playerName = localStorage.getItem("playerName");
@@ -174,11 +174,13 @@ function initializeDropZones() {
         document.getElementById('Player2DropZone')
     ];
 
+    // Ajout des zones de dépôt à drake
+    drake.containers.push(...dropZones);
+
     drake.on('drop', (el, target) => {
         console.log("Élément déposé", el);
+        console.log("Zone cible", target);
         if (target.classList.contains('drop-zone')) {
-            const player = target.id === 'Player1DropZone' ? 'Player1' : 'Player2';
-
             if (target.children.length < maxIngredients) {
                 el.draggable = false;
                 target.appendChild(el);
@@ -187,7 +189,11 @@ function initializeDropZones() {
                 console.log(`${target.id} a maintenant ${target.children.length} ingrédients.`);
             } else {
                 console.log("Zone déjà pleine.");
+                el.remove();
             }
+        } else {
+            console.log("Zone incorrecte, l'élément disparaît.");
+            el.remove();
         }
     });
 }

@@ -45,6 +45,12 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 
+.drop-zone img {
+    right: 0;
+    top: 0;
+    transform: translateY(0%);
+}
+
 .ingredient-img {
     width: 60px;
     height: 60px;
