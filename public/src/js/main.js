@@ -173,8 +173,6 @@ function initializeDropZones() {
         document.getElementById('Player1DropZone'),
         document.getElementById('Player2DropZone')
     ];
-
-    // Ajout des zones de dépôt à drake
     drake.containers.push(...dropZones);
 
     drake.on('drop', (el, target) => {
@@ -197,6 +195,62 @@ function initializeDropZones() {
         }
     });
 }
+let clickCounts = {};
+
+function isInPlayer1DropZone(imgElement) {
+    const player1DropZone = document.getElementById("Player1DropZone");
+    return Array.from(player1DropZone.children).includes(imgElement);
+}
+
+function spawnRandomIngredient(zoneId) {
+    const randomImage = weightedPool[Math.floor(Math.random() * weightedPool.length)];
+    const animationZone = document.getElementById(zoneId);
+
+    const randomImg = document.createElement("img");
+    const altText = randomImage.split('/').pop().replace('.png', '');
+    randomImg.src = randomImage;
+    randomImg.alt = altText;
+    randomImg.classList.add("ingredient-img");
+    randomImg.draggable = true;
+    randomImg.style.animationDelay = '0s';
+
+    animationZone.appendChild(randomImg);
+    registerInitialZone(randomImg, animationZone);
+    clickCounts[randomImg.src] = 0;
+
+    randomImg.addEventListener('click', () => {
+        const player1DropZone = document.getElementById("Player1DropZone");
+        if (Array.from(player1DropZone.children).includes(randomImg)) {
+            clickCounts[randomImg.src] += 1;
+            console.log(`Clics sur ${randomImg.alt}: ${clickCounts[randomImg.src]}`);
+            if (clickCounts[randomImg.src] >= 20) {
+                cutImageInTwo(randomImg);
+            }
+        } else {
+            console.log("L'image n'est pas dans la bonne zone, on ne peut pas la couper.");
+        }
+    });
+}
+
+function cutImageInTwo(imgElement) {
+    const src = imgElement.src;
+    const imageContainer = imgElement.parentElement;
+    imgElement.remove();
+    const cutContainer = document.createElement('div');
+    cutContainer.classList.add('cut-container');
+    const leftPart = document.createElement('div');
+    leftPart.classList.add('image-part', 'left');
+    leftPart.style.backgroundImage = `url(${src})`;
+    const rightPart = document.createElement('div');
+    rightPart.classList.add('image-part', 'right');
+    rightPart.style.backgroundImage = `url(${src})`;
+    cutContainer.appendChild(leftPart);
+    cutContainer.appendChild(rightPart);
+    imageContainer.appendChild(cutContainer);
+
+    console.log(`L'image ${imgElement.alt} a été coupée en deux !`);
+}
+
 
 socket.on("GameCanBigin", () => {
     console.log("🎮 Le jeu peut commencer!");

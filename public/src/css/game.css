@@ -56,3 +56,30 @@
     height: 60px;
     cursor: pointer;
 }
+
+.cut-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    gap: 10px;
+}
+
+.image-part {
+    width: 50%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease;
+}
+
+.image-part.left {
+    margin-top: 10px;
+    background-position: left center;
+}
+
+.image-part.right {
+    margin-bottom: 10px;
+    background-position: right center;
+}
