@@ -140,7 +140,16 @@ function displayRandomRecipe(targetDivId) {
         animationZone.appendChild(animatedImg);
         registerInitialZone(animatedImg, animationZone);
     });
+    if (recipe.ingredients.length === 6) {
+        const validateButton = document.createElement("button");
+        validateButton.textContent = "Vérifier la recette";
+        validateButton.classList.add("validate-btn");
+        validateButton.addEventListener("click", () => {
+            validateRecipeCompletion(targetDivId);
+        });
 
+        container.appendChild(validateButton);
+    }
     const randomImage = weightedPool[Math.floor(Math.random() * weightedPool.length)];
     const randomImg = document.createElement("img");
     const randomAltText = randomImage.split('/').pop().replace('.png', '');
@@ -151,6 +160,35 @@ function displayRandomRecipe(targetDivId) {
     randomImg.style.animationDelay = `${recipe.ingredients.length}s`;
     animationZone.appendChild(randomImg);
     registerInitialZone(randomImg, animationZone);
+}
+
+function validateRecipeCompletion(targetDivId) {
+    const expectedZoneId = targetDivId === "Player1Recipe" ? "Player1DropZone" : "Player2DropZone";
+    const dropZone = document.getElementById(expectedZoneId);
+    const recipeDiv = document.getElementById(targetDivId);
+    const recipeImages = Array.from(recipeDiv.querySelectorAll("img")).map(img => img.src.split('/').pop());
+
+    const droppedImages = Array.from(dropZone.querySelectorAll("img")).map(img => img.src.split('/').pop());
+
+    let isRecipeValid = true;
+
+    for (const ingredient of recipeImages) {
+        if (!droppedImages.includes(ingredient)) {
+            isRecipeValid = false;
+            break;
+        }
+    }
+
+    const messageDiv = document.getElementById("recipe-validation-message");
+    messageDiv.style.display = "block";
+
+    if (isRecipeValid) {
+        messageDiv.textContent = "🎉 Recette réussie ! Tous les bons ingrédients sont présents.";
+        messageDiv.className = "success-message";
+    } else {
+        messageDiv.textContent = "❌ Recette incorrecte. Il manque des ingrédients ou il y a des intrus.";
+        messageDiv.className = "error-message";
+    }
 }
 
 const drake = dragula([document.querySelector('#Player1IngredientZone'), document.querySelector('#Player2IngredientZone')]);
@@ -168,23 +206,79 @@ let isIngredientInZone = {
     Player2: false
 };
 
+drake.on('drop', (el, target) => {
+    console.log("Élément déposé", el);
+    console.log("Zone cible", target);
+
+    if (target.classList.contains('drop-zone') || target.classList.contains('verification-zone')) {
+        const isVerificationZone = target.classList.contains('verification-zone');
+        const limit = isVerificationZone ? 6 : maxIngredients;
+
+        const imageCount = Array.from(target.children).filter(child => child.tagName === "IMG").length;
+
+        if (imageCount < limit) {
+            el.draggable = false;
+            target.appendChild(el);
+            el.style.animation = 'none';
+            el.style.position = "relative";
+            console.log(`${target.id} a maintenant ${imageCount + 1} ingrédients.`);
+        } else {
+            console.log("Zone déjà pleine.");
+            el.remove();
+        }
+    } else {
+        console.log("Zone incorrecte, l'élément disparaît.");
+        el.remove();
+    }
+});
+
 function initializeDropZones() {
     const dropZones = [
         document.getElementById('Player1DropZone'),
         document.getElementById('Player2DropZone')
     ];
     drake.containers.push(...dropZones);
+}
+
+function initializeVerificationZone() {
+    const verificationZones = [
+        document.getElementById('Player1VerificationZone'),
+        document.getElementById('Player2VerificationZone')
+    ];
+
+    if (!verificationZones[0] || !verificationZones[1]) {
+        console.error("❌ Zones de vérification introuvables");
+    } else {
+        console.log("✅ Zones de vérification trouvées");
+        drake.containers.push(...verificationZones);
+    }
+}
+
+function setupDragAndDropLogic() {
+    drake.on('drag', (el) => {
+        el.classList.add('dragging');
+    });
+
+    drake.on('dragend', (el) => {
+        el.classList.remove('dragging');
+    });
 
     drake.on('drop', (el, target) => {
         console.log("Élément déposé", el);
         console.log("Zone cible", target);
-        if (target.classList.contains('drop-zone')) {
-            if (target.children.length < maxIngredients) {
+
+        const isVerificationZone = target.classList.contains('verification-zone');
+        const limit = isVerificationZone ? 6 : maxIngredients;
+
+        const imageCount = Array.from(target.children).filter(child => child.tagName === "IMG").length;
+
+        if (target.classList.contains('drop-zone') || isVerificationZone) {
+            if (imageCount < limit) {
                 el.draggable = false;
                 target.appendChild(el);
                 el.style.animation = 'none';
                 el.style.position = "relative";
-                console.log(`${target.id} a maintenant ${target.children.length} ingrédients.`);
+                console.log(`${target.id} a maintenant ${imageCount + 1} ingrédients.`);
             } else {
                 console.log("Zone déjà pleine.");
                 el.remove();
@@ -195,6 +289,7 @@ function initializeDropZones() {
         }
     });
 }
+
 let clickCounts = {};
 
 function isInPlayer1DropZone(imgElement) {
@@ -264,5 +359,6 @@ socket.on("GameCanBigin", () => {
         displayRandomRecipe("Player2Recipe");
         startGame();
     }
+    initializeVerificationZone();
     initializeDropZones();
 });
