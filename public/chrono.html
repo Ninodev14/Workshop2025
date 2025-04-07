@@ -9,71 +9,17 @@
 </head>
 
 <body>
-
-    <p class="chronoNum">0</p>
-
-    <div class="chrono">
-        <div class="center"></div>
+    <!-- chrono = juste du css , needle = aiguille , stratBtn = bouton pour lancer  -->
+    <div class="chrono" >
         <div class="needle"></div>
         <button class="startBtn">DEMARRER</button>
 
     </div>
 
 
-    <p class="chronoNum">0</p>
-
-    <div class="chrono">
-        <div class="center"></div>
-        <div class="needle"></div>
-        <button class="startBtn">DEMARRER</button>
-
-    </div>
-
-    <script>
-        let chrono = null;
-
-        const para = document.querySelectorAll(".chronoNum");
-        const needles = document.querySelectorAll(".needle");
-        const buttons = document.querySelectorAll(".run");
-
-        buttons.forEach((button, index) => {
-            let secondesLocal = 0;
-            let chronoLocal = null;
-
-            button.addEventListener("click", function () {
-                console.log("test")
-                if (!chrono) {
-                    secondes = 0;
-                    para[index].innerText = secondes;
-                    rotateNeedle(needles[index], 0);
-                    this.textContent = "ARRÊTER";
-                    chrono = setInterval(() => {
-                        secondes++;
-                        para[index].innerText = secondes;
-                        rotateNeedle(needles[index], secondes * 6);
-
-                        if (secondes === 10) {
-                            clearInterval(chrono);
-                            chrono = null;
-                            para[index].innerText = "Fin de la partie";
-                            this.textContent = "DÉMARRER";
-                        }
-                    }, 1000);
-                } else {
-                    clearInterval(chrono);
-                    chrono = null;
-                    this.textContent = "DÉMARRER";
-                }
-            });
-
-            // Fonction de rotation de l'aiguille
-            function rotateNeedle(needle, degrees) {
-                needle.style.transform = `rotate(${degrees}deg)`; // Mise à jour de la rotation
-            }
-        });
-
-
-    </script>
+    
 </body>
+
+<script src="src/js/chrono.js"></script>
 
 </html>
