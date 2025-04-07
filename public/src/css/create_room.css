@@ -3,13 +3,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    gap: 80px;
 }
 
 #create-form {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    align-items: center;
+    align-items: start;
 }
 
 #player-name {
