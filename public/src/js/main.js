@@ -193,16 +193,33 @@ function monitorVerificationZone(zoneId, buttonId) {
 }
 
 function validateRecipeCompletion(targetDivId) {
-    const expectedZoneId = targetDivId === "Player1Recipe" ? "Player1DropZone" : "Player2DropZone";
+    const expectedZoneId = targetDivId === "Player1Recipe" ? "Player1VerificationZone" : "Player2VerificationZone";
     const dropZone = document.getElementById(expectedZoneId);
     const recipeDiv = document.getElementById(targetDivId);
 
-    // Extraire uniquement les noms des ingrédients (sans chemin ni extension)
-    const recipeImages = Array.from(recipeDiv.querySelectorAll("img")).map(img => img.src.split('/').pop().replace('.png', ''));
-    const droppedImages = Array.from(dropZone.querySelectorAll("img")).map(img => img.src.split('/').pop().replace('.png', ''));
+    const recipeIngredients = Array.from(recipeDiv.querySelectorAll("img")).map(img => ({
+        src: img.src,
+        state: img.getAttribute('data-state')
+    }));
 
-    const missingIngredients = recipeImages.filter(ing => !droppedImages.includes(ing));
-    const incorrectIngredients = droppedImages.filter(ing => !recipeImages.includes(ing));
+    const droppedIngredients = Array.from(dropZone.querySelectorAll("img")).map(img => ({
+        alt: img.alt,
+        state: img.getAttribute('data-state')
+    }));
+
+    const missingIngredients = recipeIngredients.filter(recipeIng =>
+        !droppedIngredients.some(droppedIng =>
+            droppedIng.alt === recipeIng.src.split('/').pop().replace('.png', '') &&
+            droppedIng.state === recipeIng.state
+        )
+    );
+
+    const incorrectIngredients = droppedIngredients.filter(droppedIng =>
+        !recipeIngredients.some(recipeIng =>
+            recipeIng.src.split('/').pop().replace('.png', '') === droppedIng.alt &&
+            recipeIng.state === droppedIng.state
+        )
+    );
 
     const messageDiv = document.getElementById("recipe-validation-message");
     messageDiv.style.display = "block";
@@ -213,10 +230,10 @@ function validateRecipeCompletion(targetDivId) {
     } else {
         let errorMessage = "❌ Recette incorrecte.\n";
         if (missingIngredients.length > 0) {
-            errorMessage += `🧂 Ingrédients manquants : ${missingIngredients.join(", ")}.\n`;
+            errorMessage += `🧂 Ingrédients manquants : ${missingIngredients.map(ing => ing.src.split('/').pop().replace('.png', '')).join(", ")}.\n`;
         }
         if (incorrectIngredients.length > 0) {
-            errorMessage += `🍄 Ingrédients incorrects : ${incorrectIngredients.join(", ")}.`;
+            errorMessage += `🍄 Ingrédients incorrects : ${incorrectIngredients.map(ing => ing.alt).join(", ")}.`;
         }
         messageDiv.textContent = errorMessage;
         messageDiv.className = "error-message";
