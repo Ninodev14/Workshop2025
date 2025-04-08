@@ -73,7 +73,7 @@
             </div>
             <img src="src/img/cuisto.png" class="plan-2">
             <img src="src/img/bulle-discussion.png" class="plan-3" id="myImage">
-            <button class="btnBoncy btn-tuto" onclick="changePlan()" >
+            <button id="nameBtnChange" class="btnBoncy btn-tuto" onclick="changePlan()" >
                 Suite
             </button>
         </div>
@@ -89,10 +89,13 @@
 
         function changePlan() {
             const image = document.getElementById("myImage");
+            const textbtn = document.getElementById("nameBtnChange")
             if (image.src.includes("bulle-discussion.png")) {
-                image.src = "src/img/bulle-discussion2.png"; 
+                image.src = "src/img/bulle-discussion2.png";
+                textbtn.textContent = "Commencer" 
+                textbtn.style.left = "39%";
             } else if (image.src.includes("bulle-discussion2.png")){
-                image.src = "src/img/bulle-discussion.png";
+                window.location.href = "tutosuite.html";
             }
         }
 

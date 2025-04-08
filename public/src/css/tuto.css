@@ -59,6 +59,7 @@
 .plan-1{
     display: flex;
     justify-content: end;
+    scale: 0.8;
 }
 
 /* C'est le cuisinier */
