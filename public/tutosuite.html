@@ -56,37 +56,37 @@
        function changePlan() {
            const image = document.getElementById("myImage");
            const textbtn = document.getElementById("nameBtnChange");
-           if (image.src.includes("tutosuite1tableau.png")) {
+           if (numSlide == 0) {
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite2tableau.png";
                 textbtn.innerHTML = "Place la pomme à découpé <br> dans la casserole !" 
-            } else if (image.src.includes("tutosuite2tableau.png")){
+            } else if (numSlide == 1){
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite3tableau.png";
                 textbtn.innerHTML = "Glisse la 🥕 sur la plaque <br>💧 pour que le J2 la lave" 
-            } else if (image.src.includes("tutosuite3tableau.png")){
+            } else if (numSlide == 2){
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite4tableau.png";
                 textbtn.innerHTML = "Si tu ne veux, tu peux <br> ramener le 🥩 en réserve 🕳️" 
-            } else if (image.src.includes("tutosuite4tableau.png")){
+            } else if (numSlide == 3){
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite5tableau.png";
                 textbtn.innerHTML = "Glisse la 🍎 dans le lavabo💧 " 
-            } else if (image.src.includes("tutosuite5tableau.png")){
+            } else if (numSlide == 4){
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite6tableau.png";
                 textbtn.innerHTML = "Tape pour laver et envoie <br> la 🍎 en cuisine " 
-            } else if (image.src.includes("tutosuite6tableau.png")){
+            } else if (numSlide == 5){
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite7tableau.png";
                 textbtn.innerHTML = " Envoie le 🧈 au J1 pour le <br> couper " 
-            } else if (image.src.includes("tutosuite7tableau.png")){
+            } else if (numSlide == 6){
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite8tableau.png";
@@ -99,37 +99,37 @@
        function changePlanInverse() {
            const image = document.getElementById("myImage");
            const textbtn = document.getElementById("nameBtnChange");
-           if (image.src.includes("tutosuite2tableau.png")) {
+           if (numSlide == 1) {
                 numSlide--;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite1tableau.png";
                 textbtn.innerHTML = "Glisse la 🍎 sur la plaque <br> 🔪 pour la couper";
-           } else if (image.src.includes("tutosuite3tableau.png")){
+           } else if (numSlide == 2){
                 numSlide--;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite2tableau.png";
                 textbtn.innerHTML = "Place la pomme à découpé <br> dans la casserole !" 
-           } else if(image.src.includes("tutosuite4tableau.png")){
+           } else if(numSlide == 3){
                 numSlide--;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite3tableau.png";
                 textbtn.innerHTML = "Glisse la 🥕 sur la plaque <br>💧 pour que le J2 la lave" 
-           } else if(image.src.includes("tutosuite5tableau.png")){
+           } else if(numSlide == 4){
                 numSlide--;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite4tableau.png";
                 textbtn.innerHTML = "Si tu ne veux, tu peux <br> ramener le 🥩 en réserve 🕳️" 
-           } else if(image.src.includes("tutosuite6tableau.png")){
+           } else if(numSlide == 5){
                 numSlide--;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite5tableau.png";
                 textbtn.innerHTML = "Glisse la 🍎 dans le lavabo💧" 
-           } else if(image.src.includes("tutosuite7tableau.png")){
+           } else if(numSlide == 6){
                 numSlide--;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite6tableau.png";
                 textbtn.innerHTML = "Tape pour laver et envoie <br> la 🍎 en cuisine" 
-           } else if(image.src.includes("tutosuite8tableau.png")){
+           } else if(numSlide == 7){
                 numSlide--;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite7tableau.png";
