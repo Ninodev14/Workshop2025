@@ -330,8 +330,6 @@ let isIngredientInZone = {
 };
 
 drake.on('drop', (el, target) => {
-
-
     if (target.id === "Player1GiveZone" && playerRole === "P1") {
         // Envoi à P2
         const data = {
@@ -343,7 +341,7 @@ drake.on('drop', (el, target) => {
         };
         socket.emit("sendIngredient", data);
         el.remove();
-        console.log("Player 1 a envoyer a player 2 :", el);
+        console.log("Player 1 a envoyé à player 2 :", el);
     }
 
     if (target.id === "Player2GiveZone" && playerRole === "P2") {
@@ -357,7 +355,7 @@ drake.on('drop', (el, target) => {
         };
         socket.emit("sendIngredient", data);
         el.remove();
-        console.log("Player 2 a envoyer a player 1 :", el);
+        console.log("Player 2 a envoyé à player 1 :", el);
     }
 
     const allowedZoneClasses = ['drop-zone', 'verification-zone', 'ingredient-zone', 'give'];
@@ -380,6 +378,15 @@ drake.on('drop', (el, target) => {
     } else {
         console.log("Zone incorrecte, l'élément disparaît.");
         el.remove();
+        const data = {
+            src: el.src,
+            alt: el.alt,
+            state: el.getAttribute("data-state"),
+            to: playerRole === "P1" ? "P2" : "P1",
+            roomId: roomId,
+            remove: true
+        };
+        socket.emit("sendIngredient", data);
     }
 });
 
@@ -502,7 +509,28 @@ function spawnRandomIngredient(zoneId) {
         }
     });
 }
+socket.on("receiveIngredient", (data) => {
+    if ((playerRole === "P1" && data.to === "P1") || (playerRole === "P2" && data.to === "P2")) {
+        console.log("Événement 'receiveIngredient' capté!");
+        console.log("Ingrédient reçu :", data);
 
+        const img = document.createElement("img");
+        img.src = data.src;
+        img.alt = data.alt;
+        img.classList.add("ingredient-img");
+        img.draggable = true;
+        img.setAttribute("data-state", data.state || "0");
+
+        const zone = playerRole === "P1" ?
+            document.getElementById("Player1TakeZone") :
+            document.getElementById("Player2TakeZone");
+
+        zone.appendChild(img);
+        registerInitialZone(img, zone);
+    } else {
+        console.log(`Ce joueur ne peut pas recevoir cet ingrédient (Rôle: ${playerRole}, À: ${data.to})`);
+    }
+});
 
 function cutImageInTwo(imgElement) {
     const src = imgElement.src;
@@ -553,30 +581,4 @@ socket.on("GameCanBigin", () => {
     }
     initializeVerificationZone();
     initializeDropZones();
-});
-
-socket.on("receiveIngredient", (data) => {
-    // Vérifie si le rôle du joueur est celui qui doit recevoir l'ingrédient
-    if ((playerRole === "P1" && data.to === "P1") || (playerRole === "P2" && data.to === "P2")) {
-        console.log("Événement 'receiveIngredient' capté!");
-        console.log("Ingrédient reçu :", data);
-
-        // Crée une nouvelle image pour l'ingrédient reçu
-        const img = document.createElement("img");
-        img.src = data.src;
-        img.alt = data.alt;
-        img.classList.add("ingredient-img");
-        img.draggable = true;
-        img.setAttribute("data-state", data.state || "0");
-
-        // Détermine la zone où l'ingrédient sera ajouté en fonction du rôle du joueur
-        const zone = playerRole === "P1" ?
-            document.getElementById("Player1TakeZone") :
-            document.getElementById("Player2TakeZone");
-
-        zone.appendChild(img);
-        registerInitialZone(img, zone);
-    } else {
-        console.log(`Ce joueur ne peut pas recevoir cet ingrédient (Rôle: ${playerRole}, À: ${data.to})`);
-    }
 });

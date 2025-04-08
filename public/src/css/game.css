@@ -182,3 +182,11 @@ button.active-btn {
 .take {
     background-color: #eb7b25;
 }
+
+.give img,
+.take img {
+    position: static;
+    top: 0%;
+    transform: translateY(0%);
+    right: 0;
+}
