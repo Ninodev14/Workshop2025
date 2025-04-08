@@ -1,0 +1,102 @@
+.mur{
+    background: var(--Violet-clair-2, #E6D1EF);
+    width: 100%;
+    height: 120%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.tapisroulant{
+    background-color: #fff;
+    width: 100%;
+    height: 400px;
+}
+
+
+
+/* C'est la boîte qui fait les couleurs du fond */
+.objet-table{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: end;
+    position: relative;
+}
+
+/* Ce qui permet de rendre flou un objet */
+.flou{
+    filter: blur(3px);
+}
+
+.tableclair{
+    background-color: #FFCFA7;
+    width: 100%;
+    height: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.tablemarron{
+    background-color: #DB995B;
+    width: 100%;
+    height: 100px;
+    
+}
+
+/* C'est le bouton quitter */
+/* .plan-1{
+    position: absolute;
+    right: 0;
+} */
+
+/* C'est le cuisinier */
+.plan-2{
+    position: absolute;
+    left: 0;
+    max-width: auto;
+    height: 40vw;
+}
+
+/* C'est la bull de discussion */
+.plan-3{ 
+    position: absolute;
+    left: 25%;
+    bottom: 30%;
+    max-width: 40vw;
+}
+
+.moitie{
+    scale: 0.5;
+}
+
+.planche{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 50px;
+    scale: 1.2;
+}
+
+.cuire{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 200px;
+    scale: 2;
+}
+
+.perso1{
+    scale: 0.5;
+}
+
+.tuto{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.card{
+    width: 150px;
+    background-color: black;
+}

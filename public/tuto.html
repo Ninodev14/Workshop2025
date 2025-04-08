@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutoriel</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
+    <script src="/socket.io/socket.io.js"></script>
+
+</head>
+<body>
+        <div class="objet-table">
+            <div class="mur">
+                <div></div>
+                <div class="card">
+                    <img src="src/img/Bloc-note.png" class="flou moitie">
+                </div>
+                <div class="card">
+                    <img src="src/img/tableau.png" class="flou moitie">
+                </div>
+                <div class="card">
+                </div>
+                <div></div>
+                <div class="tuto">
+                    <div class="top-page plan-1">
+                        <button class="btnBoncy btnquitter" onclick="goToIndexPage()" style="z-index: 999999;">Quitter</button>
+                    </div>
+                    <div class="create-room ">
+                        <button class="btnBoncy " onclick="goToLobbyPage()" >Rejoindre une partie</button>
+                    </div>   
+                </div>
+            </div>
+            
+            <div class="tapisroulant flou">
+                <img src="src/img/Plancheadecoupe.png">
+                <img src="src/img/Plancheadecoupe.png">
+                <img src="src/img/Plancheadecoupe.png">
+                <img src="src/img/Plancheadecoupe.png">
+                <img src="src/img/Plancheadecoupe.png">
+                <img src="src/img/Plancheadecoupe.png">
+                <img src="src/img/Plancheadecoupe.png">
+                <img src="src/img/Plancheadecoupe.png">
+                <img src="src/img/Plancheadecoupe.png">
+                <img src="src/img/Plancheadecoupe.png">
+                <img src="src/img/Plancheadecoupe.png">
+            </div>
+            
+            <div class="tableclair flou">
+                <div></div>
+                <div class="planche">
+                    <img src="src/img/Plancheadecoupebleu.png" >
+                    <img src="src/img/Plancheadecoupebleu.png" >
+                </div>
+                <div class="cuire">
+                    <img src="src/img/groupecuisson.png" >
+                </div>
+                <div class="perso1">
+                    <img src="src/img/planchecouteau.png">
+                </div>
+            </div>
+            <div class="tablemarron flou">
+
+            </div>
+            <img src="src/img/cuisto.png" class="plan-2">
+            <img src="src/img/bulle-discussion.png" class="plan-3">
+
+        </div>
+
+    <script>
+         function goToIndexPage() {
+            window.location.href = "index.html";
+        }
+
+        function goToLobbyPage() {
+            window.location.href = "lobby.html";
+        }
+    </script>
+</body>
+</html>
