@@ -1,0 +1,1 @@
+let numSlide = 0;
