@@ -13,8 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
     <title>Waiting Room</title>
     <script src="/socket.io/socket.io.js"></script>
-    <style>        
-          
+    <style>
         ul {
             list-style: none;
             padding: 0;
@@ -47,9 +46,9 @@
 
     <div class="room-info">
         <div class="encadreroomName">
-            <h2 id="roomName" class="h4"><!--Room: --><span>loading...</span></h2>
+            <h2 id="roomName" class="h4">
+                <!--Room: --><span>loading...</span></h2>
         </div>
-        <!-- <p id="roomStatus">Status: Waiting for players...</p> -->
     </div>
 
     <div class="player-list">
@@ -70,7 +69,6 @@
         console.log("Mon Player ID:", playerId);
         const startGameBtn = document.getElementById('startGameBtn');
         const roomNameElement = document.getElementById('roomName');
-        const roomStatusElement = document.getElementById('roomStatus');
         const playerListElement = document.getElementById('playerList');
 
 
@@ -126,7 +124,6 @@
         });
 
         socket.on('gameStarted', () => {
-            roomStatusElement.textContent = 'Status: Game started!';
             window.location.href = `/game.html?roomId=${roomId}`;
         });
 

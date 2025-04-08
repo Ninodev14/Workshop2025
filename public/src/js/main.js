@@ -197,16 +197,42 @@ function validateRecipeCompletion(targetDivId) {
     const dropZone = document.getElementById(expectedZoneId);
     const recipeDiv = document.getElementById(targetDivId);
 
-    const recipeIngredients = Array.from(recipeDiv.querySelectorAll("img")).map(img => ({
-        src: img.src,
-        state: img.getAttribute('data-state')
-    }));
+    // Fonction pour récupérer le texte et l'état d'un élément et de son enfant (ingredient-text)
+    function getIngredientData(imgElement) {
+        const ingredientText = imgElement.querySelector(".ingredient-text");
+        if (ingredientText) {
+            return {
+                text: ingredientText.textContent.trim(), // Récupère le texte de l'élément enfant
+                state: ingredientText.getAttribute('data-state') // Récupère l'état de l'élément enfant
+            };
+        } else {
+            return {
+                text: imgElement.alt, // Si aucun enfant, utilise l'attr alt de l'image (ancien comportement)
+                state: imgElement.getAttribute('data-state')
+            };
+        }
+    }
 
-    const droppedIngredients = Array.from(dropZone.querySelectorAll("img")).map(img => ({
-        alt: img.alt,
-        state: img.getAttribute('data-state')
-    }));
+    // Extraire les ingrédients attendus (avec leur src et state) de la recette
+    const recipeIngredients = Array.from(recipeDiv.querySelectorAll("img")).map(img => {
+        const ingredientData = getIngredientData(img);
+        return {
+            src: img.src,
+            state: ingredientData.state,
+            text: ingredientData.text // Ajoute le texte des enfants
+        };
+    });
 
+    // Extraire les ingrédients déposés (avec leur alt et state) dans la zone de dépôt
+    const droppedIngredients = Array.from(dropZone.querySelectorAll("img")).map(img => {
+        const ingredientData = getIngredientData(img);
+        return {
+            alt: ingredientData.text, // Utilise le texte récupéré de l'élément enfant
+            state: ingredientData.state
+        };
+    });
+
+    // Vérification des ingrédients manquants et incorrects
     const missingIngredients = recipeIngredients.filter(recipeIng =>
         !droppedIngredients.some(droppedIng =>
             droppedIng.alt === recipeIng.src.split('/').pop().replace('.png', '') &&
