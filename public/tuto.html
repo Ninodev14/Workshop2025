@@ -16,61 +16,66 @@
 
 </head>
 <body>
-        <div class="objet-table">
-            <div class="mur">
+        <div class="objet-table ">
+            <div class="mur sombre">
                 <div></div>
-                <div class="card">
+                <div class="card sombre">
                     <img src="src/img/Bloc-note.png" class="flou moitie">
                 </div>
-                <div class="card">
+                <div class="card sombre">
                     <img src="src/img/tableau.png" class="flou moitie">
                 </div>
-                <div class="card">
+                <div class="card sombre">
                 </div>
                 <div></div>
+            </div>
+            <div class="mur clean">
                 <div class="tuto">
-                    <div class="top-page plan-1">
+                    <div class="top-page">
                         <button class="btnBoncy btnquitter" onclick="goToIndexPage()" style="z-index: 999999;">Quitter</button>
                     </div>
-                    <div class="create-room ">
+                    <div class="create-room plan-1">
                         <button class="btnBoncy " onclick="goToLobbyPage()" >Rejoindre une partie</button>
                     </div>   
                 </div>
             </div>
             
-            <div class="tapisroulant flou">
-                <img src="src/img/Plancheadecoupe.png">
-                <img src="src/img/Plancheadecoupe.png">
-                <img src="src/img/Plancheadecoupe.png">
-                <img src="src/img/Plancheadecoupe.png">
-                <img src="src/img/Plancheadecoupe.png">
-                <img src="src/img/Plancheadecoupe.png">
-                <img src="src/img/Plancheadecoupe.png">
-                <img src="src/img/Plancheadecoupe.png">
-                <img src="src/img/Plancheadecoupe.png">
-                <img src="src/img/Plancheadecoupe.png">
-                <img src="src/img/Plancheadecoupe.png">
+            <div class="tapisroulant sombre ">
+                <img src="src/img/Plancheadecoupe.png" class="flou">
+                <img src="src/img/Plancheadecoupe.png" class="flou">
+                <img src="src/img/Plancheadecoupe.png" class="flou">
+                <img src="src/img/Plancheadecoupe.png" class="flou">
+                <img src="src/img/Plancheadecoupe.png" class="flou">
+                <img src="src/img/Plancheadecoupe.png" class="flou">
+                <img src="src/img/Plancheadecoupe.png" class="flou">
+                <img src="src/img/Plancheadecoupe.png" class="flou">
+                <img src="src/img/Plancheadecoupe.png" class="flou">
+                <img src="src/img/Plancheadecoupe.png" class="flou">
+                <img src="src/img/Plancheadecoupe.png" class="flou">
+                <img src="src/img/tapisroulant.png" class="tapis flou">
             </div>
             
-            <div class="tableclair flou">
+            <div class="tableclair sombre">
                 <div></div>
-                <div class="planche">
+                <div class="planche flou">
                     <img src="src/img/Plancheadecoupebleu.png" >
                     <img src="src/img/Plancheadecoupebleu.png" >
                 </div>
-                <div class="cuire">
+                <div class="cuire flou">
                     <img src="src/img/groupecuisson.png" >
                 </div>
-                <div class="perso1">
+                <div class="perso1 flou">
                     <img src="src/img/planchecouteau.png">
                 </div>
             </div>
-            <div class="tablemarron flou">
+            <div class="tablemarron sombre">
 
             </div>
             <img src="src/img/cuisto.png" class="plan-2">
-            <img src="src/img/bulle-discussion.png" class="plan-3">
-
+            <img src="src/img/bulle-discussion.png" class="plan-3" id="myImage">
+            <button class="btnBoncy btn-tuto" onclick="changePlan()" >
+                Suite
+            </button>
         </div>
 
     <script>
@@ -81,6 +86,16 @@
         function goToLobbyPage() {
             window.location.href = "lobby.html";
         }
+
+        function changePlan() {
+            const image = document.getElementById("myImage");
+            if (image.src.includes("bulle-discussion.png")) {
+                image.src = "src/img/bulle-discussion2.png"; 
+            } else if (image.src.includes("bulle-discussion2.png")){
+                image.src = "src/img/bulle-discussion.png";
+            }
+        }
+
     </script>
 </body>
 </html>

@@ -10,9 +10,16 @@
     background-color: #fff;
     width: 100%;
     height: 400px;
+    position: relative;
 }
 
-
+.tapis{
+    position: absolute;
+    height: 100px;
+    width: 100%;
+    top: -1vw;
+    left: 0;
+}
 
 /* C'est la boîte qui fait les couleurs du fond */
 .objet-table{
@@ -26,6 +33,10 @@
 /* Ce qui permet de rendre flou un objet */
 .flou{
     filter: blur(3px);
+}
+
+.sombre{
+    filter: brightness(50%);
 }
 
 .tableclair{
@@ -44,11 +55,11 @@
     
 }
 
-/* C'est le bouton quitter */
-/* .plan-1{
-    position: absolute;
-    right: 0;
-} */
+/* C'est le bouton rejoindre une partie */
+.plan-1{
+    display: flex;
+    justify-content: end;
+}
 
 /* C'est le cuisinier */
 .plan-2{
@@ -61,7 +72,7 @@
 /* C'est la bull de discussion */
 .plan-3{ 
     position: absolute;
-    left: 25%;
+    left: 29%;
     bottom: 30%;
     max-width: 40vw;
 }
@@ -75,7 +86,8 @@
     flex-direction: column;
     justify-content: center;
     gap: 50px;
-    scale: 1.2;
+    width: 30vh;
+    height: auto;
 }
 
 .cuire{
@@ -83,21 +95,38 @@
     flex-direction: column;
     justify-content: center;
     max-width: 200px;
-    scale: 2;
+    width: 100vh;
+    height: auto;
 }
 
 .perso1{
     scale: 0.5;
 }
 
+
 .tuto{
     position: absolute;
     top: 0;
     right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
 }
 
 .card{
     width: 150px;
     display: flex;
     justify-content: center;
+}
+
+.clean{
+    width: 0;
+    height: 0;
+}
+
+.btn-tuto{
+    position: absolute;
+    left: 44%;
+    bottom: 15%;
+    max-width: 40vw;
 }
