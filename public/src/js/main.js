@@ -8,11 +8,58 @@ const playerName = localStorage.getItem("playerName");
 
 
 const additionalImages = [
-    "src/img/ingredients/tomato.png",
-    "src/img/ingredients/cheese.png",
-    "src/img/ingredients/lettuce.png",
-    "src/img/ingredients/cucumber.png",
-    "src/img/ingredients/pepperoni.png"
+
+    "src/img/ingredients/Bacon.png",
+    "src/img/ingredients/Beurre.png",
+    "src/img/ingredients/Boudoir.png",
+    "src/img/ingredients/Carotte.png",
+    "src/img/ingredients/Champignon.png",
+    "src/img/ingredients/Chocolat en poudre.png",
+    "src/img/ingredients/Chocolat.png",
+    "src/img/ingredients/Chorizo.png",
+    "src/img/ingredients/Citron.png",
+    "src/img/ingredients/Cookie.png",
+    "src/img/ingredients/Cornichon.png",
+    "src/img/ingredients/Crème.png",
+    "src/img/ingredients/Eau.png",
+    "src/img/ingredients/Farine.png",
+    "src/img/ingredients/Fraise.png",
+    "src/img/ingredients/Fromage.png",
+    "src/img/ingredients/Jambon.png",
+    "src/img/ingredients/Kiwi.png",
+    "src/img/ingredients/Lait.png",
+    "src/img/ingredients/Miel.png",
+    "src/img/ingredients/Myrtille.png",
+    "src/img/ingredients/Oeuf.png",
+    "src/img/ingredients/XX.png",
+    "src/img/ingredients/Oignon.png",
+    "src/img/ingredients/Orange.png",
+    "src/img/ingredients/Pain pita.png",
+    "src/img/ingredients/Pain.png",
+    "src/img/ingredients/Patate.png",
+    "src/img/ingredients/Pâtes.png",
+    "src/img/ingredients/Pêche.png",
+    "src/img/ingredients/Pépites de chocolat.png",
+    "src/img/ingredients/Petit pois.png",
+    "src/img/ingredients/Piment.png",
+    "src/img/ingredients/Poivre.png",
+    "src/img/ingredients/Poisson.png",
+    "src/img/ingredients/Pomme.png",
+    "src/img/ingredients/Poulet frit.png",
+    "src/img/ingredients/Poulet.png",
+    "src/img/ingredients/Raisin.png",
+    "src/img/ingredients/Riz.png",
+    "src/img/ingredients/Salade.png",
+    "src/img/ingredients/Sauce tomate.png",
+    "src/img/ingredients/Sauce.png",
+    "src/img/ingredients/Sucre.png",
+    "src/img/ingredients/Saucisse.png",
+    "src/img/ingredients/Sel.png",
+    "src/img/ingredients/Steak.png",
+    "src/img/ingredients/Tomate.png",
+    "src/img/ingredients/Vanille.png",
+    "src/img/ingredients/Yaourt.png",
+
 ];
 
 let weightedPool = additionalImages.slice();
@@ -110,18 +157,17 @@ function displayRandomRecipe(targetDivId) {
     ingredientsDiv.style.gap = "10px";
 
     recipe.ingredients.forEach(ingredient => {
-        // Vérification pour un objet avec src
         if (typeof ingredient === 'object' && ingredient.src) {
-            const imgSrc = ingredient.src; // src dans l'objet
-            const altText = imgSrc.split('/').pop().replace('.png', ''); // On extrait le nom de l'image
+            const imgSrc = ingredient.src;
+            const altText = imgSrc.split('/').pop().replace('.png', '');
             const img = document.createElement("img");
             img.src = imgSrc;
             img.alt = altText;
             img.style.width = "60px";
             img.style.height = "60px";
-            img.setAttribute("data-state", ingredient.state || 0); // Utilisation de l'état si disponible
+            img.setAttribute("data-state", ingredient.state || 0);
             ingredientsDiv.appendChild(img);
-        } else if (typeof ingredient === 'string') { // Ancien format string
+        } else if (typeof ingredient === 'string') {
             const altText = ingredient.split('/').pop().replace('.png', '');
             const img = document.createElement("img");
             img.src = ingredient;
@@ -137,19 +183,17 @@ function displayRandomRecipe(targetDivId) {
 
     container.appendChild(ingredientsDiv);
 
-    // Mise à jour de la logique pour le tableau weightedPool
     weightedPool = additionalImages.concat(
-        recipe.ingredients.flatMap(ing => Array(3).fill(ing.src)) // Utilisation de ing.src dans weightedPool
+        recipe.ingredients.flatMap(ing => Array(3).fill(ing.src))
     );
 
     const zoneId = targetDivId === "Player1Recipe" ? "Player1IngredientZone" : "Player2IngredientZone";
     const animationZone = document.getElementById(zoneId);
-    animationZone.innerHTML = ''; // Réinitialisation de la zone
+    animationZone.innerHTML = '';
 
     recipe.ingredients.forEach((src, index) => {
-        // Création des images animées pour chaque ingrédient
         const animatedImg = document.createElement("img");
-        const altText = src.src.split('/').pop().replace('.png', ''); // src dans l'objet
+        const altText = src.src.split('/').pop().replace('.png', '');
         animatedImg.src = src.src;
         animatedImg.alt = altText;
         animatedImg.classList.add("ingredient-img");
@@ -160,7 +204,6 @@ function displayRandomRecipe(targetDivId) {
         registerInitialZone(animatedImg, animationZone);
     });
 
-    // Gestion de la validation
     const validateButtonId = targetDivId === "Player1Recipe" ? "validateButtonP1" : "validateButtonP2";
     const verificationZoneId = targetDivId === "Player1Recipe" ? "Player1VerificationZone" : "Player2VerificationZone";
 
