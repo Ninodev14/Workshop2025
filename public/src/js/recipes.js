@@ -25,14 +25,14 @@ const recipes = [{
             { src: "src/img/ingredients/Poulet.png", state: 1 },
             { src: "src/img/ingredients/Tomate.png", state: 2 },
             { src: "src/img/ingredients/Sauce.png", state: 0 },
-            { src: "src/img/ingredients/Pain.png", state: 0 }
+            { src: "src/img/ingredients/Pain pita.png", state: 0 }
         ]
     },
     {
         name: "Tacos",
         ingredients: [
-            { src: "src/img/ingredients/Pain.png", state: 0 },
-            { src: "src/img/ingredients/Steack.png", state: 0 },
+            { src: "src/img/ingredients/Pain pita.png", state: 0 },
+            { src: "src/img/ingredients/Steak.png", state: 0 },
             { src: "src/img/ingredients/Patate.png", state: 1 },
             { src: "src/img/ingredients/Sauce.png", state: 0 },
             { src: "src/img/ingredients/Salade.png", state: 2 }
@@ -81,7 +81,7 @@ const recipes = [{
     {
         name: "Tiramisu",
         ingredients: [
-            { src: "src/img/ingredients/Poudre de chocolat.png", state: 0 },
+            { src: "src/img/ingredients/Chocolat en poudre.png", state: 0 },
             { src: "src/img/ingredients/Boudoir.png", state: 1 },
             { src: "src/img/ingredients/Crème.png", state: 0 },
             { src: "src/img/ingredients/Sucre.png", state: 0 },
