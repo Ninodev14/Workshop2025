@@ -34,7 +34,7 @@
                     <div class="top-page">
                         <button class="btnBoncy btnquitter" onclick="goToIndexPage()" style="z-index: 999999;">Quitter</button>
                     </div>
-                    <div class="create-room plan-1">
+                    <div class="create-room plan-1" style="z-index: 999999;">
                         <button class="btnBoncy " onclick="goToLobbyPage()" >Rejoindre une partie</button>
                     </div>   
                 </div>
@@ -95,6 +95,8 @@
                 textbtn.textContent = "Commencer" 
                 textbtn.style.left = "39%";
             } else if (image.src.includes("bulle-discussion2.png")){
+                image.src = "src/img/bulle-discussion3.png";
+                textbtn.textContent = "C'est parti !" 
                 window.location.href = "tutosuite.html";
             }
         }

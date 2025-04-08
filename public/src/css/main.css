@@ -174,3 +174,8 @@ button {
     scale: 0.8;
     filter: blur(0);
 }
+
+.btn-direction{
+    -webkit-text-stroke-width: 0px;
+    padding-bottom: 18px;
+}

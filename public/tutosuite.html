@@ -15,27 +15,76 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <h1>Tutoriel - Joueur 1 </h1>
-
-    <div class="tuto">
-        <div class="top-page">
-            <button class="btnBoncy btnquitter" onclick="goToIndexPage()" style="z-index: 999999;">Quitter</button>
-        </div>
-        <div class="create-room plan-1">
-            <button class="btnBoncy " onclick="goToLobbyPage()" >Rejoindre une partie</button>
-        </div>   
-    </div>
+    <h1 style="scale: 0.6;">Tutoriel - Joueur 1 </h1>
 
     <div class="container-tuto-suite">
+        <div class="tuto">
+            <div class="top-page">
+                <button class="btnBoncy btnquitter" onclick="goToIndexPage()" style="z-index: 999999;">Quitter</button>
+            </div>
+            <div class="create-room plan-1">
+                <button class="btnBoncy " onclick="goToLobbyPage()" >Rejoindre une partie</button>
+            </div>   
+        </div>
         <div class="premier-plan">
-            <img src="src/img/tutosuite1tableau.png" >
+            <img id="myImage" src="src/img/tutosuite1tableau.png" class="diapo">
         </div>
     
         <div class="deuxieme-plan">
-            <div></div>
-            <img src="src/img/tutosuite1.png" >
+            <img src="src/img/cuisto.png" style="position: absolute; left: 0; bottom: 0; max-width: 33vw;">
+            <div class="container-dialogue-arrow" style="z-index: 1;">
+                <button class="btn-direction btnBoncy" onclick="changePlanInverse()"> < </button>
+                <p id="nameBtnChange" class="h3 text-dialogue">Glisse la 🍎 sur la plaque <br> 🔪 pour la couper</p>
+                <button class="btn-direction btnBoncy" onclick="changePlan()"> > </button>
+            </div>
         </div>
+
+
+
     </div>
+    <script>
+        function goToIndexPage() {
+           window.location.href = "index.html";
+       }
+
+       function goToLobbyPage() {
+           window.location.href = "lobby.html";
+       }
+
+       function changePlan() {
+           const image = document.getElementById("myImage");
+           const textbtn = document.getElementById("nameBtnChange")
+           if (image.src.includes("tutosuite1tableau.png")) {
+               image.src = "src/img/tutosuite2tableau.png";
+               textbtn.innerHTML = "Place la pomme à découpé <br> dans la casserole !" 
+            } else if (image.src.includes("tutosuite2tableau.png")){
+               image.src = "src/img/tutosuite3tableau.png";
+               textbtn.innerHTML = "Glisse la 🥕 sur la plaque <br>💧 pour que le J2 la lave" 
+            } else if (image.src.includes("tutosuite3tableau.png")){
+               image.src = "src/img/tutosuite4tableau.png";
+               textbtn.innerHTML = "Si tu ne veux, tu peux <br> ramener le 🥩 en réserve 🕳️" 
+            } else if (image.src.includes("tutosuite4tableau.png")){
+                window.location.href = "tuto.html";
+            }
+               
+        }
     
+
+       function changePlanInverse() {
+           const image = document.getElementById("myImage");
+           const textbtn = document.getElementById("nameBtnChange")
+           if (image.src.includes("tutosuite2tableau.png")) {
+                image.src = "src/img/tutosuite1tableau.png";
+                textbtn.innerHTML = "Glisse la 🍎 sur la plaque <br> 🔪 pour la couper";
+           } else if (image.src.includes("tutosuite3tableau.png")){
+                image.src = "src/img/tutosuite2tableau.png";
+                textbtn.innerHTML = "Place la pomme à découpé <br> dans la casserole !" 
+           } else if(image.src.includes("tutosuite4tableau.png")){
+                image.src = "src/img/tutosuite3tableau.png";
+                textbtn.innerHTML = "Glisse la 🥕 sur la plaque <br>💧 pour que le J2 la lave" 
+           }
+       }
+
+   </script>
 </body>
 </html>
