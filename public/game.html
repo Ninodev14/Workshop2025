@@ -34,33 +34,48 @@
 
     <div id="Player1Game" style="display: none;">
         <h2>Le Jeu - Joueur 1</h2>
-        <div id="Player1Recipe">
-        </div>
-        <div class="ingredient-zone" id="Player1IngredientZone">
-        </div>
-        <div class="drop-zone" id="Player1DropZone">
-        </div>
-        <div class="casserole"> <img src="src/img/game/casserole.png" alt="">
-            <div class="verification-zone" id="Player1VerificationZone">
+        <div id="Player1Recipe"></div>
+
+        <div class="ingredient-zone" id="Player1IngredientZone"></div>
+
+        <div class="contenerAction">
+            <div class="contenerGiveTake">
+                <div class="give" id="Player1GiveZone"></div>
+                <div class="take" id="Player1TakeZone"></div>
+            </div>
+            <div class="drop-zone" id="Player1DropZone"></div>
+
+            <div class="casserole">
+                <img src="src/img/game/casserole.png" alt="">
+                <div class="verification-zone" id="Player1VerificationZone"></div>
             </div>
         </div>
         <button id="validateButtonP1" disabled>Vérifier la recette</button>
     </div>
+
     <div id="Player2Game" style="display: none;">
         <h2>Le Jeu - Joueur 2</h2>
-        <div id="Player2Recipe">
-        </div>
-        <div class="ingredient-zone" id="Player2IngredientZone">
-        </div>
-        <div class="drop-zone" id="Player2DropZone">
-        </div>
-        <div class="casserole">
-            <img src="src/img/game/casserole.png" alt="">
-            <div class="verification-zone" id="Player2VerificationZone">
+
+        <div id="Player2Recipe"></div>
+
+        <div class="ingredient-zone" id="Player2IngredientZone"></div>
+        <div class="contenerAction">
+            <div class="contenerGiveTake">
+                <div class="give" id="Player2GiveZone"></div>
+                <div class="take" id="Player2TakeZone"></div>
             </div>
+            <div class="drop-zone" id="Player2DropZone"></div>
+
+            <div class="casserole">
+                <img src="src/img/game/casserole.png" alt="">
+                <div class="verification-zone" id="Player2VerificationZone"></div>
+            </div>
+
         </div>
         <button id="validateButtonP2" disabled>Vérifier la recette</button>
     </div>
+
+
     <div id="recipe-validation-message" style="display: none;"></div>
 
 

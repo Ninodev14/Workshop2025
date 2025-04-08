@@ -12,7 +12,7 @@
     top: 50%;
     transform: translateY(-50%);
     right: 100%;
-    width: 60px;
+    width: auto;
     height: 60px;
     cursor: grab;
     transition: transform 0.3s ease-in-out;
@@ -28,7 +28,6 @@
     0% {
         right: 100%;
     }
-
     100% {
         right: -80px;
     }
@@ -52,7 +51,7 @@
 }
 
 .ingredient-img {
-    width: 60px;
+    width: auto;
     height: 60px;
     cursor: pointer;
 }
@@ -61,14 +60,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 60px;
-    height: 60px;
+    width: fit-content;
+    height: fit-content;
     gap: 10px;
 }
 
 .image-part {
-    width: 50%;
-    height: 100%;
+    width: 30px;
+    height: 60px;
     background-size: cover;
     background-position: center;
     transition: transform 0.3s ease;
@@ -143,7 +142,7 @@
     z-index: 1;
     margin-top: -60px;
     margin-left: -60px;
-    width: 60px;
+    width: auto;
     height: 60px;
 }
 
@@ -152,4 +151,34 @@ button.active-btn {
     color: white;
     transform: scale(1.05);
     transition: all 0.2s ease-in-out;
+}
+
+.contenerAction {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.contenerGiveTake {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.give,
+.take {
+    width: 100px;
+    height: 100px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.take {
+    background-color: #eb7b25;
 }

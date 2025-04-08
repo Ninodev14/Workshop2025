@@ -155,6 +155,9 @@ io.on('connection', (socket) => {
 
         io.emit('updateRooms', rooms);
     });
+    socket.on("sendIngredient", (data) => {
+        socket.to(roomId).emit("receiveIngredient", data);
+    });
 });
 
 

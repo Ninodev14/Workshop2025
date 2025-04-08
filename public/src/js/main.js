@@ -8,11 +8,57 @@ const playerName = localStorage.getItem("playerName");
 
 
 const additionalImages = [
-    "src/img/ingredients/tomato.png",
-    "src/img/ingredients/cheese.png",
-    "src/img/ingredients/lettuce.png",
-    "src/img/ingredients/cucumber.png",
-    "src/img/ingredients/pepperoni.png"
+
+    "src/img/ingredients/Bacon.png",
+    "src/img/ingredients/Beurre.png",
+    "src/img/ingredients/Boudoir.png",
+    "src/img/ingredients/Carotte.png",
+    "src/img/ingredients/Champignon.png",
+    "src/img/ingredients/Chocolat en poudre.png",
+    "src/img/ingredients/Chocolat.png",
+    "src/img/ingredients/Chorizo.png",
+    "src/img/ingredients/Citron.png",
+    "src/img/ingredients/Cookie.png",
+    "src/img/ingredients/Cornichon.png",
+    "src/img/ingredients/Crème.png",
+    "src/img/ingredients/Eau.png",
+    "src/img/ingredients/Farine.png",
+    "src/img/ingredients/Fraise.png",
+    "src/img/ingredients/Fromage.png",
+    "src/img/ingredients/Jambon.png",
+    "src/img/ingredients/Kiwi.png",
+    "src/img/ingredients/Lait.png",
+    "src/img/ingredients/Miel.png",
+    "src/img/ingredients/Myrtille.png",
+    "src/img/ingredients/Oeuf.png",
+    "src/img/ingredients/Oignon.png",
+    "src/img/ingredients/Orange.png",
+    "src/img/ingredients/Pain pita.png",
+    "src/img/ingredients/Pain.png",
+    "src/img/ingredients/Patate.png",
+    "src/img/ingredients/Pâtes.png",
+    "src/img/ingredients/Pêche.png",
+    "src/img/ingredients/Pépites de chocolat.png",
+    "src/img/ingredients/Petit pois.png",
+    "src/img/ingredients/Piment.png",
+    "src/img/ingredients/Poivre.png",
+    "src/img/ingredients/Poisson.png",
+    "src/img/ingredients/Pomme.png",
+    "src/img/ingredients/Poulet frit.png",
+    "src/img/ingredients/Poulet.png",
+    "src/img/ingredients/Raisin.png",
+    "src/img/ingredients/Riz.png",
+    "src/img/ingredients/Salade.png",
+    "src/img/ingredients/Sauce tomate.png",
+    "src/img/ingredients/Sauce.png",
+    "src/img/ingredients/Sucre.png",
+    "src/img/ingredients/Saucisse.png",
+    "src/img/ingredients/Sel.png",
+    "src/img/ingredients/Steak.png",
+    "src/img/ingredients/Tomate.png",
+    "src/img/ingredients/Vanille.png",
+    "src/img/ingredients/Yaourt.png",
+
 ];
 
 let weightedPool = additionalImages.slice();
@@ -110,23 +156,22 @@ function displayRandomRecipe(targetDivId) {
     ingredientsDiv.style.gap = "10px";
 
     recipe.ingredients.forEach(ingredient => {
-        // Vérification pour un objet avec src
         if (typeof ingredient === 'object' && ingredient.src) {
-            const imgSrc = ingredient.src; // src dans l'objet
-            const altText = imgSrc.split('/').pop().replace('.png', ''); // On extrait le nom de l'image
+            const imgSrc = ingredient.src;
+            const altText = imgSrc.split('/').pop().replace('.png', '');
             const img = document.createElement("img");
             img.src = imgSrc;
             img.alt = altText;
-            img.style.width = "60px";
+            img.style.width = "auto";
             img.style.height = "60px";
-            img.setAttribute("data-state", ingredient.state || 0); // Utilisation de l'état si disponible
+            img.setAttribute("data-state", ingredient.state || 0);
             ingredientsDiv.appendChild(img);
-        } else if (typeof ingredient === 'string') { // Ancien format string
+        } else if (typeof ingredient === 'string') {
             const altText = ingredient.split('/').pop().replace('.png', '');
             const img = document.createElement("img");
             img.src = ingredient;
             img.alt = altText;
-            img.style.width = "60px";
+            img.style.width = "auto";
             img.style.height = "60px";
             img.setAttribute("data-state", 0);
             ingredientsDiv.appendChild(img);
@@ -137,19 +182,17 @@ function displayRandomRecipe(targetDivId) {
 
     container.appendChild(ingredientsDiv);
 
-    // Mise à jour de la logique pour le tableau weightedPool
     weightedPool = additionalImages.concat(
-        recipe.ingredients.flatMap(ing => Array(3).fill(ing.src)) // Utilisation de ing.src dans weightedPool
+        recipe.ingredients.flatMap(ing => Array(3).fill(ing.src))
     );
 
     const zoneId = targetDivId === "Player1Recipe" ? "Player1IngredientZone" : "Player2IngredientZone";
     const animationZone = document.getElementById(zoneId);
-    animationZone.innerHTML = ''; // Réinitialisation de la zone
+    animationZone.innerHTML = '';
 
     recipe.ingredients.forEach((src, index) => {
-        // Création des images animées pour chaque ingrédient
         const animatedImg = document.createElement("img");
-        const altText = src.src.split('/').pop().replace('.png', ''); // src dans l'objet
+        const altText = src.src.split('/').pop().replace('.png', '');
         animatedImg.src = src.src;
         animatedImg.alt = altText;
         animatedImg.classList.add("ingredient-img");
@@ -160,7 +203,6 @@ function displayRandomRecipe(targetDivId) {
         registerInitialZone(animatedImg, animationZone);
     });
 
-    // Gestion de la validation
     const validateButtonId = targetDivId === "Player1Recipe" ? "validateButtonP1" : "validateButtonP2";
     const verificationZoneId = targetDivId === "Player1Recipe" ? "Player1VerificationZone" : "Player2VerificationZone";
 
@@ -197,55 +239,58 @@ function validateRecipeCompletion(targetDivId) {
     const dropZone = document.getElementById(expectedZoneId);
     const recipeDiv = document.getElementById(targetDivId);
 
-    // Fonction pour récupérer le texte et l'état d'un élément et de son enfant (ingredient-text)
-    function getIngredientData(imgElement) {
-        const ingredientText = imgElement.querySelector(".ingredient-text");
-        if (ingredientText) {
+    function getDroppedIngredientData(element) {
+        if (element.tagName === "IMG") {
+            console.log("🔍 Élément image trouvé dans la zone :", element.alt, "État:", element.getAttribute('data-state'));
             return {
-                text: ingredientText.textContent.trim(), // Récupère le texte de l'élément enfant
-                state: ingredientText.getAttribute('data-state') // Récupère l'état de l'élément enfant
+                text: element.alt,
+                state: element.getAttribute('data-state')
             };
-        } else {
-            return {
-                text: imgElement.alt, // Si aucun enfant, utilise l'attr alt de l'image (ancien comportement)
-                state: imgElement.getAttribute('data-state')
-            };
+        } else if (element.classList.contains("cut-container")) {
+            const textEl = element.querySelector(".ingredient-text");
+            if (textEl) {
+                console.log("🔪 Élément découpé trouvé :", textEl.getAttribute('data-alt'), "État:", textEl.getAttribute('data-state'));
+                return {
+                    text: textEl.getAttribute('data-alt') || textEl.textContent.trim(),
+                    state: textEl.getAttribute('data-state')
+                };
+            } else {
+                console.warn("⚠️ cut-container sans .ingredient-text");
+            }
         }
+        console.warn("⚠️ Élément non reconnu :", element);
+        return null;
     }
 
-    // Extraire les ingrédients attendus (avec leur src et state) de la recette
     const recipeIngredients = Array.from(recipeDiv.querySelectorAll("img")).map(img => {
-        const ingredientData = getIngredientData(img);
-        return {
-            src: img.src,
-            state: ingredientData.state,
-            text: ingredientData.text // Ajoute le texte des enfants
+        const ing = {
+            text: img.src.split('/').pop().replace('.png', ''),
+            state: img.getAttribute('data-state')
         };
+        console.log("📋 Ingrédient attendu :", ing);
+        return ing;
     });
 
-    // Extraire les ingrédients déposés (avec leur alt et state) dans la zone de dépôt
-    const droppedIngredients = Array.from(dropZone.querySelectorAll("img")).map(img => {
-        const ingredientData = getIngredientData(img);
-        return {
-            alt: ingredientData.text, // Utilise le texte récupéré de l'élément enfant
-            state: ingredientData.state
-        };
-    });
+    const droppedIngredients = Array.from(dropZone.children)
+        .map(el => getDroppedIngredientData(el))
+        .filter(data => data !== null);
 
-    // Vérification des ingrédients manquants et incorrects
+    console.log("📦 Ingrédients déposés :", droppedIngredients);
+
     const missingIngredients = recipeIngredients.filter(recipeIng =>
         !droppedIngredients.some(droppedIng =>
-            droppedIng.alt === recipeIng.src.split('/').pop().replace('.png', '') &&
-            droppedIng.state === recipeIng.state
+            droppedIng.text === recipeIng.text && droppedIng.state === recipeIng.state
         )
     );
 
     const incorrectIngredients = droppedIngredients.filter(droppedIng =>
         !recipeIngredients.some(recipeIng =>
-            recipeIng.src.split('/').pop().replace('.png', '') === droppedIng.alt &&
-            recipeIng.state === droppedIng.state
+            recipeIng.text === droppedIng.text && recipeIng.state === droppedIng.state
         )
     );
+
+    console.log("❓ Ingrédients manquants :", missingIngredients);
+    console.log("🚫 Ingrédients incorrects :", incorrectIngredients);
 
     const messageDiv = document.getElementById("recipe-validation-message");
     messageDiv.style.display = "block";
@@ -256,15 +301,17 @@ function validateRecipeCompletion(targetDivId) {
     } else {
         let errorMessage = "❌ Recette incorrecte.\n";
         if (missingIngredients.length > 0) {
-            errorMessage += `🧂 Ingrédients manquants : ${missingIngredients.map(ing => ing.src.split('/').pop().replace('.png', '')).join(", ")}.\n`;
+            errorMessage += `🧂 Ingrédients manquants : ${missingIngredients.map(ing => ing.text).join(", ")}.\n`;
         }
         if (incorrectIngredients.length > 0) {
-            errorMessage += `🍄 Ingrédients incorrects : ${incorrectIngredients.map(ing => ing.alt).join(", ")}.`;
+            errorMessage += `🍄 Ingrédients incorrects : ${incorrectIngredients.map(ing => ing.text).join(", ")}.`;
         }
         messageDiv.textContent = errorMessage;
         messageDiv.className = "error-message";
     }
 }
+
+
 
 
 const drake = dragula([document.querySelector('#Player1IngredientZone'), document.querySelector('#Player2IngredientZone')]);
@@ -285,7 +332,27 @@ let isIngredientInZone = {
 drake.on('drop', (el, target) => {
     console.log("Élément déposé", el);
     console.log("Zone cible", target);
+    if (target.id === "Player1GiveZone" && playerRole === "P1") {
+        const data = {
+            src: el.src,
+            alt: el.alt,
+            state: el.getAttribute("data-state"),
+            to: "P2"
+        };
+        socket.emit("sendIngredient", data);
+        el.remove();
+    }
 
+    if (target.id === "Player2GiveZone" && playerRole === "P2") {
+        const data = {
+            src: el.src,
+            alt: el.alt,
+            state: el.getAttribute("data-state"),
+            to: "P1"
+        };
+        socket.emit("sendIngredient", data);
+        el.remove();
+    }
     if (target.classList.contains('drop-zone') || target.classList.contains('verification-zone')) {
         const isVerificationZone = target.classList.contains('verification-zone');
         const limit = isVerificationZone ? 6 : maxIngredients;
@@ -305,6 +372,21 @@ drake.on('drop', (el, target) => {
     } else {
         console.log("Zone incorrecte, l'élément disparaît.");
         el.remove();
+    }
+});
+socket.on("receiveIngredient", (data) => {
+    const img = document.createElement("img");
+    img.src = data.src;
+    img.alt = data.alt;
+    img.classList.add("ingredient-img");
+    img.draggable = true;
+    img.setAttribute("data-state", data.state || "0");
+
+    // Ajoute l'image dans la bonne zone
+    if (playerRole === data.to) {
+        const zone = data.to === "P1" ? document.getElementById("Player1TakeZone") : document.getElementById("Player2TakeZone");
+        zone.appendChild(img);
+        registerInitialZone(img, zone);
     }
 });
 
@@ -385,7 +467,7 @@ function spawnRandomIngredient(zoneId) {
     randomImg.classList.add("ingredient-img");
     randomImg.draggable = true;
     randomImg.style.animationDelay = '0s';
-    randomImg.setAttribute('data-state', '0'); // Initialisation avec data-state="0"
+    randomImg.setAttribute('data-state', '0');
 
     animationZone.appendChild(randomImg);
     registerInitialZone(randomImg, animationZone);
@@ -394,16 +476,27 @@ function spawnRandomIngredient(zoneId) {
 
     randomImg.addEventListener('click', () => {
         const player1DropZone = document.getElementById("Player1DropZone");
+        const player2DropZone = document.getElementById("Player2DropZone");
 
         if (Array.from(player1DropZone.children).includes(randomImg)) {
             clickCounts[randomImg.src] += 1;
-            console.log(`Clics sur ${randomImg.alt}: ${clickCounts[randomImg.src]}`);
+            console.log(`👨‍🍳 P1 - Clics sur ${randomImg.alt}: ${clickCounts[randomImg.src]}`);
 
             if (clickCounts[randomImg.src] >= 20) {
-                cutImageInTwo(randomImg); // On découpe l'image après 20 clics
+                cutImageInTwo(randomImg);
+            }
+        } else if (Array.from(player2DropZone.children).includes(randomImg)) {
+            clickCounts[randomImg.src] += 1;
+            console.log(`👩‍🍳 P2 - Clics sur ${randomImg.alt}: ${clickCounts[randomImg.src]}`);
+
+            if (clickCounts[randomImg.src] >= 20) {
+
+                randomImg.style.filter = 'brightness(1.8) grayscale(0.3)';
+                randomImg.setAttribute('data-state', '2');
+                console.log(`✨ ${randomImg.alt} est maintenant en état 2 (modifiée par P2)`);
             }
         } else {
-            console.log("L'image n'est pas dans la bonne zone, on ne peut pas la couper.");
+            console.log("❌ L'image n'est pas dans une zone de drop autorisée.");
         }
     });
 }
@@ -421,8 +514,7 @@ function cutImageInTwo(imgElement) {
     const leftPart = document.createElement('div');
     leftPart.classList.add('image-part', 'left');
     leftPart.style.backgroundImage = `url(${src})`;
-    leftPart.setAttribute('data-state', '1');
-    leftPart.setAttribute('data-alt', altText);
+
 
     const rightPart = document.createElement('div');
     rightPart.classList.add('image-part', 'right');
@@ -439,6 +531,7 @@ function cutImageInTwo(imgElement) {
 
     textDiv.style.display = "none";
     cutContainer.appendChild(textDiv);
+    textDiv.setAttribute('data-alt', altText);
     textDiv.setAttribute('data-state', '1');
     console.log(`L'image ${altText} a été coupée en deux !`);
 }
