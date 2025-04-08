@@ -31,7 +31,6 @@ const additionalImages = [
     "src/img/ingredients/Miel.png",
     "src/img/ingredients/Myrtille.png",
     "src/img/ingredients/Oeuf.png",
-    "src/img/ingredients/XX.png",
     "src/img/ingredients/Oignon.png",
     "src/img/ingredients/Orange.png",
     "src/img/ingredients/Pain pita.png",
@@ -163,7 +162,7 @@ function displayRandomRecipe(targetDivId) {
             const img = document.createElement("img");
             img.src = imgSrc;
             img.alt = altText;
-            img.style.width = "60px";
+            img.style.width = "auto";
             img.style.height = "60px";
             img.setAttribute("data-state", ingredient.state || 0);
             ingredientsDiv.appendChild(img);
@@ -172,7 +171,7 @@ function displayRandomRecipe(targetDivId) {
             const img = document.createElement("img");
             img.src = ingredient;
             img.alt = altText;
-            img.style.width = "60px";
+            img.style.width = "auto";
             img.style.height = "60px";
             img.setAttribute("data-state", 0);
             ingredientsDiv.appendChild(img);
@@ -333,7 +332,27 @@ let isIngredientInZone = {
 drake.on('drop', (el, target) => {
     console.log("Élément déposé", el);
     console.log("Zone cible", target);
+    if (target.id === "Player1GiveZone" && playerRole === "P1") {
+        const data = {
+            src: el.src,
+            alt: el.alt,
+            state: el.getAttribute("data-state"),
+            to: "P2"
+        };
+        socket.emit("sendIngredient", data);
+        el.remove();
+    }
 
+    if (target.id === "Player2GiveZone" && playerRole === "P2") {
+        const data = {
+            src: el.src,
+            alt: el.alt,
+            state: el.getAttribute("data-state"),
+            to: "P1"
+        };
+        socket.emit("sendIngredient", data);
+        el.remove();
+    }
     if (target.classList.contains('drop-zone') || target.classList.contains('verification-zone')) {
         const isVerificationZone = target.classList.contains('verification-zone');
         const limit = isVerificationZone ? 6 : maxIngredients;
@@ -353,6 +372,21 @@ drake.on('drop', (el, target) => {
     } else {
         console.log("Zone incorrecte, l'élément disparaît.");
         el.remove();
+    }
+});
+socket.on("receiveIngredient", (data) => {
+    const img = document.createElement("img");
+    img.src = data.src;
+    img.alt = data.alt;
+    img.classList.add("ingredient-img");
+    img.draggable = true;
+    img.setAttribute("data-state", data.state || "0");
+
+    // Ajoute l'image dans la bonne zone
+    if (playerRole === data.to) {
+        const zone = data.to === "P1" ? document.getElementById("Player1TakeZone") : document.getElementById("Player2TakeZone");
+        zone.appendChild(img);
+        registerInitialZone(img, zone);
     }
 });
 
@@ -442,16 +476,27 @@ function spawnRandomIngredient(zoneId) {
 
     randomImg.addEventListener('click', () => {
         const player1DropZone = document.getElementById("Player1DropZone");
+        const player2DropZone = document.getElementById("Player2DropZone");
 
         if (Array.from(player1DropZone.children).includes(randomImg)) {
             clickCounts[randomImg.src] += 1;
-            console.log(`Clics sur ${randomImg.alt}: ${clickCounts[randomImg.src]}`);
+            console.log(`👨‍🍳 P1 - Clics sur ${randomImg.alt}: ${clickCounts[randomImg.src]}`);
 
             if (clickCounts[randomImg.src] >= 20) {
-                cutImageInTwo(randomImg); // On découpe l'image après 20 clics
+                cutImageInTwo(randomImg);
+            }
+        } else if (Array.from(player2DropZone.children).includes(randomImg)) {
+            clickCounts[randomImg.src] += 1;
+            console.log(`👩‍🍳 P2 - Clics sur ${randomImg.alt}: ${clickCounts[randomImg.src]}`);
+
+            if (clickCounts[randomImg.src] >= 20) {
+
+                randomImg.style.filter = 'brightness(1.8) grayscale(0.3)';
+                randomImg.setAttribute('data-state', '2');
+                console.log(`✨ ${randomImg.alt} est maintenant en état 2 (modifiée par P2)`);
             }
         } else {
-            console.log("L'image n'est pas dans la bonne zone, on ne peut pas la couper.");
+            console.log("❌ L'image n'est pas dans une zone de drop autorisée.");
         }
     });
 }
