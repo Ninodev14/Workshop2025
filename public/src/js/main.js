@@ -556,20 +556,27 @@ socket.on("GameCanBigin", () => {
 });
 
 socket.on("receiveIngredient", (data) => {
-    console.log("Événement 'receiveIngredient' capté!");
-    console.log("Ingrédient reçu :", data);
+    // Vérifie si le rôle du joueur est celui qui doit recevoir l'ingrédient
+    if ((playerRole === "P1" && data.to === "P1") || (playerRole === "P2" && data.to === "P2")) {
+        console.log("Événement 'receiveIngredient' capté!");
+        console.log("Ingrédient reçu :", data);
 
-    const img = document.createElement("img");
-    img.src = data.src;
-    img.alt = data.alt;
-    img.classList.add("ingredient-img");
-    img.draggable = true;
-    img.setAttribute("data-state", data.state || "0");
+        // Crée une nouvelle image pour l'ingrédient reçu
+        const img = document.createElement("img");
+        img.src = data.src;
+        img.alt = data.alt;
+        img.classList.add("ingredient-img");
+        img.draggable = true;
+        img.setAttribute("data-state", data.state || "0");
 
-    const zone = playerRole === "P1" ?
-        document.getElementById("Player1TakeZone") :
-        document.getElementById("Player2TakeZone");
+        // Détermine la zone où l'ingrédient sera ajouté en fonction du rôle du joueur
+        const zone = playerRole === "P1" ?
+            document.getElementById("Player1TakeZone") :
+            document.getElementById("Player2TakeZone");
 
-    zone.appendChild(img);
-    registerInitialZone(img, zone);
+        zone.appendChild(img);
+        registerInitialZone(img, zone);
+    } else {
+        console.log(`Ce joueur ne peut pas recevoir cet ingrédient (Rôle: ${playerRole}, À: ${data.to})`);
+    }
 });
