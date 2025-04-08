@@ -6,6 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
+let playerSockets = {};
 let rooms = {};
 let roomReadyPlayers = {};
 
@@ -31,7 +32,7 @@ io.on('connection', (socket) => {
             maxPlayers: parseInt(maxPlayers),
             host: playerId
         };
-
+        playerSockets[playerId] = socket.id;
         socket.join(roomId);
         console.log(`✅ Room créée: ${roomName} (${roomId}) avec ${playerName} comme hôte`);
 
@@ -52,6 +53,7 @@ io.on('connection', (socket) => {
         }
 
         rooms[roomId].players.push({ id: playerId, name: playerName });
+        playerSockets[playerId] = socket.id;
         socket.join(roomId);
 
         io.to(roomId).emit('updatePlayers', rooms[roomId].players, rooms[roomId].host);
@@ -155,9 +157,23 @@ io.on('connection', (socket) => {
 
         io.emit('updateRooms', rooms);
     });
-    socket.on("sendIngredient", (data) => {
-        socket.to(roomId).emit("receiveIngredient", data);
+
+
+    socket.on('sendIngredient', (data) => {
+        console.log('Ingrédient reçu sur le serveur:', data);
+
+        const roomId = data.roomId;
+        const targetRoom = rooms[roomId];
+
+        if (targetRoom) {
+            console.log('Liste des joueurs dans la room:', targetRoom.players);
+            io.to(roomId).emit('receiveIngredient', data);
+            console.log('✅ Ingrédient envoyé à la room:', roomId);
+        } else {
+            console.log('❌ Room introuvable:', roomId);
+        }
     });
+
 });
 
 

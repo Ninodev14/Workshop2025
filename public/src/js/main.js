@@ -330,35 +330,43 @@ let isIngredientInZone = {
 };
 
 drake.on('drop', (el, target) => {
-    console.log("Élément déposé", el);
-    console.log("Zone cible", target);
+
+
     if (target.id === "Player1GiveZone" && playerRole === "P1") {
+        // Envoi à P2
         const data = {
             src: el.src,
             alt: el.alt,
             state: el.getAttribute("data-state"),
-            to: "P2"
+            to: "P2",
+            roomId: roomId
         };
         socket.emit("sendIngredient", data);
         el.remove();
+        console.log("Player 1 a envoyer a player 2 :", el);
     }
 
     if (target.id === "Player2GiveZone" && playerRole === "P2") {
+        // Envoi à P1
         const data = {
             src: el.src,
             alt: el.alt,
             state: el.getAttribute("data-state"),
-            to: "P1"
+            to: "P1",
+            roomId: roomId
         };
         socket.emit("sendIngredient", data);
         el.remove();
+        console.log("Player 2 a envoyer a player 1 :", el);
     }
-    if (target.classList.contains('drop-zone') || target.classList.contains('verification-zone')) {
+
+    const allowedZoneClasses = ['drop-zone', 'verification-zone', 'ingredient-zone', 'give'];
+    const isAllowedZone = allowedZoneClasses.some(cls => target.classList.contains(cls));
+
+    if (isAllowedZone) {
         const isVerificationZone = target.classList.contains('verification-zone');
         const limit = isVerificationZone ? 6 : maxIngredients;
-
         const imageCount = Array.from(target.children).filter(child => child.tagName === "IMG").length;
-
         if (imageCount < limit) {
             el.draggable = false;
             target.appendChild(el);
@@ -374,21 +382,15 @@ drake.on('drop', (el, target) => {
         el.remove();
     }
 });
-socket.on("receiveIngredient", (data) => {
-    const img = document.createElement("img");
-    img.src = data.src;
-    img.alt = data.alt;
-    img.classList.add("ingredient-img");
-    img.draggable = true;
-    img.setAttribute("data-state", data.state || "0");
 
-    // Ajoute l'image dans la bonne zone
-    if (playerRole === data.to) {
-        const zone = data.to === "P1" ? document.getElementById("Player1TakeZone") : document.getElementById("Player2TakeZone");
-        zone.appendChild(img);
-        registerInitialZone(img, zone);
-    }
-});
+
+
+const player1GiveZone = document.getElementById("Player1GiveZone");
+const player2GiveZone = document.getElementById("Player2GiveZone");
+
+drake.containers.push(player1GiveZone);
+drake.containers.push(player2GiveZone);
+
 
 function initializeDropZones() {
     const dropZones = [
@@ -551,4 +553,23 @@ socket.on("GameCanBigin", () => {
     }
     initializeVerificationZone();
     initializeDropZones();
+});
+
+socket.on("receiveIngredient", (data) => {
+    console.log("Événement 'receiveIngredient' capté!");
+    console.log("Ingrédient reçu :", data);
+
+    const img = document.createElement("img");
+    img.src = data.src;
+    img.alt = data.alt;
+    img.classList.add("ingredient-img");
+    img.draggable = true;
+    img.setAttribute("data-state", data.state || "0");
+
+    const zone = playerRole === "P1" ?
+        document.getElementById("Player1TakeZone") :
+        document.getElementById("Player2TakeZone");
+
+    zone.appendChild(img);
+    registerInitialZone(img, zone);
 });
