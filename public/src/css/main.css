@@ -4,7 +4,7 @@ body {
 
 h1 {
     color: #5C0A96;
-    font-family: Modak;
+    font-family: Chewy;
     font-size: 92.759px;
     font-style: normal;
     font-weight: 400;
@@ -96,9 +96,9 @@ button {
     box-shadow: 0px 8px 0px 0px #2A0343;
     color: #FFF;
     text-align: center;
-    -webkit-text-stroke-width: 3px;
-    -webkit-text-stroke-color: #B06BCE;
-    font-family: Modak;
+    /* -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-color: #B06BCE; */
+    font-family: Chewy;
     font-size: 48px;
     font-style: normal;
     font-weight: 400;
@@ -178,4 +178,15 @@ button {
 .btn-direction{
     -webkit-text-stroke-width: 0px;
     padding-bottom: 18px;
+}
+
+.btn-tuto-join-game{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 10px;
+    font-size: 22px;
+    padding: 10px;
+    height: fit-content;
 }
