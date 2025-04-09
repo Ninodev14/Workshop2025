@@ -108,55 +108,25 @@ const recipes = [{
             { src: "src/img/ingredients/Oeuf.png", state: 2 }
         ]
     },
-    /* 
-    {
-        name: "Pizza chorizo",
-        ingredients: [
-            { src: "src/img/ingredients/Farine.png", state: 0 },
-            { src: "src/img/ingredients/Chorizo.png", state: 2 },
-            { src: "src/img/ingredients/Fromage.png", state: 1 },
-            { src: "src/img/ingredients/Sauce tomate.png", state: 0 },
-            { src: "src/img/ingredients/Sel.png", state: 0 }
-        ]
-    },
-    {
-        name: "Poisson riz",
-        ingredients: [
-            { src: "src/img/ingredients/Poisson.png", state: 2 },
-            { src: "src/img/ingredients/Citron.png", state: 1 },
-            { src: "src/img/ingredients/Riz.png", state: 2 },
-            { src: "src/img/ingredients/Poivre.png", state: 0 },
-            { src: "src/img/ingredients/Sel.png", state: 0 }
-        ]
-    },
     {
         name: "Steak frite",
         ingredients: [
             { src: "src/img/ingredients/Steack.png", state: 1 },
-            { src: "src/img/ingredients/Patate.png", state: 2 },
-            { src: "src/img/ingredients/Poivre.png", state: 0 },
-            { src: "src/img/ingredients/Sauce.png", state: 0 },
+            { src: "src/img/ingredients/Patate.png", state: 1 },
+            { src: "src/img/ingredients/Tomate.png", state: 2 },
+            { src: "src/img/ingredients/Petit pois.png", state: 2 },
             { src: "src/img/ingredients/Sel.png", state: 0 }
         ]
     },
+
     {
         name: "Omelette",
         ingredients: [
             { src: "src/img/ingredients/Oeuf.png", state: 2 },
-            { src: "src/img/ingredients/Lait.png", state: 0 },
+            { src: "src/img/ingredients/Beurre.png", state: 0 },
             { src: "src/img/ingredients/Sel.png", state: 0 },
             { src: "src/img/ingredients/Fromage.png", state: 1 },
             { src: "src/img/ingredients/Jambon.png", state: 1 }
-        ]
-    },
-    {
-        name: "Poulet frit",
-        ingredients: [
-            { src: "src/img/ingredients/Poulet frit.png", state: 1 },
-            { src: "src/img/ingredients/Poivre.png", state: 0 },
-            { src: "src/img/ingredients/Sauce.png", state: 0 },
-            { src: "src/img/ingredients/Patate.png", state: 2 },
-            { src: "src/img/ingredients/Sel.png", state: 0 }
         ]
     },
     {
@@ -169,6 +139,58 @@ const recipes = [{
             { src: "src/img/ingredients/Jambon.png", state: 1 }
         ]
     },
+    {
+        name: "Boeuf bourguignon",
+        ingredients: [
+            { src: "src/img/ingredients/Boeuf.png", state: 1 },
+            { src: "src/img/ingredients/Carotte.png", state: 2 },
+            { src: "src/img/ingredients/Sauce.png", state: 0 },
+            { src: "src/img/ingredients/Champignon.png", state: 2 },
+            { src: "src/img/ingredients/Oignon.png", state: 1 }
+        ]
+    },
+    {
+        name: "Tarte au citron",
+        ingredients: [
+            { src: "src/img/ingredients/Citron.png", state: 1 },
+            { src: "src/img/ingredients/Farine.png", state: 0 },
+            { src: "src/img/ingredients/Lait.png", state: 0 },
+            { src: "src/img/ingredients/Myrtille.png", state: 2 },
+            { src: "src/img/ingredients/Oeuf.png", state: 2 }
+        ]
+    },
+    {
+        name: "Poisson riz",
+        ingredients: [
+            { src: "src/img/ingredients/Poisson.png", state: 2 },
+            { src: "src/img/ingredients/Citron.png", state: 1 },
+            { src: "src/img/ingredients/Riz.png", state: 2 },
+            { src: "src/img/ingredients/Oeuf.png", state: 0 },
+            { src: "src/img/ingredients/Sel.png", state: 0 }
+        ]
+    },
+    /* 
+    {
+        name: "Pizza chorizo",
+        ingredients: [
+            { src: "src/img/ingredients/Farine.png", state: 0 },
+            { src: "src/img/ingredients/Chorizo.png", state: 2 },
+            { src: "src/img/ingredients/Fromage.png", state: 1 },
+            { src: "src/img/ingredients/Sauce tomate.png", state: 0 },
+            { src: "src/img/ingredients/Sel.png", state: 0 }
+        ]
+    },
+    {
+        name: "Poulet frit",
+        ingredients: [
+            { src: "src/img/ingredients/Poulet frit.png", state: 1 },
+            { src: "src/img/ingredients/Poivre.png", state: 0 },
+            { src: "src/img/ingredients/Sauce.png", state: 0 },
+            { src: "src/img/ingredients/Patate.png", state: 2 },
+            { src: "src/img/ingredients/Sel.png", state: 0 }
+        ]
+    },
+    
     {
         name: "Salade",
         ingredients: [
@@ -189,26 +211,8 @@ const recipes = [{
             { src: "src/img/ingredients/Riz.png", state: 0 }
         ]
     },
-    {
-        name: "Boeuf bourguignon",
-        ingredients: [
-            { src: "src/img/ingredients/Boeuf.png", state: 1 },
-            { src: "src/img/ingredients/Carotte.png", state: 2 },
-            { src: "src/img/ingredients/Sauce.png", state: 0 },
-            { src: "src/img/ingredients/Champignon.png", state: 2 },
-            { src: "src/img/ingredients/Oignon.png", state: 1 }
-        ]
-    },
-    {
-        name: "Tarte citron",
-        ingredients: [
-            { src: "src/img/ingredients/Citron.png", state: 1 },
-            { src: "src/img/ingredients/Farine.png", state: 0 },
-            { src: "src/img/ingredients/Lait.png", state: 0 },
-            { src: "src/img/ingredients/Sucre.png", state: 0 },
-            { src: "src/img/ingredients/Oeuf.png", state: 2 }
-        ]
-    },
+   
+    
     {
         name: "Cookie",
         ingredients: [

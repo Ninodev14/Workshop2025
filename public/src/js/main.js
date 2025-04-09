@@ -330,21 +330,47 @@ let isIngredientInZone = {
 };
 
 drake.on('drop', (el, target) => {
-    if (target.id === "Player1GiveZone" && playerRole === "P1") {
+    if (target.id == "Player1GiveZone" && playerRole == "P1") {
         // Envoi à P2
-        const data = {
-            src: el.src,
-            alt: el.alt,
-            state: el.getAttribute("data-state"),
-            to: "P2",
-            roomId: roomId
-        };
-        socket.emit("sendIngredient", data);
-        el.remove();
-        console.log("Player 1 a envoyé à player 2 :", el);
+        if (!el.src) {
+            // C'est une image coupée → on récupère les données du conteneur
+
+            const src = el.getAttribute('data-src');
+            const alt = el.getAttribute('data-alt');
+            const state = el.getAttribute('data-state');
+
+            if (src && alt) {
+                const data = {
+                    src,
+                    alt,
+                    state,
+                    to: "P2",
+                    roomId: roomId
+                };
+                socket.emit("sendIngredient", data);
+                el.setAttribute('data-sent', true);
+                el.remove();
+            } else {
+                console.log("❌ Données manquantes dans l'élément coupé");
+            }
+
+
+
+        } else {
+            // C'est une image non coupée, on envoie les données comme avant
+            const data = {
+                src: el.src,
+                alt: el.alt,
+                state: el.getAttribute("data-state"),
+                to: "P2",
+                roomId: roomId
+            };
+            socket.emit("sendIngredient", data);
+            el.remove();
+        }
     }
 
-    if (target.id === "Player2GiveZone" && playerRole === "P2") {
+    if (target.id == "Player2GiveZone" && playerRole == "P2") {
         // Envoi à P1
         const data = {
             src: el.src,
@@ -509,10 +535,10 @@ function spawnRandomIngredient(zoneId) {
         }
     });
 }
+
 socket.on("receiveIngredient", (data) => {
-    if ((playerRole === "P1" && data.to === "P1") || (playerRole === "P2" && data.to === "P2")) {
-        console.log("Événement 'receiveIngredient' capté!");
-        console.log("Ingrédient reçu :", data);
+    if ((playerRole == "P1" && data.to == "P1") || (playerRole == "P2" && data.to == "P2")) {
+
 
         const img = document.createElement("img");
         img.src = data.src;
@@ -521,18 +547,49 @@ socket.on("receiveIngredient", (data) => {
         img.draggable = true;
         img.setAttribute("data-state", data.state || "0");
 
-        const zone = playerRole === "P1" ?
-            document.getElementById("Player1TakeZone") :
-            document.getElementById("Player2TakeZone");
+        if (data.state == 1) {
+            // Créer une div conteneur qui va envelopper l'image coupée
+            const imageContainer = document.createElement('div');
+            imageContainer.classList.add('cut-container');
+            imageContainer.setAttribute('data-src', data.src);
+            imageContainer.setAttribute('data-alt', data.alt);
+            imageContainer.setAttribute('data-state', '1');
 
-        zone.appendChild(img);
-        registerInitialZone(img, zone);
+            // Ajouter l'image au conteneur, avant de la couper
+            imageContainer.appendChild(img);
+
+            // Appel à la fonction cutImageInTwo pour couper l'image et la réorganiser
+            cutImageInTwo(img, imageContainer);
+
+            // Ajouter le conteneur dans la zone du joueur
+            const zone = playerRole === "P1" ?
+                document.getElementById("Player1TakeZone") :
+                document.getElementById("Player2TakeZone");
+
+            zone.appendChild(imageContainer);  // Ajouter le conteneur contenant l'image coupée
+            registerInitialZone(img, zone);  // Enregistrer l'image dans la zone initiale
+
+
+
+        } else {
+            console.log("elem lavé recu");
+            const zone = playerRole === "P1" ?
+                document.getElementById("Player1TakeZone") :
+                document.getElementById("Player2TakeZone");
+
+            zone.appendChild(img);
+            registerInitialZone(img, zone);
+
+        }
+
+
     } else {
         console.log(`Ce joueur ne peut pas recevoir cet ingrédient (Rôle: ${playerRole}, À: ${data.to})`);
     }
 });
 
 function cutImageInTwo(imgElement) {
+
     const src = imgElement.src;
     const altText = imgElement.alt;
     const imageContainer = imgElement.parentElement;
@@ -541,10 +598,14 @@ function cutImageInTwo(imgElement) {
     const cutContainer = document.createElement('div');
     cutContainer.classList.add('cut-container');
 
+    // ⬇️ Stocker les données ici
+    cutContainer.setAttribute('data-src', src);
+    cutContainer.setAttribute('data-alt', altText);
+    cutContainer.setAttribute('data-state', '1');
+
     const leftPart = document.createElement('div');
     leftPart.classList.add('image-part', 'left');
     leftPart.style.backgroundImage = `url(${src})`;
-
 
     const rightPart = document.createElement('div');
     rightPart.classList.add('image-part', 'right');
@@ -552,19 +613,10 @@ function cutImageInTwo(imgElement) {
 
     cutContainer.appendChild(leftPart);
     cutContainer.appendChild(rightPart);
-
     imageContainer.appendChild(cutContainer);
 
-    const textDiv = document.createElement('div');
-    textDiv.classList.add('ingredient-text');
-    textDiv.textContent = altText;
-
-    textDiv.style.display = "none";
-    cutContainer.appendChild(textDiv);
-    textDiv.setAttribute('data-alt', altText);
-    textDiv.setAttribute('data-state', '1');
-    console.log(`L'image ${altText} a été coupée en deux !`);
 }
+
 
 
 socket.on("GameCanBigin", () => {
