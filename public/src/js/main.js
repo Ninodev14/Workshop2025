@@ -742,7 +742,11 @@ socket.on('ingredientRemoved', (data) => {
 
 socket.on("GameCanBigin", () => {
     console.log("🎮 Le jeu peut commencer!");
+    
+    // Cacher le titre
     document.getElementById("title").style.display = "none";
+
+    // Afficher la zone de jeu pour le joueur actuel
     if (playerRole === "P1") {
         document.getElementById("Player1Game").style.display = "block";
         displayRandomRecipe("Player1Recipe");
@@ -752,9 +756,47 @@ socket.on("GameCanBigin", () => {
         displayRandomRecipe("Player2Recipe");
         startGame();
     }
+
+    // Initialisation des zones de vérification et de drop
     initializeVerificationZone();
     initializeDropZones();
+
+    // Démarrer le timer et la rotation des aiguilles pour chaque joueur (P1 et P2)
+    // Je suppose que tu as deux aiguilles correspondant à chaque joueur (player 1 et player 2).
+    const needles = document.querySelectorAll('.needle'); // Récupère tes aiguilles dans le DOM (ajuste selon ton code)
+
+    // Déclencher le chronomètre et l'animation de l'aiguille pour chaque joueur (P1 et P2)
+    // Ce sera la même logique qu'auparavant, mais sans interaction utilisateur.
+    needles.forEach((needle, index) => {
+        let secondesLocal = 0;
+        let chronoLocal = null;
+
+        // Déclenche l'intervalle de chronomètre automatiquement lorsque le jeu commence
+        secondesLocal = 0;
+        rotateNeedle(needle, 0); // Remise à zéro de la rotation de l'aiguille
+
+        // Lancer l'intervalle pour chaque joueur
+        chronoLocal = setInterval(() => {
+            secondesLocal++;
+
+            // Calcul des degrés d'avancée de l'aiguille par seconde
+            rotateNeedle(needle, secondesLocal * 2);  // 2° par seconde
+
+            // Condition pour arrêter l'intervalle après 180 secondes
+            if (secondesLocal === 180) {
+                clearInterval(chronoLocal);
+                // Appeler la fonction pour gérer la fin du jeu
+                endGame();
+            }
+        }, 1000);  // Déclenche chaque seconde
+    });
 });
+
+// Fonction de rotation de l'aiguille
+function rotateNeedle(needle, degrees) {
+    needle.style.transform = `rotate(${degrees}deg)`; // Mise à jour de la rotation
+}
+
 
 
 
@@ -785,46 +827,6 @@ socket.on("updateRecipe", (total) => {
     setTimeout(() => {
         isUpdating = false; 
     }, 500); 
-});
-
-const needles = document.querySelectorAll(".needle");
-const buttons = document.querySelectorAll(".startBtn");
-
-buttons.forEach((button, index) => {
-    let secondesLocal = 0;
-    let chronoLocal = null;
-    let ispress = false;
-
-
-    button.addEventListener("click", function () {
-        if (ispress == false) {
-            ispress = true;
-            secondesLocal = 0;
-            rotateNeedle(needles[index], 0);
-            chronoLocal = setInterval(() => {
-                secondesLocal++;
-
-                //degrés d'avancée de l'aiguille par seconde
-                rotateNeedle(needles[index], secondesLocal * 2);
-
-                //durée de la boucle
-                if (secondesLocal == 180) {
-                    clearInterval(chronoLocal);
-                    //envent à la fin de la boucle
-                    endGame();
-                }
-            }, 1000);
-        }
-
-
-
-    });
-
-    // Fonction de rotation de l'aiguille
-    function rotateNeedle(needle, degrees) {
-        needle.style.transform = `rotate(${degrees}deg)`; // Mise à jour de la rotation
-    }
-
 });
 
 
