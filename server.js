@@ -201,26 +201,30 @@ io.on('connection', (socket) => {
     });
 
     socket.on('TotRecipeDone', (data) => {
+        console.log(`📨 Recette reçue de ${socket.id} pour room ${data.roomId}`);
+
 
 
         if (!rooms[data.roomId]) {
             console.log(`❌ Room introuvable : ${data.roomId}`);
             return;
         }
-    
+
         // Initialise le total s'il n'existe pas encore
         if (!roomRecipeTotals[data.roomId]) {
             roomRecipeTotals[data.roomId] = 0;
         }
-    
+
         // Incrémentation
-        roomRecipeTotals[data.roomId] += data.RecipeDone;
-        const total = roomRecipeTotals[data.roomId];
-    
+
+        roomRecipeTotals[data.roomId]++;
+        let total = roomRecipeTotals[data.roomId];
+
         console.log(`🍲 Total de recettes pour la room ${data.roomId} : ${total}`);
-    
+
         // Envoi du nouveau total aux joueurs de la room
         io.to(data.roomId).emit('updateRecipe', { total })
+
 
 
     });

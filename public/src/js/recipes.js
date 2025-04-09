@@ -162,7 +162,7 @@ const recipes = [{
     {
         name: "PoissonRiz",
         ingredients: [
-            { src: "src/img/ingredients/Poisson.png", state: 2 },
+            { src: "src/img/ingredients/Poisson.png", state: 0 },
             { src: "src/img/ingredients/Citron.png", state: 1 },
             { src: "src/img/ingredients/Riz.png", state: 2 },
             { src: "src/img/ingredients/Oeuf.png", state: 0 },

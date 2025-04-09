@@ -6,8 +6,6 @@ const roomId = new URLSearchParams(window.location.search).get('roomId');
 const playerId = localStorage.getItem("playerId");
 const playerName = localStorage.getItem("playerName");
 
-let RecipeDone = 1;
-
 
 
 const additionalImages = [
@@ -275,14 +273,12 @@ function validateRecipeCompletion(targetDivId) {
 
     function getDroppedIngredientData(element) {
         if (element.tagName === "IMG") {
-            console.log("🔍 Élément image trouvé dans la zone :", element.alt, "État:", element.getAttribute('data-state'));
             return {
                 text: element.alt,
                 state: element.getAttribute('data-state')
             };
         } else if (element.classList.contains("cut-container")) {
 
-            console.log("🔪 Élément découpé trouvé :", element.getAttribute('data-alt'), "État:", element.getAttribute('data-state'));
             return {
                 text: element.getAttribute('data-alt') || element.textContent.trim(),
                 state: element.getAttribute('data-state')
@@ -307,7 +303,6 @@ function validateRecipeCompletion(targetDivId) {
         .map(el => getDroppedIngredientData(el))
         .filter(data => data !== null);
 
-    console.log("📦 Ingrédients déposés :", droppedIngredients);
 
     const missingIngredients = recipeIngredients.filter(recipeIng =>
         !droppedIngredients.some(droppedIng =>
@@ -335,7 +330,6 @@ function validateRecipeCompletion(targetDivId) {
 
 
     if (missingIngredients.length === 0 && incorrectIngredients.length === 0) {
-        messageDiv.textContent = "🎉 Recette réussie ! Tous les bons ingrédients sont présents.";
         messageDiv.className = "success-message";
 
 
@@ -351,15 +345,17 @@ function validateRecipeCompletion(targetDivId) {
             document.getElementById("Player2VerificationZone").innerHTML = '';
             if (playerRole === "P1") {
                 displayRandomRecipe("Player1Recipe");
+                
             } else if (playerRole === "P2") {
                 displayRandomRecipe("Player2Recipe");
             }
         }, 3000);
 
         const data = {
-            RecipeDone,
             roomId: roomId
         };
+
+        console.log(`[${playerRole}] envoie TotRecipeDone`);
         socket.emit("TotRecipeDone", data);
 
     } else {
@@ -607,7 +603,6 @@ function spawnRandomIngredient(zoneId) {
 
 
 function transformIngredient(imgToCut) {
-    console.log("oooOOOOoooOOOOooo");
     const player1DropZone = document.getElementById("Player1DropZone");
     const player2DropZone = document.getElementById("Player2DropZone");
 
@@ -749,18 +744,93 @@ socket.on("GameCanBigin", () => {
 });
 
 
+
+let globalScore = 0; 
+let isUpdating = false; 
+
 socket.on("updateRecipe", (total) => {
 
-    const score = document.querySelectorAll(".score")
-    score.forEach(element => {
-
-        element.innerHTML = total.total;
-    });
-
-    if (total.total >= 2) {
-        console.log("yo salope");
-
+    if (isUpdating) {
+       
+        return;
     }
 
+    isUpdating = true;
+
+    globalScore += 1;
+
+    const scoreElements = document.querySelectorAll(".score");
+
+    scoreElements.forEach(element => {
+        element.innerHTML = globalScore;
+    });
+
+    if (globalScore >= 4) {
+        endGame();
+    }
+
+    setTimeout(() => {
+        isUpdating = false; 
+    }, 500); 
+});
+
+const needles = document.querySelectorAll(".needle");
+const buttons = document.querySelectorAll(".startBtn");
+
+buttons.forEach((button, index) => {
+    let secondesLocal = 0;
+    let chronoLocal = null;
+    let ispress = false;
+
+
+    button.addEventListener("click", function () {
+        if (ispress == false) {
+            ispress = true;
+            secondesLocal = 0;
+            rotateNeedle(needles[index], 0);
+            chronoLocal = setInterval(() => {
+                secondesLocal++;
+
+                //degrés d'avancée de l'aiguille par seconde
+                rotateNeedle(needles[index], secondesLocal * 2);
+
+                //durée de la boucle
+                if (secondesLocal == 180) {
+                    clearInterval(chronoLocal);
+                    //envent à la fin de la boucle
+                    endGame();
+                }
+            }, 1000);
+        }
+
+
+
+    });
+
+    // Fonction de rotation de l'aiguille
+    function rotateNeedle(needle, degrees) {
+        needle.style.transform = `rotate(${degrees}deg)`; // Mise à jour de la rotation
+    }
 
 });
+
+
+
+
+
+
+
+
+function endGame(){
+
+    console.log("FIN DU JEU SALOPE")
+
+
+
+
+
+}
+
+
+
+
