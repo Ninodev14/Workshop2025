@@ -40,7 +40,7 @@ const additionalImages = [
     "src/img/ingredients/Pain.png",
     "src/img/ingredients/Patate.png",
     "src/img/ingredients/Pates.png",
-    "src/img/ingredients/Pache.png",
+    "src/img/ingredients/Peche.png",
     "src/img/ingredients/PépitesDeChocolat.png",
     "src/img/ingredients/PetitPois.png",
     "src/img/ingredients/Piment.png",
