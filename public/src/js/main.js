@@ -620,17 +620,17 @@ function cutImageInTwo(imgElement) {
 }
 
 socket.on('ingredientRemoved', (data) => {
-    const zone = playerRole === "P1" ? "Player1GiveZone" : "Player2GiveZone";
     const ingredient = document.querySelector(`[data-id="${data.id}"]`);
 
     if (ingredient) {
-        const parentZone = ingredient.closest('.take');
 
-        if (parentZone && (parentZone.id === "Player1TakeZone" || parentZone.id === "Player2TakeZone")) {
+        const parentZone = ingredient.closest('.take') || ingredient.closest('.give');
+
+        if (parentZone && (parentZone.id === "Player1TakeZone" || parentZone.id === "Player2TakeZone" || parentZone.id === "Player1GiveZone" || parentZone.id === "Player2GiveZone")) {
             ingredient.remove();
-            console.log(`🗑️ L’ingrédient a été supprimé de ${zone} (id: ${data.id})`);
+            console.log(`🗑️ L’ingrédient (id: ${data.id}) a été supprimé de ${parentZone.id}`);
         } else {
-            console.log("⛔ Suppression refusée : l’ingrédient n’est pas dans une zone 'take'.");
+            console.log("⛔ Suppression refusée : l’ingrédient n’est pas dans une zone autorisée (take/give).");
         }
     } else {
         console.log("❌ L'ingrédient n'a pas été trouvé pour la suppression.");

@@ -180,12 +180,11 @@ io.on('connection', (socket) => {
         const targetRoom = rooms[roomId];
 
         if (targetRoom) {
-            // On utilise la logique d'index pour retrouver le joueur selon son rôle
             const index = data.to === "P1" ? 0 : 1;
             const player = targetRoom.players[index];
 
             if (player) {
-                const socketId = playerSockets[player.id]; // On retrouve le socket.id
+                const socketId = playerSockets[player.id];
                 if (socketId) {
                     io.to(roomId).emit('ingredientRemoved', data);
                     console.log(`✅ Ingrédient retiré et signalé à ${data.to}`);
@@ -199,6 +198,7 @@ io.on('connection', (socket) => {
             console.log('❌ Room introuvable:', roomId);
         }
     });
+
 });
 
 
