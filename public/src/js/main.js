@@ -602,31 +602,40 @@ function spawnRandomIngredient(zoneId) {
 
     clickCounts[randomImg.src] = 0;
 
-    randomImg.addEventListener('click', () => {
-        const player1DropZone = document.getElementById("Player1DropZone");
-        const player2DropZone = document.getElementById("Player2DropZone");
+    transformIngredient(randomImg);
+}
 
-        if (Array.from(player1DropZone.children).includes(randomImg)) {
-            clickCounts[randomImg.src] += 1;
-            console.log(`👨‍🍳 P1 - Clics sur ${randomImg.alt}: ${clickCounts[randomImg.src]}`);
 
-            if (clickCounts[randomImg.src] >= 10) {
-                cutImageInTwo(randomImg);
+function transformIngredient(imgToCut) {
+    console.log("oooOOOOoooOOOOooo");
+    const player1DropZone = document.getElementById("Player1DropZone");
+    const player2DropZone = document.getElementById("Player2DropZone");
+
+    imgToCut.addEventListener('click', () => {
+
+
+        if (Array.from(player1DropZone.children).includes(imgToCut)) {
+            clickCounts[imgToCut.src] += 1;
+            console.log("👨‍🍳P1 - Clics sur $ { imgToCut.alt }: $ { clickCounts[imgToCut.src] }");
+
+            if (clickCounts[imgToCut.src] >= 10) {
+                cutImageInTwo(imgToCut);
             }
-        } else if (Array.from(player2DropZone.children).includes(randomImg)) {
-            clickCounts[randomImg.src] += 1;
-            console.log(`👩‍🍳 P2 - Clics sur ${randomImg.alt}: ${clickCounts[randomImg.src]}`);
+        } else if (Array.from(player2DropZone.children).includes(imgToCut)) {
+            clickCounts[imgToCut.src] += 1;
+            console.log("👩‍🍳P2 - Clics sur $ { imgToCut.alt }: $ { clickCounts[imgToCut.src] }");
 
-            if (clickCounts[randomImg.src] >= 10) {
+            if (clickCounts[imgToCut.src] >= 10) {
 
-                randomImg.style.filter = 'brightness(1.8) grayscale(0.3)';
-                randomImg.setAttribute('data-state', '2');
-                console.log(`✨ ${randomImg.alt} est maintenant en état 2 (modifiée par P2)`);
+                imgToCut.style.filter = 'brightness(1.8) grayscale(0.3)';
+                imgToCut.setAttribute('data-state', '2');
+                console.log("✨$ { imgToCut.alt } est maintenant en état 2(modifiée par P2)");
             }
         } else {
-            console.log("❌ L'image n'est pas dans une zone de drop autorisée.");
+            console.log(" L'image n'est pas dans une zone de drop autorisée.");
         }
     });
+
 }
 
 socket.on("receiveIngredient", (data) => {
