@@ -247,7 +247,8 @@ function validateRecipeCompletion(targetDivId) {
                 state: element.getAttribute('data-state')
             };
         } else if (element.classList.contains("cut-container")) {
-            const textEl = element.querySelector(".ingredient-text");
+            const textEl = element.querySelector(".cut-container");
+            console.log(textEl)
             if (textEl) {
                 console.log("🔪 Élément découpé trouvé :", textEl.getAttribute('data-alt'), "État:", textEl.getAttribute('data-state'));
                 return {
@@ -255,7 +256,7 @@ function validateRecipeCompletion(targetDivId) {
                     state: textEl.getAttribute('data-state')
                 };
             } else {
-                console.warn("⚠️ cut-container sans .ingredient-text");
+                console.warn("⚠️ cut-container sans .cut-container");
             }
         }
         console.warn("⚠️ Élément non reconnu :", element);
@@ -566,8 +567,8 @@ socket.on("receiveIngredient", (data) => {
                 document.getElementById("Player1TakeZone") :
                 document.getElementById("Player2TakeZone");
 
-            zone.appendChild(imageContainer);  // Ajouter le conteneur contenant l'image coupée
-            registerInitialZone(img, zone);  // Enregistrer l'image dans la zone initiale
+            zone.appendChild(imageContainer); // Ajouter le conteneur contenant l'image coupée
+            registerInitialZone(img, zone); // Enregistrer l'image dans la zone initiale
 
 
 
