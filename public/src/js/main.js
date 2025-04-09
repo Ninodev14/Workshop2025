@@ -247,17 +247,13 @@ function validateRecipeCompletion(targetDivId) {
                 state: element.getAttribute('data-state')
             };
         } else if (element.classList.contains("cut-container")) {
-            const textEl = element.querySelector(".cut-container");
-            console.log(textEl)
-            if (textEl) {
-                console.log("🔪 Élément découpé trouvé :", textEl.getAttribute('data-alt'), "État:", textEl.getAttribute('data-state'));
-                return {
-                    text: textEl.getAttribute('data-alt') || textEl.textContent.trim(),
-                    state: textEl.getAttribute('data-state')
-                };
-            } else {
-                console.warn("⚠️ cut-container sans .cut-container");
-            }
+
+            console.log("🔪 Élément découpé trouvé :", element.getAttribute('data-alt'), "État:", element.getAttribute('data-state'));
+            return {
+                text: element.getAttribute('data-alt') || element.textContent.trim(),
+                state: element.getAttribute('data-state')
+            };
+
         }
         console.warn("⚠️ Élément non reconnu :", element);
         return null;
@@ -311,7 +307,6 @@ function validateRecipeCompletion(targetDivId) {
         messageDiv.className = "error-message";
     }
 }
-
 
 
 
@@ -565,11 +560,10 @@ socket.on("receiveIngredient", (data) => {
 
             zone.appendChild(imageContainer);
 
-            // 👇 Important : enregistrer le conteneur comme draggable
             drake.containers.push(zone);
-            registerInitialZone(imageContainer, zone); // Pas juste img ! imageContainer aussi si utilisé
+            registerInitialZone(imageContainer, zone);
         } else {
-            // Ingrédient normal ou lavé
+
             const img = document.createElement("img");
             img.src = data.src;
             img.alt = data.alt;
