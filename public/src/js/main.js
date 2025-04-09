@@ -329,11 +329,19 @@ drake.on('drop', (el, target) => {
     const forbiddenTakeZones = ["Player1TakeZone", "Player2TakeZone"];
     if (forbiddenTakeZones.includes(target.id)) {
         console.log("⛔ Impossible de déposer ici (zone de réception uniquement).");
-        el.remove(); // ❗ On retire l'élément illégalement posé
+        const id = el.getAttribute("data-id");
+        el.remove();
+        if (id) {
+            socket.emit("removeIngredient", {
+                id,
+                roomId,
+                to: playerRole === "P1" ? "P2" : "P1"
+            });
+        }
         return;
     }
 
-    // --- GESTION DE L'ENVOI ---
+
     if (target.id == "Player1GiveZone" && playerRole == "P1") {
         sendToPlayer(el, "P2");
         return;
@@ -365,11 +373,18 @@ drake.on('drop', (el, target) => {
         }
     } else {
         console.log("Zone incorrecte, l'élément disparaît.");
+        const id = el.getAttribute("data-id");
         el.remove();
+        if (id) {
+            socket.emit("removeIngredient", {
+                id,
+                roomId,
+                to: playerRole === "P1" ? "P2" : "P1"
+            });
+        }
     }
 });
 
-// 🔁 Fonction d'envoi
 function sendToPlayer(el, to) {
     const isCut = !el.src;
     const src = isCut ? el.getAttribute('data-src') : el.src;
@@ -381,20 +396,22 @@ function sendToPlayer(el, to) {
         return;
     }
 
+    const id = el.getAttribute("data-id") || `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    el.setAttribute("data-id", id);
+
     const data = {
         src,
         alt,
         state,
         to,
-        roomId
+        roomId,
+        id
     };
 
     socket.emit("sendIngredient", data);
-    el.remove();
-    console.log(`📦 Ingrédient envoyé à ${to}`);
+
+    console.log(`📦 Ingrédient envoyé à ${to} (id: ${id})`);
 }
-
-
 
 const player1GiveZone = document.getElementById("Player1GiveZone");
 const player2GiveZone = document.getElementById("Player2GiveZone");
@@ -522,30 +539,34 @@ socket.on("receiveIngredient", (data) => {
             document.getElementById("Player1TakeZone") :
             document.getElementById("Player2TakeZone");
 
+        const id = data.id || `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
         if (data.state == "1") {
             const imageContainer = document.createElement('div');
             imageContainer.classList.add('cut-container');
             imageContainer.setAttribute('data-src', data.src);
             imageContainer.setAttribute('data-alt', data.alt);
             imageContainer.setAttribute('data-state', '1');
+            imageContainer.setAttribute('data-id', id);
 
             const img = document.createElement("img");
             img.src = data.src;
             img.alt = data.alt;
             img.classList.add("ingredient-img");
             img.setAttribute("data-state", "1");
+            img.setAttribute("data-id", id);
             img.draggable = false;
 
             imageContainer.appendChild(img);
             cutImageInTwo(img, imageContainer);
             zone.appendChild(imageContainer);
-
         } else {
             const img = document.createElement("img");
             img.src = data.src;
             img.alt = data.alt;
             img.classList.add("ingredient-img");
             img.setAttribute("data-state", data.state || "0");
+            img.setAttribute("data-id", id);
             img.draggable = false;
             zone.appendChild(img);
         }
@@ -586,6 +607,17 @@ function cutImageInTwo(imgElement) {
 
 }
 
+socket.on('ingredientRemoved', (data) => {
+    const zone = playerRole === "P1" ? "Player1GiveZone" : "Player2GiveZone";
+    const ingredient = document.querySelector(`[data-id="${data.id}"]`);
+
+    if (ingredient) {
+        ingredient.remove();
+        console.log(`🗑️ L’ingrédient a été supprimé de ${zone} (id: ${data.id})`);
+    } else {
+        console.log("❌ L'ingrédient n'a pas été trouvé pour la suppression.");
+    }
+});
 
 
 socket.on("GameCanBigin", () => {

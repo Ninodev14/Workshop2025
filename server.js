@@ -173,7 +173,32 @@ io.on('connection', (socket) => {
             console.log('❌ Room introuvable:', roomId);
         }
     });
+    socket.on('removeIngredient', (data) => {
+        console.log('Demande de suppression d’ingrédient:', data);
 
+        const roomId = data.roomId;
+        const targetRoom = rooms[roomId];
+
+        if (targetRoom) {
+            // On utilise la logique d'index pour retrouver le joueur selon son rôle
+            const index = data.to === "P1" ? 0 : 1;
+            const player = targetRoom.players[index];
+
+            if (player) {
+                const socketId = playerSockets[player.id]; // On retrouve le socket.id
+                if (socketId) {
+                    io.to(roomId).emit('ingredientRemoved', data);
+                    console.log(`✅ Ingrédient retiré et signalé à ${data.to}`);
+                } else {
+                    console.log(`❌ Socket introuvable pour le joueur ${player.id}`);
+                }
+            } else {
+                console.log('❌ Joueur introuvable pour la suppression');
+            }
+        } else {
+            console.log('❌ Room introuvable:', roomId);
+        }
+    });
 });
 
 
