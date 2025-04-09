@@ -342,67 +342,53 @@ let isIngredientInZone = {
 };
 
 drake.on('drop', (el, target) => {
-    if (target.id == "Player1GiveZone" && playerRole == "P1") {
-        // Envoi à P2
-        if (!el.src) {
-            // C'est une image coupée → on récupère les données du conteneur
+    const forbiddenTakeZones = ["Player1TakeZone", "Player2TakeZone"];
+    const isGiveZone = target.classList.contains("give");
 
-            const src = el.getAttribute('data-src');
-            const alt = el.getAttribute('data-alt');
-            const state = el.getAttribute('data-state');
+    if (forbiddenTakeZones.includes(target.id)) {
+        console.log("⛔ Impossible de déposer ici (zone de réception uniquement).");
+        const id = el.getAttribute("data-id");
+        el.remove();
+        if (id) {
+            socket.emit("removeIngredient", {
+                id,
+                roomId,
+                to: playerRole === "P1" ? "P2" : "P1"
+            });
+        }
+        return;
+    }
 
-            if (src && alt) {
-                const data = {
-                    src,
-                    alt,
-                    state,
-                    to: "P2",
-                    roomId: roomId
-                };
-                socket.emit("sendIngredient", data);
-                el.setAttribute('data-sent', true);
-                el.remove();
-            } else {
-                console.log("❌ Données manquantes dans l'élément coupé");
-            }
-
-
-
-        } else {
-            // C'est une image non coupée, on envoie les données comme avant
-            const data = {
-                src: el.src,
-                alt: el.alt,
-                state: el.getAttribute("data-state"),
-                to: "P2",
-                roomId: roomId
-            };
-            socket.emit("sendIngredient", data);
-            el.remove();
+    if (!isGiveZone) {
+        const id = el.getAttribute("data-id");
+        if (id) {
+            socket.emit("removeIngredient", {
+                id,
+                roomId,
+                to: playerRole === "P1" ? "P2" : "P1"
+            });
         }
     }
 
-    if (target.id == "Player2GiveZone" && playerRole == "P2") {
-        // Envoi à P1
-        const data = {
-            src: el.src,
-            alt: el.alt,
-            state: el.getAttribute("data-state"),
-            to: "P1",
-            roomId: roomId
-        };
-        socket.emit("sendIngredient", data);
-        el.remove();
-        console.log("Player 2 a envoyé à player 1 :", el);
+    if (target.id == "Player1GiveZone" && playerRole == "P1") {
+        sendToPlayer(el, "P2");
+        return;
     }
 
-    const allowedZoneClasses = ['drop-zone', 'verification-zone', 'ingredient-zone', 'give'];
+    if (target.id == "Player2GiveZone" && playerRole == "P2") {
+        sendToPlayer(el, "P1");
+        return;
+    }
+
+    // --- AUTRES ZONES ---
+    const allowedZoneClasses = ['drop-zone', 'verification-zone', 'ingredient-zone'];
     const isAllowedZone = allowedZoneClasses.some(cls => target.classList.contains(cls));
 
     if (isAllowedZone) {
         const isVerificationZone = target.classList.contains('verification-zone');
         const limit = isVerificationZone ? 6 : maxIngredients;
         const imageCount = Array.from(target.children).filter(child => child.tagName === "IMG").length;
+
         if (imageCount < limit) {
             el.draggable = false;
             target.appendChild(el);
@@ -415,20 +401,45 @@ drake.on('drop', (el, target) => {
         }
     } else {
         console.log("Zone incorrecte, l'élément disparaît.");
+        const id = el.getAttribute("data-id");
         el.remove();
-        const data = {
-            src: el.src,
-            alt: el.alt,
-            state: el.getAttribute("data-state"),
-            to: playerRole === "P1" ? "P2" : "P1",
-            roomId: roomId,
-            remove: true
-        };
-        socket.emit("sendIngredient", data);
+        if (id) {
+            socket.emit("removeIngredient", {
+                id,
+                roomId,
+                to: playerRole === "P1" ? "P2" : "P1"
+            });
+        }
     }
 });
 
+function sendToPlayer(el, to) {
+    const isCut = !el.src;
+    const src = isCut ? el.getAttribute('data-src') : el.src;
+    const alt = isCut ? el.getAttribute('data-alt') : el.alt;
+    const state = el.getAttribute('data-state') || "0";
 
+    if (!src || !alt) {
+        console.log("❌ Données manquantes");
+        return;
+    }
+
+    const id = el.getAttribute("data-id") || `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    el.setAttribute("data-id", id);
+
+    const data = {
+        src,
+        alt,
+        state,
+        to,
+        roomId,
+        id
+    };
+
+    socket.emit("sendIngredient", data);
+
+    console.log(`📦 Ingrédient envoyé à ${to} (id: ${id})`);
+}
 
 const player1GiveZone = document.getElementById("Player1GiveZone");
 const player2GiveZone = document.getElementById("Player2GiveZone");
@@ -556,46 +567,44 @@ socket.on("receiveIngredient", (data) => {
             document.getElementById("Player1TakeZone") :
             document.getElementById("Player2TakeZone");
 
+        const id = data.id || `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+
         if (data.state == "1") {
-            // Créer un conteneur pour un ingrédient coupé
             const imageContainer = document.createElement('div');
             imageContainer.classList.add('cut-container');
             imageContainer.setAttribute('data-src', data.src);
             imageContainer.setAttribute('data-alt', data.alt);
             imageContainer.setAttribute('data-state', '1');
+            imageContainer.setAttribute('data-id', id);
 
             const img = document.createElement("img");
             img.src = data.src;
             img.alt = data.alt;
             img.classList.add("ingredient-img");
-            img.draggable = true;
             img.setAttribute("data-state", "1");
+            img.setAttribute("data-id", id);
+            img.draggable = false;
 
             imageContainer.appendChild(img);
             cutImageInTwo(img, imageContainer);
-
             zone.appendChild(imageContainer);
-
-            drake.containers.push(zone);
-            registerInitialZone(imageContainer, zone);
         } else {
-
             const img = document.createElement("img");
             img.src = data.src;
             img.alt = data.alt;
             img.classList.add("ingredient-img");
-            img.draggable = true;
             img.setAttribute("data-state", data.state || "0");
-
+            img.setAttribute("data-id", id);
+            img.draggable = false;
             zone.appendChild(img);
-
-            drake.containers.push(zone)
-            registerInitialZone(img, zone);
         }
+
+        drake.containers.push(zone);
     } else {
         console.log(`Ce joueur ne peut pas recevoir cet ingrédient (Rôle: ${playerRole}, À: ${data.to})`);
     }
 });
+
 
 
 function cutImageInTwo(imgElement) {
@@ -608,7 +617,6 @@ function cutImageInTwo(imgElement) {
     const cutContainer = document.createElement('div');
     cutContainer.classList.add('cut-container');
 
-    // ⬇️ Stocker les données ici
     cutContainer.setAttribute('data-src', src);
     cutContainer.setAttribute('data-alt', altText);
     cutContainer.setAttribute('data-state', '1');
@@ -626,6 +634,24 @@ function cutImageInTwo(imgElement) {
     imageContainer.appendChild(cutContainer);
 
 }
+
+socket.on('ingredientRemoved', (data) => {
+    const ingredient = document.querySelector(`[data-id="${data.id}"]`);
+
+    if (ingredient) {
+
+        const parentZone = ingredient.closest('.take') || ingredient.closest('.give');
+
+        if (parentZone && (parentZone.id === "Player1TakeZone" || parentZone.id === "Player2TakeZone" || parentZone.id === "Player1GiveZone" || parentZone.id === "Player2GiveZone")) {
+            ingredient.remove();
+            console.log(`🗑️ L’ingrédient (id: ${data.id}) a été supprimé de ${parentZone.id}`);
+        } else {
+            console.log("⛔ Suppression refusée : l’ingrédient n’est pas dans une zone autorisée (take/give).");
+        }
+    } else {
+        console.log("❌ L'ingrédient n'a pas été trouvé pour la suppression.");
+    }
+});
 
 
 
