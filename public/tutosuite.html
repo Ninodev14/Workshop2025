@@ -18,7 +18,9 @@
 </head>
 <body>
 
-    <h1 style="scale: 0.6;" id="textTitre">Tutoriel - Joueur 1 </h1>
+    <div class="titre-id-for-player1" id="aflouter1">
+        <h1 style="scale: 0.6;" id="textTitre">Tutoriel - Joueur 1 </h1>
+    </div>
 
     <div class="container-tuto-suite">
         <div class="tuto">
@@ -29,7 +31,7 @@
                 <button id="destineadisparaitre" class="btnBoncy " onclick="goToLobbyPage()" style="z-index: 9999999 ;">Rejoindre une partie</button>
             </div>   
         </div>
-        <div class="premier-plan" style="z-index: -100000;">
+        <div class="premier-plan" style="z-index: -100000;" id="aflouter">
             <img id="myImage" src="src/img/tutosuite1tableau.png" class="diapo">
         </div>
     
@@ -128,6 +130,10 @@
                 console.log(numSlide);
                 image.src = "src/img/tutosuite9tableau.png";
                 textbtn.innerHTML = "" 
+                const floute = document.getElementById("aflouter")
+                floute.style.filter = "blur(10px)"
+                const floutes = document.getElementById("aflouter1")
+                floutes.style.filter = "blur(10px)"
                 const suppboutons = document.querySelectorAll("#For2player")
                 suppboutons.forEach(suppbouton => {
                 suppbouton.classList.add("clean");
@@ -149,6 +155,10 @@
                 image.src = "src/img/tutosuite10tableau.png";
                 textbtn.innerHTML = "Glisse 🍎 dans le lavabo 💧";
                 textTitre.innerHTML = "Tutoriel - Joueur 2"; 
+                const floute = document.getElementById("aflouter")
+                floute.style.filter = "blur(0)"
+                const floutes = document.getElementById("aflouter1")
+                floutes.style.filter = "blur(0)"
                 const suppboutons = document.querySelectorAll("#For2player")
                 suppboutons.forEach(suppbouton => {
                 suppbouton.classList.remove("clean");
@@ -187,6 +197,10 @@
                 console.log(numSlide);
                 textbtn.innerHTML = "" 
                 textTitre.innerHTML = "Tutoriel - Joueur 2"; 
+                const floute = document.getElementById("aflouter")
+                floute.style.filter = "blur(10px)"
+                const floutes = document.getElementById("aflouter1")
+                floutes.style.filter = "blur(10px)"
                 const suppboutons = document.querySelectorAll("#For2player")
                 suppboutons.forEach(suppbouton => {
                 suppbouton.classList.add("clean");
