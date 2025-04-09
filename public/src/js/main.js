@@ -150,6 +150,8 @@ function displayRandomRecipe(targetDivId) {
     const recipe = recipes[Math.floor(Math.random() * recipes.length)];
     const container = document.getElementById(targetDivId);
 
+    container.innerHTML = ''; // 🧹 Nettoyage avant de recréer la recette
+
     const title = document.createElement("h3");
     title.textContent = `Recette : ${recipe.name}`;
     container.appendChild(title);
@@ -159,49 +161,79 @@ function displayRandomRecipe(targetDivId) {
     ingredientsDiv.style.gap = "10px";
 
     recipe.ingredients.forEach(ingredient => {
+        let imgSrc, state;
+
         if (typeof ingredient === 'object' && ingredient.src) {
-            const imgSrc = ingredient.src;
-            const altText = imgSrc.split('/').pop().replace('.png', '');
-            const img = document.createElement("img");
-            img.src = imgSrc;
-            img.alt = altText;
-            img.style.width = "auto";
-            img.style.height = "60px";
-            img.setAttribute("data-state", ingredient.state || 0);
-            ingredientsDiv.appendChild(img);
+            imgSrc = ingredient.src;
+            state = ingredient.state || 0;
         } else if (typeof ingredient === 'string') {
-            const altText = ingredient.split('/').pop().replace('.png', '');
-            const img = document.createElement("img");
-            img.src = ingredient;
-            img.alt = altText;
-            img.style.width = "auto";
-            img.style.height = "60px";
-            img.setAttribute("data-state", 0);
-            ingredientsDiv.appendChild(img);
+            imgSrc = ingredient;
+            state = 0;
         } else {
             console.error("❌ Format d'ingrédient non valide", ingredient);
+            return;
         }
+
+        const wrapper = document.createElement("div");
+        wrapper.style.position = "relative";
+        wrapper.style.display = "inline-block";
+
+        const altText = imgSrc.split('/').pop().replace('.png', '');
+        const img = document.createElement("img");
+        img.src = imgSrc;
+        img.alt = altText;
+        img.style.width = "auto";
+        img.style.height = "60px";
+        img.setAttribute("data-state", state);
+
+        wrapper.appendChild(img);
+
+        if (state === 1 || state === 2) {
+            const stateIcon = document.createElement("img");
+            stateIcon.src = state === 1 ?
+                "src/img/icons/cut.png" :
+                "src/img/icons/washed.png";
+
+            stateIcon.alt = state === 1 ? "Coupé" : "Lavé";
+            stateIcon.style.position = "absolute";
+            stateIcon.style.bottom = "0";
+            stateIcon.style.right = "0";
+            stateIcon.style.width = "24px";
+            stateIcon.style.height = "24px";
+            stateIcon.style.background = "rgba(255,255,255,0.8)";
+            stateIcon.style.borderRadius = "50%";
+
+            wrapper.appendChild(stateIcon);
+        }
+
+        ingredientsDiv.appendChild(wrapper);
     });
 
     container.appendChild(ingredientsDiv);
 
     weightedPool = additionalImages.concat(
-        recipe.ingredients.flatMap(ing => Array(3).fill(ing.src))
+        recipe.ingredients.flatMap(ing => {
+            const src = typeof ing === 'object' ? ing.src : ing;
+            return Array(3).fill(src);
+        })
     );
 
     const zoneId = targetDivId === "Player1Recipe" ? "Player1IngredientZone" : "Player2IngredientZone";
     const animationZone = document.getElementById(zoneId);
     animationZone.innerHTML = '';
 
-    recipe.ingredients.forEach((src, index) => {
+    recipe.ingredients.forEach((ing, index) => {
+        const src = typeof ing === 'object' ? ing.src : ing;
+        const altText = src.split('/').pop().replace('.png', '');
+
         const animatedImg = document.createElement("img");
-        const altText = src.src.split('/').pop().replace('.png', '');
-        animatedImg.src = src.src;
+        animatedImg.src = src;
         animatedImg.alt = altText;
         animatedImg.classList.add("ingredient-img");
         animatedImg.draggable = true;
         animatedImg.style.animationDelay = `${index * 1}s`;
         animatedImg.setAttribute("data-state", "0");
+
         animationZone.appendChild(animatedImg);
         registerInitialZone(animatedImg, animationZone);
     });
@@ -217,6 +249,7 @@ function displayRandomRecipe(targetDivId) {
 
     monitorVerificationZone(verificationZoneId, validateButtonId);
 }
+
 
 
 function monitorVerificationZone(zoneId, buttonId) {
@@ -674,18 +707,16 @@ socket.on("GameCanBigin", () => {
 
 socket.on("updateRecipe", (total) => {
 
-    const score =document.querySelectorAll(".score")
+    const score = document.querySelectorAll(".score")
     score.forEach(element => {
-   
+
         element.innerHTML = total.total;
     });
 
     if (total.total >= 2) {
         console.log("yo salope");
-        
+
     }
-    
+
 
 });
-
-
