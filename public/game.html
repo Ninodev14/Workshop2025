@@ -31,6 +31,10 @@
         <h2>Toi tu laves et mets dans la marmite ! Envoie les ingrédients aux autres s’il faut les couper !</h2>
         <button class="btnBoncy" id="btn-p2" onclick="readyToStartP2()" disabled>Suivant</button>
     </div>
+    <div class="chrono">
+        <div class="needle"></div>
+        <button class="startBtn">DEMARRER</button>
+    </div>
 
     <div id="Player1Game" style="display: none;">
         <h2>Le Jeu - Joueur 1</h2>
@@ -47,12 +51,12 @@
                 <div class="give" id="Player1GiveZone"></div>
                 <div class="take" id="Player1TakeZone"></div>
             </div>
-            <div class="drop-zone" id="Player1DropZone"></div>
-
             <div class="casserole">
-                <img src="src/img/game/casserole.png" alt="">
+                <img class="fondCasserol" src="src/img/game/fondCasserol.png" alt="">
                 <div class="verification-zone" id="Player1VerificationZone"></div>
             </div>
+
+            <div class="drop-zone" id="Player1DropZone"></div>
         </div>
         <button id="validateButtonP1" disabled>Vérifier la recette</button>
     </div>
@@ -71,13 +75,12 @@
                 <div class="give" id="Player2GiveZone"></div>
                 <div class="take" id="Player2TakeZone"></div>
             </div>
-            <div class="drop-zone" id="Player2DropZone"></div>
-
             <div class="casserole">
-                <img src="src/img/game/casserole.png" alt="">
+                <img class="fondCasserol" src="src/img/game/fondCasserol.png" alt="">
                 <div class="verification-zone" id="Player2VerificationZone"></div>
             </div>
 
+            <div class="drop-zone" id="Player2DropZone"></div>
         </div>
         <button id="validateButtonP2" disabled>Vérifier la recette</button>
     </div>
@@ -88,7 +91,7 @@
         Préparez-vous pour la prochaine recette ! 🍽️
     </div>
 
-
+    <script src="src/js/chrono.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="src/js/recipes.js"></script>
     <script src="src/js/main.js"></script>

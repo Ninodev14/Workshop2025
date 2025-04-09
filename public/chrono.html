@@ -1,25 +1,241 @@
-<!DOCTYPE html>
-<html lang="fr">
+#Player2Game,
+#Player1Game {
+    width: 100vw;
+    height: 100vh;
+}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chrono</title>
-    <link rel="stylesheet" href="src/css/style.css">
-</head>
+.ingredient-zone {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    animation: alternateBackground 1s infinite;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
 
-<body>
-    <!-- chrono = juste du css , needle = aiguille , stratBtn = bouton pour lancer  -->
-    <div class="chrono" >
-        <div class="needle"></div>
-        <button class="startBtn">DEMARRER</button>
+@keyframes alternateBackground {
+    0%,
+    49% {
+        background-image: url(../img/game/tapis1.png);
+    }
+    50%,
+    100% {
+        background-image: url(../img/game/tapis2.png);
+    }
+}
 
-    </div>
+.ingredient-img {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 100%;
+    width: auto;
+    height: 60px;
+    cursor: grab;
+    transition: transform 0.3s ease-in-out;
+    animation: moveright 10s linear;
+    z-index: 2;
+}
 
+.ingredient-img.dragging {
+    opacity: 1;
+}
 
-    
-</body>
+@keyframes moveright {
+    0% {
+        right: 100%;
+    }
+    100% {
+        right: -80px;
+    }
+}
 
-<script src="src/js/chrono.js"></script>
+.drop-zone {
+    width: 270px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-</html>
+.drop-zone img {
+    position: static;
+    margin-top: -30px;
+    animation: none;
+    right: 0;
+    top: 0;
+    transform: translateY(0%);
+}
+
+.ingredient-img {
+    width: auto;
+    height: 60px;
+    cursor: pointer;
+}
+
+.cut-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    gap: 10px;
+}
+
+.image-part {
+    width: 30px;
+    height: 60px;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease;
+}
+
+.image-part.left {
+    margin-top: 10px;
+    background-position: left center;
+}
+
+.image-part.right {
+    margin-bottom: 10px;
+    background-position: right center;
+}
+
+.success-message {
+    background-color: #c8f7c5;
+    color: green;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: red;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.validate-btn {
+    margin-top: 15px;
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.casserole {
+    width: 400px;
+    height: 160px;
+    position: relative;
+    background-image: url(../img/game/casserole.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.fondCasserol {
+    position: absolute;
+    width: 270px;
+    z-index: -1;
+    top: -24px;
+    transform: translate(-52%, -0%);
+}
+
+.verification-zone {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+}
+
+.verification-zone img {
+    position: static;
+    animation: none;
+    z-index: -1;
+    margin-top: -20px;
+    top: 0%;
+    width: auto;
+    height: 60px;
+    right: 0;
+    transform: translateY(0%);
+}
+
+.verification-zone div {
+    top: 0%;
+    z-index: -1;
+    margin-top: -10px;
+    margin-left: -10px;
+    right: 0;
+    transform: translateY(0%);
+}
+
+button.active-btn {
+    background-color: #4CAF50;
+    color: white;
+    transform: scale(1.05);
+    transition: all 0.2s ease-in-out;
+}
+
+.contenerAction {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 60%;
+}
+
+#Player1DropZone {
+    background-image: url(../img/game/planche.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#Player2DropZone {
+    background-image: url(../img/game/evier.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.contenerGiveTake {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.give,
+.take {
+    width: 240px;
+    height: 100px;
+    background-image: url(../img/game/Give.png);
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease-in-out;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.take {
+    background-color: #eb7b25;
+    background-image: url(../img/game/Take.png);
+}
+
+.give img,
+.take img {
+    margin-top: -30px;
+    position: static;
+    top: 0%;
+    transform: translateY(0%);
+    right: 0;
+}
