@@ -327,6 +327,8 @@ let isIngredientInZone = {
 
 drake.on('drop', (el, target) => {
     const forbiddenTakeZones = ["Player1TakeZone", "Player2TakeZone"];
+    const isGiveZone = target.classList.contains("give");
+
     if (forbiddenTakeZones.includes(target.id)) {
         console.log("⛔ Impossible de déposer ici (zone de réception uniquement).");
         const id = el.getAttribute("data-id");
@@ -341,6 +343,16 @@ drake.on('drop', (el, target) => {
         return;
     }
 
+    if (!isGiveZone) {
+        const id = el.getAttribute("data-id");
+        if (id) {
+            socket.emit("removeIngredient", {
+                id,
+                roomId,
+                to: playerRole === "P1" ? "P2" : "P1"
+            });
+        }
+    }
 
     if (target.id == "Player1GiveZone" && playerRole == "P1") {
         sendToPlayer(el, "P2");
