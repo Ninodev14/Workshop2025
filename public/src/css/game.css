@@ -10,20 +10,30 @@
     height: 150px;
     overflow: hidden;
     margin-top: 20px;
-    border: 1px solid #ccc;
+    background-image: url(../img/game/tapis1.png);
     animation: alternateBackground 1s infinite;
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
 }
 
 @keyframes alternateBackground {
 
     0%,
-    49% {
+    24% {
         background-image: url(../img/game/tapis1.png);
     }
 
+    25%,
+    49% {
+        background-image: url(../img/game/tapis2.png);
+    }
+
     50%,
+    74% {
+        background-image: url(../img/game/tapis1.png);
+    }
+
+    75%,
     100% {
         background-image: url(../img/game/tapis2.png);
     }
@@ -31,7 +41,7 @@
 
 .ingredient-img {
     position: absolute;
-    top: 50%;
+    top: 30%;
     transform: translateY(-50%);
     right: 100%;
     width: auto;
@@ -64,7 +74,8 @@
     align-items: center;
 }
 
-.drop-zone img {
+.drop-zone img,
+.drop-zone div {
     position: static;
     margin-top: -30px;
     animation: none;
@@ -219,7 +230,6 @@ button.active-btn {
     width: 240px;
     height: 100px;
     background-image: url(../img/game/Give.png);
-    background-color: #f0f0f0;
     border-radius: 10px;
     display: flex;
     justify-content: center;
@@ -230,12 +240,13 @@ button.active-btn {
 }
 
 .take {
-    background-color: #eb7b25;
     background-image: url(../img/game/Take.png);
 }
 
 .give img,
-.take img {
+.take img,
+.give div,
+.take div {
     margin-top: -30px;
     position: static;
     top: 0%;

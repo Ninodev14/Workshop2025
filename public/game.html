@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <link rel="stylesheet" href="src/css/style.css" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dragula@3.7.3/dist/dragula.min.css">
 <script src="https://cdn.jsdelivr.net/npm/dragula@3.7.3/dist/dragula.min.js"></script>
 
@@ -31,12 +36,8 @@
         <h2>Toi tu laves et mets dans la marmite ! Envoie les ingrédients aux autres s’il faut les couper !</h2>
         <button class="btnBoncy" id="btn-p2" onclick="readyToStartP2()" disabled>Suivant</button>
     </div>
-    <div class="chrono">
-        <div class="needle"></div>
-    </div>
 
     <div id="Player1Game" style="display: none;">
-        <h2>Le Jeu - Joueur 1</h2>
         <div>
             <p class="score">0</p>
         </div>
@@ -61,7 +62,6 @@
     </div>
 
     <div id="Player2Game" style="display: none;">
-        <h2>Le Jeu - Joueur 2</h2>
         <div>
             <p class="score">0</p>
         </div>
@@ -85,7 +85,9 @@
     </div>
 
     <div id="recipe-validation-message" style="display: none;"></div>
-
+    <div class="chrono">
+        <div class="needle"></div>
+    </div>
     <div id="next-recipe-transition" style="display: none;" class="transition-message">
         Préparez-vous pour la prochaine recette ! 🍽️
     </div>
