@@ -12,9 +12,9 @@ const recipes = [{
         name: "Lasagne",
         ingredients: [
             { src: "src/img/ingredients/Steak.png", state: 1 },
-            { src: "src/img/ingredients/Sauce tomate.png", state: 0 },
-            { src: "src/img/ingredients/Pâtes.png", state: 2 },
-            { src: "src/img/ingredients/Crème.png", state: 0 },
+            { src: "src/img/ingredients/SauceTomate.png", state: 0 },
+            { src: "src/img/ingredients/Pates.png", state: 2 },
+            { src: "src/img/ingredients/Creme.png", state: 0 },
             { src: "src/img/ingredients/Fromage.png", state: 1 }
         ]
     },
@@ -25,13 +25,13 @@ const recipes = [{
             { src: "src/img/ingredients/Poulet.png", state: 1 },
             { src: "src/img/ingredients/Tomate.png", state: 2 },
             { src: "src/img/ingredients/Sauce.png", state: 0 },
-            { src: "src/img/ingredients/Pain pita.png", state: 0 }
+            { src: "src/img/ingredients/PainPita.png", state: 0 }
         ]
     },
     {
         name: "Tacos",
         ingredients: [
-            { src: "src/img/ingredients/Pain pita.png", state: 0 },
+            { src: "src/img/ingredients/PainPita.png", state: 0 },
             { src: "src/img/ingredients/Steak.png", state: 0 },
             { src: "src/img/ingredients/Patate.png", state: 1 },
             { src: "src/img/ingredients/Sauce.png", state: 0 },
@@ -39,17 +39,17 @@ const recipes = [{
         ]
     },
     {
-        name: "Riz cantonais",
+        name: "RizCantonais",
         ingredients: [
             { src: "src/img/ingredients/Riz.png", state: 0 },
             { src: "src/img/ingredients/Jambon.png", state: 1 },
             { src: "src/img/ingredients/Oeuf.png", state: 0 },
-            { src: "src/img/ingredients/Petit pois.png", state: 2 },
+            { src: "src/img/ingredients/PetitPois.png", state: 2 },
             { src: "src/img/ingredients/Sel.png", state: 0 }
         ]
     },
     {
-        name: "Gateau au yaourt",
+        name: "GateauAuYaourt",
         ingredients: [
             { src: "src/img/ingredients/Farine.png", state: 0 },
             { src: "src/img/ingredients/Yaourt.png", state: 0 },
@@ -59,7 +59,7 @@ const recipes = [{
         ]
     },
     {
-        name: "Salade de fruit",
+        name: "SaladeDeFruit",
         ingredients: [
             { src: "src/img/ingredients/Pomme.png", state: 1 },
             { src: "src/img/ingredients/Orange.png", state: 1 },
@@ -69,7 +69,7 @@ const recipes = [{
         ]
     },
     {
-        name: "Fondant au chocolat",
+        name: "FondantAuChocolat",
         ingredients: [
             { src: "src/img/ingredients/Chocolat.png", state: 1 },
             { src: "src/img/ingredients/Farine.png", state: 0 },
@@ -81,15 +81,15 @@ const recipes = [{
     {
         name: "Tiramisu",
         ingredients: [
-            { src: "src/img/ingredients/Chocolat en poudre.png", state: 0 },
+            { src: "src/img/ingredients/ChocolatEnPoudre.png", state: 0 },
             { src: "src/img/ingredients/Boudoir.png", state: 1 },
-            { src: "src/img/ingredients/Crème.png", state: 0 },
+            { src: "src/img/ingredients/Creme.png", state: 0 },
             { src: "src/img/ingredients/Sucre.png", state: 0 },
             { src: "src/img/ingredients/Oeuf.png", state: 2 }
         ]
     },
     {
-        name: "Pomme au four",
+        name: "PommeAuFour",
         ingredients: [
             { src: "src/img/ingredients/Sucre.png", state: 0 },
             { src: "src/img/ingredients/Pomme.png", state: 2 },
@@ -99,7 +99,7 @@ const recipes = [{
         ]
     },
     {
-        name: "Tarte au pomme",
+        name: "TarteAuPomme",
         ingredients: [
             { src: "src/img/ingredients/Pomme.png", state: 1 },
             { src: "src/img/ingredients/Farine.png", state: 0 },
@@ -109,12 +109,12 @@ const recipes = [{
         ]
     },
     {
-        name: "Steak frite",
+        name: "SteakFrite",
         ingredients: [
-            { src: "src/img/ingredients/Steack.png", state: 1 },
+            { src: "src/img/ingredients/Steak.png", state: 1 },
             { src: "src/img/ingredients/Patate.png", state: 1 },
             { src: "src/img/ingredients/Tomate.png", state: 2 },
-            { src: "src/img/ingredients/Petit pois.png", state: 2 },
+            { src: "src/img/ingredients/PetitPois.png", state: 2 },
             { src: "src/img/ingredients/Sel.png", state: 0 }
         ]
     },
@@ -130,19 +130,19 @@ const recipes = [{
         ]
     },
     {
-        name: "Pâtes carbonara",
+        name: "PatesCarbonara",
         ingredients: [
-            { src: "src/img/ingredients/Pâtes.png", state: 2 },
+            { src: "src/img/ingredients/Pates.png", state: 2 },
             { src: "src/img/ingredients/Poivre.png", state: 0 },
             { src: "src/img/ingredients/Oeuf.png", state: 2 },
-            { src: "src/img/ingredients/Froomage.png", state: 1 },
+            { src: "src/img/ingredients/Fromage.png", state: 1 },
             { src: "src/img/ingredients/Jambon.png", state: 1 }
         ]
     },
     {
-        name: "Boeuf bourguignon",
+        name: "BoeufBourguignon",
         ingredients: [
-            { src: "src/img/ingredients/Boeuf.png", state: 1 },
+            { src: "src/img/ingredients/Steak.png", state: 1 },
             { src: "src/img/ingredients/Carotte.png", state: 2 },
             { src: "src/img/ingredients/Sauce.png", state: 0 },
             { src: "src/img/ingredients/Champignon.png", state: 2 },
@@ -150,7 +150,7 @@ const recipes = [{
         ]
     },
     {
-        name: "Tarte au citron",
+        name: "TarteAuCitron",
         ingredients: [
             { src: "src/img/ingredients/Citron.png", state: 1 },
             { src: "src/img/ingredients/Farine.png", state: 0 },
@@ -160,7 +160,7 @@ const recipes = [{
         ]
     },
     {
-        name: "Poisson riz",
+        name: "PoissonRiz",
         ingredients: [
             { src: "src/img/ingredients/Poisson.png", state: 2 },
             { src: "src/img/ingredients/Citron.png", state: 1 },
@@ -171,19 +171,19 @@ const recipes = [{
     },
     /* 
     {
-        name: "Pizza chorizo",
+        name: "PizzaChorizo",
         ingredients: [
             { src: "src/img/ingredients/Farine.png", state: 0 },
             { src: "src/img/ingredients/Chorizo.png", state: 2 },
             { src: "src/img/ingredients/Fromage.png", state: 1 },
-            { src: "src/img/ingredients/Sauce tomate.png", state: 0 },
+            { src: "src/img/ingredients/SauceTomate.png", state: 0 },
             { src: "src/img/ingredients/Sel.png", state: 0 }
         ]
     },
     {
-        name: "Poulet frit",
+        name: "PouletFrit",
         ingredients: [
-            { src: "src/img/ingredients/Poulet frit.png", state: 1 },
+            { src: "src/img/ingredients/PouletFrit.png", state: 1 },
             { src: "src/img/ingredients/Poivre.png", state: 0 },
             { src: "src/img/ingredients/Sauce.png", state: 0 },
             { src: "src/img/ingredients/Patate.png", state: 2 },
@@ -202,7 +202,7 @@ const recipes = [{
         ]
     },
     {
-        name: "Rougaille saucisse",
+        name: "RougailleSaucisse",
         ingredients: [
             { src: "src/img/ingredients/Saucisse.png", state: 1 },
             { src: "src/img/ingredients/Tomate.png", state: 2 },
@@ -216,7 +216,7 @@ const recipes = [{
     {
         name: "Cookie",
         ingredients: [
-            { src: "src/img/ingredients/Pépites de chocolat.png", state: 1 },
+            { src: "src/img/ingredients/PépitesDeChocolat.png", state: 1 },
             { src: "src/img/ingredients/Farine.png", state: 0 },
             { src: "src/img/ingredients/Lait.png", state: 0 },
             { src: "src/img/ingredients/Sucre.png", state: 0 },

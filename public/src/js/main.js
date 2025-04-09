@@ -6,6 +6,9 @@ const roomId = new URLSearchParams(window.location.search).get('roomId');
 const playerId = localStorage.getItem("playerId");
 const playerName = localStorage.getItem("playerName");
 
+let RecipeDone = 1;
+
+
 
 const additionalImages = [
 
@@ -14,13 +17,13 @@ const additionalImages = [
     "src/img/ingredients/Boudoir.png",
     "src/img/ingredients/Carotte.png",
     "src/img/ingredients/Champignon.png",
-    "src/img/ingredients/Chocolat en poudre.png",
+    "src/img/ingredients/ChocolatEnPoudre.png",
     "src/img/ingredients/Chocolat.png",
     "src/img/ingredients/Chorizo.png",
     "src/img/ingredients/Citron.png",
     "src/img/ingredients/Cookie.png",
     "src/img/ingredients/Cornichon.png",
-    "src/img/ingredients/Crème.png",
+    "src/img/ingredients/Creme.png",
     "src/img/ingredients/Eau.png",
     "src/img/ingredients/Farine.png",
     "src/img/ingredients/Fraise.png",
@@ -33,23 +36,23 @@ const additionalImages = [
     "src/img/ingredients/Oeuf.png",
     "src/img/ingredients/Oignon.png",
     "src/img/ingredients/Orange.png",
-    "src/img/ingredients/Pain pita.png",
+    "src/img/ingredients/PainPita.png",
     "src/img/ingredients/Pain.png",
     "src/img/ingredients/Patate.png",
-    "src/img/ingredients/Pâtes.png",
-    "src/img/ingredients/Pêche.png",
-    "src/img/ingredients/Pépites de chocolat.png",
-    "src/img/ingredients/Petit pois.png",
+    "src/img/ingredients/Pates.png",
+    "src/img/ingredients/Pache.png",
+    "src/img/ingredients/PépitesDeChocolat.png",
+    "src/img/ingredients/PetitPois.png",
     "src/img/ingredients/Piment.png",
     "src/img/ingredients/Poivre.png",
     "src/img/ingredients/Poisson.png",
     "src/img/ingredients/Pomme.png",
-    "src/img/ingredients/Poulet frit.png",
+    "src/img/ingredients/PouletFrit.png",
     "src/img/ingredients/Poulet.png",
     "src/img/ingredients/Raisin.png",
     "src/img/ingredients/Riz.png",
     "src/img/ingredients/Salade.png",
-    "src/img/ingredients/Sauce tomate.png",
+    "src/img/ingredients/SauceTomate.png",
     "src/img/ingredients/Sauce.png",
     "src/img/ingredients/Sucre.png",
     "src/img/ingredients/Saucisse.png",
@@ -292,9 +295,22 @@ function validateRecipeCompletion(targetDivId) {
     const messageDiv = document.getElementById("recipe-validation-message");
     messageDiv.style.display = "block";
 
+
+
+
+
+
+
+
     if (missingIngredients.length === 0 && incorrectIngredients.length === 0) {
         messageDiv.textContent = "🎉 Recette réussie ! Tous les bons ingrédients sont présents.";
         messageDiv.className = "success-message";
+        const data = {
+            RecipeDone,
+            roomId: roomId
+        };
+        socket.emit("TotRecipeDone", data);
+
     } else {
         let errorMessage = "❌ Recette incorrecte.\n";
         if (missingIngredients.length > 0) {
@@ -515,14 +531,14 @@ function spawnRandomIngredient(zoneId) {
             clickCounts[randomImg.src] += 1;
             console.log(`👨‍🍳 P1 - Clics sur ${randomImg.alt}: ${clickCounts[randomImg.src]}`);
 
-            if (clickCounts[randomImg.src] >= 20) {
+            if (clickCounts[randomImg.src] >= 10) {
                 cutImageInTwo(randomImg);
             }
         } else if (Array.from(player2DropZone.children).includes(randomImg)) {
             clickCounts[randomImg.src] += 1;
             console.log(`👩‍🍳 P2 - Clics sur ${randomImg.alt}: ${clickCounts[randomImg.src]}`);
 
-            if (clickCounts[randomImg.src] >= 20) {
+            if (clickCounts[randomImg.src] >= 10) {
 
                 randomImg.style.filter = 'brightness(1.8) grayscale(0.3)';
                 randomImg.setAttribute('data-state', '2');
@@ -628,3 +644,22 @@ socket.on("GameCanBigin", () => {
     initializeVerificationZone();
     initializeDropZones();
 });
+
+
+socket.on("updateRecipe", (total) => {
+
+    const score =document.querySelectorAll(".score")
+    score.forEach(element => {
+   
+        element.innerHTML = total.total;
+    });
+
+    if (total.total >= 2) {
+        console.log("yo salope");
+        
+    }
+    
+
+});
+
+

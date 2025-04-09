@@ -9,6 +9,7 @@ const io = socketIo(server);
 let playerSockets = {};
 let rooms = {};
 let roomReadyPlayers = {};
+let roomRecipeTotals = {};
 
 
 app.use(express.static('public'));
@@ -173,6 +174,45 @@ io.on('connection', (socket) => {
             console.log('❌ Room introuvable:', roomId);
         }
     });
+
+    socket.on('TotRecipeDone', (data) => {
+
+
+        if (!rooms[data.roomId]) {
+            console.log(`❌ Room introuvable : ${data.roomId}`);
+            return;
+        }
+    
+        // Initialise le total s'il n'existe pas encore
+        if (!roomRecipeTotals[data.roomId]) {
+            roomRecipeTotals[data.roomId] = 0;
+        }
+    
+        // Incrémentation
+        roomRecipeTotals[data.roomId] += data.RecipeDone;
+        const total = roomRecipeTotals[data.roomId];
+    
+        console.log(`🍲 Total de recettes pour la room ${data.roomId} : ${total}`);
+    
+        // Envoi du nouveau total aux joueurs de la room
+        io.to(data.roomId).emit('updateRecipe', { total })
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 });
 
