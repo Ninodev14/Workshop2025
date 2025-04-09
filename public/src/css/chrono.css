@@ -1,17 +1,17 @@
-
-
 .chrono {
-	position: relative;
-	left: 50%;
-	width: 10px;
-	height: 40px;
+	position: absolute;
+	right: 70px;
+	top: 10px;
+	width: 140px;
+	height: 144px;
 	display: flex;
+	background-image: url(../img/game/chrono.png);
+	background-size: cover;
 }
-
 
 .needle {
 	position: absolute;
-	top: 80px;
+	top: 70px;
 	left: calc(50% - 5px);
 	width: 10px;
 	height: 10px;
