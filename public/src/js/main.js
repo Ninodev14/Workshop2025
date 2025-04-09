@@ -607,13 +607,12 @@ function spawnRandomIngredient(zoneId) {
 
 
 function transformIngredient(imgToCut) {
-    console.log("oooOOOOoooOOOOooo");
     const player1DropZone = document.getElementById("Player1DropZone");
     const player2DropZone = document.getElementById("Player2DropZone");
 
     imgToCut.addEventListener('click', () => {
 
-
+        console.log("Cailloux");
         if (Array.from(player1DropZone.children).includes(imgToCut)) {
             clickCounts[imgToCut.src] += 1;
             console.log("👨‍🍳P1 - Clics sur $ { imgToCut.alt }: $ { clickCounts[imgToCut.src] }");
@@ -665,6 +664,17 @@ socket.on("receiveIngredient", (data) => {
             imageContainer.appendChild(img);
             cutImageInTwo(img, imageContainer);
             zone.appendChild(imageContainer);
+        } else if (data.state == "2") {
+            const img = document.createElement("img");
+            img.src = data.src;
+            img.alt = data.alt;
+            img.classList.add("ingredient-img");
+            img.setAttribute("data-state", data.state || "0");
+            img.setAttribute("data-id", id);
+            img.draggable = false;
+            zone.appendChild(img);
+            img.style.filter = 'brightness(1.8) grayscale(0.3)';
+
         } else {
             const img = document.createElement("img");
             img.src = data.src;
@@ -674,6 +684,8 @@ socket.on("receiveIngredient", (data) => {
             img.setAttribute("data-id", id);
             img.draggable = false;
             zone.appendChild(img);
+
+            transformIngredient(img);
         }
 
         drake.containers.push(zone);
