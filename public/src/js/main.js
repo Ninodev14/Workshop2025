@@ -612,12 +612,19 @@ socket.on('ingredientRemoved', (data) => {
     const ingredient = document.querySelector(`[data-id="${data.id}"]`);
 
     if (ingredient) {
-        ingredient.remove();
-        console.log(`🗑️ L’ingrédient a été supprimé de ${zone} (id: ${data.id})`);
+        const parentZone = ingredient.closest('.take');
+
+        if (parentZone && (parentZone.id === "Player1TakeZone" || parentZone.id === "Player2TakeZone")) {
+            ingredient.remove();
+            console.log(`🗑️ L’ingrédient a été supprimé de ${zone} (id: ${data.id})`);
+        } else {
+            console.log("⛔ Suppression refusée : l’ingrédient n’est pas dans une zone 'take'.");
+        }
     } else {
         console.log("❌ L'ingrédient n'a pas été trouvé pour la suppression.");
     }
 });
+
 
 
 socket.on("GameCanBigin", () => {
