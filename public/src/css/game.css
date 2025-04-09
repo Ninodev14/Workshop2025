@@ -212,6 +212,8 @@ button.active-btn {
 }
 
 #Player2DropZone {
+    width: 240px;
+    height: 200px;
     background-image: url(../img/game/evier.png);
     background-size: contain;
     background-repeat: no-repeat;
@@ -252,4 +254,71 @@ button.active-btn {
     top: 0%;
     transform: translateY(0%);
     right: 0;
+}
+
+.tableau {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: fit-content;
+    height: 100%;
+}
+
+.tableau img {
+    width: auto;
+    height: 100%;
+    z-index: -1;
+}
+
+.tableauContainer {
+    width: 100vw;
+    height: 30vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.contentTableau {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+#Player2Recipe,
+#Player1Recipe {
+    width: fit-content;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.postIt {
+    width: auto;
+    height: 100%;
+    z-index: -1;
+}
+
+.pin {
+    position: absolute;
+    top: -0px;
+    left: 50%;
+    transform: translateY(-50%);
+}
+
+.ingredientRecipeZone {
+    width: 80%;
+    height: 100%;
+    gap: 20px 20px;
+    position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
 }

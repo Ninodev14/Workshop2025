@@ -38,11 +38,23 @@
     </div>
 
     <div id="Player1Game" style="display: none;">
-        <div>
-            <p class="score">0</p>
+        <div class="tableauContainer">
+            <div id="Player1Recipe">
+                <img class="pin" src="src/img/game/pin.png" alt="">
+                <img class="postIt" src="src/img/game/postit.png" alt="postIt">
+            </div>
+            <div class="tableau">
+                <img src="src/img/game/tableau.png" alt="">
+                <div class="contentTableau">
+                    <p class="score">0</p>
+                </div>
+            </div>
+            <div class="chrono" id="chrono">
+                <div class="needle"></div>
+            </div>
         </div>
 
-        <div id="Player1Recipe"></div>
+
 
         <div class="ingredient-zone" id="Player1IngredientZone"></div>
 
@@ -62,11 +74,24 @@
     </div>
 
     <div id="Player2Game" style="display: none;">
-        <div>
-            <p class="score">0</p>
+        <div class="tableauContainer">
+            <div id="Player2Recipe">
+                <img class="pin" src="src/img/game/pin.png" alt="">
+                <img class="postIt" src="src/img/game/postit.png" alt="postIt">
+            </div>
+            <div class="tableau">
+                <img src="src/img/game/tableau.png" alt="">
+
+                <div class="contentTableau">
+                    <p class="score">0</p>
+                </div>
+            </div>
+            <div class="chrono" id="chrono">
+                <div class="needle"></div>
+            </div>
         </div>
 
-        <div id="Player2Recipe"></div>
+
 
         <div class="ingredient-zone" id="Player2IngredientZone"></div>
         <div class="contenerAction">
@@ -85,9 +110,7 @@
     </div>
 
     <div id="recipe-validation-message" style="display: none;"></div>
-    <div class="chrono">
-        <div class="needle"></div>
-    </div>
+
     <div id="next-recipe-transition" style="display: none;" class="transition-message">
         Préparez-vous pour la prochaine recette ! 🍽️
     </div>

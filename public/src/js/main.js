@@ -148,16 +148,15 @@ function displayRandomRecipe(targetDivId) {
     const recipe = recipes[Math.floor(Math.random() * recipes.length)];
     const container = document.getElementById(targetDivId);
 
-    container.innerHTML = ''; // 🧹 Nettoyage avant de recréer la recette
 
-    const title = document.createElement("h3");
-    title.textContent = `Recette : ${recipe.name}`;
-    container.appendChild(title);
+
+    //const title = document.createElement("h3");
+    //title.textContent = `Recette : ${recipe.name}`;
+    //container.appendChild(title);
 
     const ingredientsDiv = document.createElement("div");
-    ingredientsDiv.style.display = "flex";
-    ingredientsDiv.style.gap = "10px";
-
+    ingredientsDiv.classList.add("ingredientRecipeZone");
+    ingredientsDiv.innerHTML = '';
     recipe.ingredients.forEach(ingredient => {
         let imgSrc, state;
 
@@ -324,11 +323,6 @@ function validateRecipeCompletion(targetDivId) {
 
 
 
-
-
-
-
-
     if (missingIngredients.length === 0 && incorrectIngredients.length === 0) {
         messageDiv.className = "success-message";
 
@@ -345,7 +339,7 @@ function validateRecipeCompletion(targetDivId) {
             document.getElementById("Player2VerificationZone").innerHTML = '';
             if (playerRole === "P1") {
                 displayRandomRecipe("Player1Recipe");
-                
+
             } else if (playerRole === "P2") {
                 displayRandomRecipe("Player2Recipe");
             }
@@ -607,27 +601,20 @@ function transformIngredient(imgToCut) {
     const player2DropZone = document.getElementById("Player2DropZone");
 
     imgToCut.addEventListener('click', () => {
-
-        console.log("Cailloux");
         if (Array.from(player1DropZone.children).includes(imgToCut)) {
             clickCounts[imgToCut.src] += 1;
-            console.log("👨‍🍳P1 - Clics sur $ { imgToCut.alt }: $ { clickCounts[imgToCut.src] }");
 
             if (clickCounts[imgToCut.src] >= 10) {
                 cutImageInTwo(imgToCut);
             }
         } else if (Array.from(player2DropZone.children).includes(imgToCut)) {
             clickCounts[imgToCut.src] += 1;
-            console.log("👩‍🍳P2 - Clics sur $ { imgToCut.alt }: $ { clickCounts[imgToCut.src] }");
 
             if (clickCounts[imgToCut.src] >= 10) {
 
                 imgToCut.style.filter = 'brightness(1.8) grayscale(0.3)';
                 imgToCut.setAttribute('data-state', '2');
-                console.log("✨$ { imgToCut.alt } est maintenant en état 2(modifiée par P2)");
             }
-        } else {
-            console.log(" L'image n'est pas dans une zone de drop autorisée.");
         }
     });
 
@@ -742,11 +729,8 @@ socket.on('ingredientRemoved', (data) => {
 
 socket.on("GameCanBigin", () => {
     console.log("🎮 Le jeu peut commencer!");
-    
-    // Cacher le titre
-    document.getElementById("title").style.display = "none";
 
-    // Afficher la zone de jeu pour le joueur actuel
+    document.getElementById("title").style.display = "none";
     if (playerRole === "P1") {
         document.getElementById("Player1Game").style.display = "block";
         displayRandomRecipe("Player1Recipe");
@@ -756,31 +740,23 @@ socket.on("GameCanBigin", () => {
         displayRandomRecipe("Player2Recipe");
         startGame();
     }
-
-    // Initialisation des zones de vérification et de drop
     initializeVerificationZone();
     initializeDropZones();
 
-    // Démarrer le timer et la rotation des aiguilles pour chaque joueur (P1 et P2)
-    // Je suppose que tu as deux aiguilles correspondant à chaque joueur (player 1 et player 2).
-    const needles = document.querySelectorAll('.needle'); // Récupère tes aiguilles dans le DOM (ajuste selon ton code)
-
-    // Déclencher le chronomètre et l'animation de l'aiguille pour chaque joueur (P1 et P2)
-    // Ce sera la même logique qu'auparavant, mais sans interaction utilisateur.
+    const needles = document.querySelectorAll('.needle');
     needles.forEach((needle, index) => {
         let secondesLocal = 0;
         let chronoLocal = null;
 
-        // Déclenche l'intervalle de chronomètre automatiquement lorsque le jeu commence
         secondesLocal = 0;
-        rotateNeedle(needle, 0); // Remise à zéro de la rotation de l'aiguille
+        rotateNeedle(needle, 0);
 
         // Lancer l'intervalle pour chaque joueur
         chronoLocal = setInterval(() => {
             secondesLocal++;
 
             // Calcul des degrés d'avancée de l'aiguille par seconde
-            rotateNeedle(needle, secondesLocal * 2);  // 2° par seconde
+            rotateNeedle(needle, secondesLocal * 2); // 2° par seconde
 
             // Condition pour arrêter l'intervalle après 180 secondes
             if (secondesLocal === 180) {
@@ -788,7 +764,7 @@ socket.on("GameCanBigin", () => {
                 // Appeler la fonction pour gérer la fin du jeu
                 endGame();
             }
-        }, 1000);  // Déclenche chaque seconde
+        }, 1000); // Déclenche chaque seconde
     });
 });
 
@@ -800,13 +776,13 @@ function rotateNeedle(needle, degrees) {
 
 
 
-let globalScore = 0; 
-let isUpdating = false; 
+let globalScore = 0;
+let isUpdating = false;
 
 socket.on("updateRecipe", (total) => {
 
     if (isUpdating) {
-       
+
         return;
     }
 
@@ -825,8 +801,8 @@ socket.on("updateRecipe", (total) => {
     }
 
     setTimeout(() => {
-        isUpdating = false; 
-    }, 500); 
+        isUpdating = false;
+    }, 500);
 });
 
 
@@ -836,16 +812,8 @@ socket.on("updateRecipe", (total) => {
 
 
 
-function endGame(){
+function endGame() {
 
-    console.log("FIN DU JEU SALOPE")
-
-
-
-
+    console.log("FIN DU JEU")
 
 }
-
-
-
-

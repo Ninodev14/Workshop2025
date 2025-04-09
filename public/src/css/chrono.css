@@ -1,7 +1,5 @@
 .chrono {
-	position: absolute;
-	right: 70px;
-	top: 10px;
+	position: relative;
 	width: 140px;
 	height: 144px;
 	display: flex;
