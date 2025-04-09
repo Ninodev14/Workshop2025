@@ -421,6 +421,8 @@ drake.on('drop', (el, target) => {
 
 const player1GiveZone = document.getElementById("Player1GiveZone");
 const player2GiveZone = document.getElementById("Player2GiveZone");
+drake.containers.push(document.getElementById("Player1TakeZone"));
+drake.containers.push(document.getElementById("Player2TakeZone"));
 
 drake.containers.push(player1GiveZone);
 drake.containers.push(player2GiveZone);
@@ -538,56 +540,53 @@ function spawnRandomIngredient(zoneId) {
 }
 
 socket.on("receiveIngredient", (data) => {
-    if ((playerRole == "P1" && data.to == "P1") || (playerRole == "P2" && data.to == "P2")) {
+    if ((playerRole === "P1" && data.to === "P1") || (playerRole === "P2" && data.to === "P2")) {
+        const zone = playerRole === "P1" ?
+            document.getElementById("Player1TakeZone") :
+            document.getElementById("Player2TakeZone");
 
-
-        const img = document.createElement("img");
-        img.src = data.src;
-        img.alt = data.alt;
-        img.classList.add("ingredient-img");
-        img.draggable = true;
-        img.setAttribute("data-state", data.state || "0");
-
-        if (data.state == 1) {
-            // Créer une div conteneur qui va envelopper l'image coupée
+        if (data.state == "1") {
+            // Créer un conteneur pour un ingrédient coupé
             const imageContainer = document.createElement('div');
             imageContainer.classList.add('cut-container');
             imageContainer.setAttribute('data-src', data.src);
             imageContainer.setAttribute('data-alt', data.alt);
             imageContainer.setAttribute('data-state', '1');
 
-            // Ajouter l'image au conteneur, avant de la couper
-            imageContainer.appendChild(img);
+            const img = document.createElement("img");
+            img.src = data.src;
+            img.alt = data.alt;
+            img.classList.add("ingredient-img");
+            img.draggable = true;
+            img.setAttribute("data-state", "1");
 
-            // Appel à la fonction cutImageInTwo pour couper l'image et la réorganiser
+            imageContainer.appendChild(img);
             cutImageInTwo(img, imageContainer);
 
-            // Ajouter le conteneur dans la zone du joueur
-            const zone = playerRole === "P1" ?
-                document.getElementById("Player1TakeZone") :
-                document.getElementById("Player2TakeZone");
+            zone.appendChild(imageContainer);
 
-            zone.appendChild(imageContainer); // Ajouter le conteneur contenant l'image coupée
-            registerInitialZone(img, zone); // Enregistrer l'image dans la zone initiale
-
-
-
+            // 👇 Important : enregistrer le conteneur comme draggable
+            drake.containers.push(zone);
+            registerInitialZone(imageContainer, zone); // Pas juste img ! imageContainer aussi si utilisé
         } else {
-            console.log("elem lavé recu");
-            const zone = playerRole === "P1" ?
-                document.getElementById("Player1TakeZone") :
-                document.getElementById("Player2TakeZone");
+            // Ingrédient normal ou lavé
+            const img = document.createElement("img");
+            img.src = data.src;
+            img.alt = data.alt;
+            img.classList.add("ingredient-img");
+            img.draggable = true;
+            img.setAttribute("data-state", data.state || "0");
 
             zone.appendChild(img);
+
+            drake.containers.push(zone)
             registerInitialZone(img, zone);
-
         }
-
-
     } else {
         console.log(`Ce joueur ne peut pas recevoir cet ingrédient (Rôle: ${playerRole}, À: ${data.to})`);
     }
 });
+
 
 function cutImageInTwo(imgElement) {
 
