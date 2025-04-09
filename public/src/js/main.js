@@ -250,8 +250,6 @@ function displayRandomRecipe(targetDivId) {
     monitorVerificationZone(verificationZoneId, validateButtonId);
 }
 
-
-
 function monitorVerificationZone(zoneId, buttonId) {
     const zone = document.getElementById(zoneId);
     const button = document.getElementById(buttonId);
@@ -295,14 +293,15 @@ function validateRecipeCompletion(targetDivId) {
         return null;
     }
 
-    const recipeIngredients = Array.from(recipeDiv.querySelectorAll("img")).map(img => {
-        const ing = {
-            text: img.src.split('/').pop().replace('.png', ''),
-            state: img.getAttribute('data-state')
-        };
-        console.log("📋 Ingrédient attendu :", ing);
-        return ing;
-    });
+    const recipeIngredients = Array.from(recipeDiv.querySelectorAll("img"))
+        .filter(img => img.parentElement.tagName === "DIV" && img.getAttribute('data-state') !== null)
+        .map(img => {
+            return {
+                text: img.src.split('/').pop().replace('.png', ''),
+                state: img.getAttribute('data-state')
+            };
+        });
+
 
     const droppedIngredients = Array.from(dropZone.children)
         .map(el => getDroppedIngredientData(el))
@@ -338,6 +337,25 @@ function validateRecipeCompletion(targetDivId) {
     if (missingIngredients.length === 0 && incorrectIngredients.length === 0) {
         messageDiv.textContent = "🎉 Recette réussie ! Tous les bons ingrédients sont présents.";
         messageDiv.className = "success-message";
+
+
+        const transitionDiv = document.getElementById("next-recipe-transition");
+        transitionDiv.style.display = "block";
+
+        setTimeout(() => {
+            transitionDiv.style.display = "none";
+            messageDiv.style.display = "none";
+            document.getElementById("Player1IngredientZone").innerHTML = '';
+            document.getElementById("Player2IngredientZone").innerHTML = '';
+            document.getElementById("Player1VerificationZone").innerHTML = '';
+            document.getElementById("Player2VerificationZone").innerHTML = '';
+            if (playerRole === "P1") {
+                displayRandomRecipe("Player1Recipe");
+            } else if (playerRole === "P2") {
+                displayRandomRecipe("Player2Recipe");
+            }
+        }, 3000);
+
         const data = {
             RecipeDone,
             roomId: roomId
@@ -354,6 +372,23 @@ function validateRecipeCompletion(targetDivId) {
         }
         messageDiv.textContent = errorMessage;
         messageDiv.className = "error-message";
+
+        const transitionDiv = document.getElementById("next-recipe-transition");
+        transitionDiv.style.display = "block";
+
+        setTimeout(() => {
+            transitionDiv.style.display = "none";
+            messageDiv.style.display = "none";
+            document.getElementById("Player1IngredientZone").innerHTML = '';
+            document.getElementById("Player2IngredientZone").innerHTML = '';
+            document.getElementById("Player1VerificationZone").innerHTML = '';
+            document.getElementById("Player2VerificationZone").innerHTML = '';
+            if (playerRole === "P1") {
+                displayRandomRecipe("Player1Recipe");
+            } else if (playerRole === "P2") {
+                displayRandomRecipe("Player2Recipe");
+            }
+        }, 3000);
     }
 }
 
