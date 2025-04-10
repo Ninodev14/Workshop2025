@@ -87,11 +87,11 @@ function step3() {
 
     if (playerRole === "P1") {
         console.log("✅ Affichage rôle P1");
-        document.getElementById("step3-instructions-P1").style.display = "block";
+        document.getElementById("step3-instructions-P1").style.display = "flex";
         document.getElementById("btn-p1").disabled = false;
     } else if (playerRole === "P2") {
         console.log("✅ Affichage rôle P2");
-        document.getElementById("step3-instructions-P2").style.display = "block";
+        document.getElementById("step3-instructions-P2").style.display = "flex";
         document.getElementById("btn-p2").disabled = false;
     } else {
         console.log("❌ Aucun rôle défini !");
@@ -370,7 +370,7 @@ function validateRecipeCompletion(targetDivId) {
         messageDiv.textContent = errorMessage;
         messageDiv.className = "error-message";
         */
-       console.log(stateRecipe);
+        console.log(stateRecipe);
 
         stateRecipe = false;
         console.log(stateRecipe);
@@ -430,9 +430,9 @@ function showRecipe() {
     } else {
         appearPlat.forEach(element => {
 
-        const img = new Image();
-        img.src = recipeImagePath;
-        img.alt = recipeName
+            const img = new Image();
+            img.src = recipeImagePath;
+            img.alt = recipeName
 
             element.src = recipeImagePath;
             element.alt = recipeName;
