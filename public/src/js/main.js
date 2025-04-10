@@ -503,7 +503,8 @@ const player1GiveZone = document.getElementById("Player1GiveZone");
 const player2GiveZone = document.getElementById("Player2GiveZone");
 drake.containers.push(document.getElementById("Player1TakeZone"));
 drake.containers.push(document.getElementById("Player2TakeZone"));
-
+drake.containers.push(document.getElementById("Player2VerificationZone"));
+drake.containers.push(document.getElementById("Player1VerificationZone"));
 drake.containers.push(player1GiveZone);
 drake.containers.push(player2GiveZone);
 
