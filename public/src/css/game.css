@@ -142,6 +142,7 @@
 }
 
 .casseroleContainer {
+    z-index: 10000;
     display: flex;
     flex-direction: column;
     justify-content: center;
