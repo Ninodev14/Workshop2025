@@ -18,13 +18,19 @@
 <body>
     <div class="instructionContener" id="start-instructions">
         <img src="src/img/cuisto.png" alt="">
-        <h2 class="textExplication">Vous avez 2 min<br />pour réaliser minimum<br /><strong>3 recettes !</strong><img src="src/img/game/dote.svg" alt=""></h2>
-        <button class=" btnBoncy" id="btn-step1" onclick="step2()" disabled>Suivant</button>
+        <div class="textExplicationContener">
+            <h2 class="textExplication">Vous avez 2 min<br />pour réaliser minimum<br /><strong>3 recettes !</strong><img src="src/img/game/dote.svg" alt=""></h2>
+            <button class=" btnBoncy" id="btn-step1" onclick="step2()" disabled>Suivant</button>
+        </div>
     </div>
 
     <div class="instructionContener" id="step2-instructions" style="display: none;">
-        <h2 class="textExplication">Suivez la liste d’ingrédients comme ici :</h2>
-        <button class="btnBoncy" id="btn-step2" onclick="step3()" disabled>Suivant</button>
+        <img src="src/img/cuisto.png" alt="">
+        <div class="textExplicationContener">
+            <h2 class="textExplication">Suivez la liste d’ingrédients<br />comme ici :</h2>
+            <button class="btnBoncy" id="btn-step2" onclick="step3()" disabled>Suivant</button>
+        </div>
+
     </div>
 
     <div id="step3-instructions-P1" style="display: none;">
@@ -53,8 +59,9 @@
                         <div class="contnerTextTableau">
                             <p>Recettes finies</p>
                             <div class="contnerTextTableauScore">
-                                <p>0/</p>
                                 <p class="score">0</p>
+                                <p>/6</p>
+
                             </div>
                         </div>
                     </div>
@@ -121,8 +128,9 @@
                         <div class="contnerTextTableau">
                             <p>Recettes finies</p>
                             <div class="contnerTextTableauScore">
-                                <p>0/</p>
                                 <p class="score">0</p>
+                                <p>/6</p>
+
                             </div>
                         </div>
                     </div>

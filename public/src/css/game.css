@@ -17,6 +17,14 @@
     width: 100%;
 }
 
+.textExplicationContener {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .textExplication {
     color: #000;
     text-align: center;
@@ -28,7 +36,7 @@
     padding: 40px;
     border-radius: 50px;
     background-color: #fff;
-    width: fit-content;
+    width: 100%;
     position: relative;
 }
 
