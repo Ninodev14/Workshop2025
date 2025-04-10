@@ -731,31 +731,69 @@ function transformIngredient(imgToCut) {
     const player1DropZone = document.getElementById("Player1DropZone");
     const player2DropZone = document.getElementById("Player2DropZone");
 
+    const id = imgToCut.src;
+    if (!clickCounts[id]) clickCounts[id] = 0;
+
+    let decayInterval = null;
+    let decayTimeout = null;
+
+    const progressBarElements = document.querySelectorAll(".progressbarRemplisage");
+
+    const updateProgress = () => {
+        const percent = Math.min(100, (clickCounts[id] / 10) * 100);
+        progressBarElements.forEach(bar => {
+            bar.style.width = `${percent}%`;
+        });
+    };
+
+    const startDecay = () => {
+        clearInterval(decayInterval);
+        decayInterval = setInterval(() => {
+            if (clickCounts[id] > 0) {
+                clickCounts[id] -= 1;
+                updateProgress();
+            }
+            if (clickCounts[id] <= 0) {
+                clearInterval(decayInterval);
+            }
+        }, 300); // baisse tous les 300ms
+    };
 
     imgToCut.addEventListener('click', () => {
-        
-        //Bar de progression qui augmente a chaque clickCounts et est a 100% à 10 cliccounts
         helpClic = true;
-        apDisap(".clicindicateur","none");     
+        apDisap(".clicindicateur", "none");
+        apDisap(".progressbar", "block")
 
-        if (Array.from(player1DropZone.children).includes(imgToCut)) {
-            clickCounts[imgToCut.src] += 1;
+        clearTimeout(decayTimeout);
+        clearInterval(decayInterval);
 
-            if (clickCounts[imgToCut.src] >= 10) {
-                cutImageInTwo(imgToCut);
-            }
-        } else if (Array.from(player2DropZone.children).includes(imgToCut)) {
-            clickCounts[imgToCut.src] += 1;
+        const isInP1Zone = Array.from(player1DropZone.children).includes(imgToCut);
+        const isInP2Zone = Array.from(player2DropZone.children).includes(imgToCut);
 
-            if (clickCounts[imgToCut.src] >= 10) {
+        if (isInP1Zone || isInP2Zone) {
+            clickCounts[id] += 1;
+            if (clickCounts[id] > 10) clickCounts[id] = 10;
 
-                imgToCut.style.filter = 'brightness(1.8) grayscale(0.3)';
-                imgToCut.setAttribute('data-state', '2');
+            updateProgress();
+
+            if (clickCounts[id] >= 10) {
+                apDisap(".progressbar", "none")
+                if (isInP1Zone) {
+                    cutImageInTwo(imgToCut);
+                } else if (isInP2Zone) {
+                    imgToCut.style.filter = 'brightness(1.8) grayscale(0.3)';
+                    imgToCut.setAttribute('data-state', '2');
+                }
+                clearInterval(decayInterval); // stop la baisse
+            } else {
+                decayTimeout = setTimeout(() => {
+                    startDecay();
+                }, 1000); // commence à baisser après 1 sec d'inactivité
             }
         }
     });
-
 }
+
 
 socket.on("receiveIngredient", (data) => {
     if ((playerRole === "P1" && data.to === "P1") || (playerRole === "P2" && data.to === "P2")) {
