@@ -145,7 +145,6 @@
 .Contenerassiet {
     z-index: 10000;
     display: none;
-    display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 40px;
@@ -434,4 +433,10 @@ button.active-btn {
     top: 0%;
     transform: translateY(0%);
     right: 0;
+}
+
+@media screen and (max-width: 500px) {
+    .ingredient-zone {
+        height: 20vh;
+    }
 }
