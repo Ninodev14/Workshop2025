@@ -231,7 +231,7 @@ const recipes = [
      {
         name: "Cookie",
         ingredients: [
-            { src: "src/img/ingredients/PépitesDeChocolat.png", state: 1 },
+            { src: "src/img/ingredients/Chocolat.png", state: 1 },
             { src: "src/img/ingredients/Farine.png", state: 0 },
             { src: "src/img/ingredients/compote.png", state: 0 },
             { src: "src/img/ingredients/Sucre.png", state: 0 },
@@ -288,17 +288,6 @@ const recipes = [
         ]
     },
 
-
-    {
-        name: "RougailleSaucisse",
-        ingredients: [
-            { src: "src/img/ingredients/Saucisse.png", state: 1 },
-            { src: "src/img/ingredients/Tomate.png", state: 2 },
-            { src: "src/img/ingredients/Piment.png", state: 2 },
-            { src: "src/img/ingredients/Oignon.png", state: 1 },
-            { src: "src/img/ingredients/Riz.png", state: 0 }
-        ]
-    },
 
     {
         name: "Crêpe",
