@@ -189,6 +189,7 @@ function displayRandomRecipe(targetDivId) {
         img.src = imgSrc;
         img.alt = altText;
         img.className = "ImgRicipe";
+        img.className = "ImgRicipe";
         img.setAttribute("data-state", state);
 
         wrapper.appendChild(img);
