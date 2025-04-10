@@ -39,7 +39,6 @@ const additionalImages = [
     "src/img/ingredients/Patate.png",
     "src/img/ingredients/Pates.png",
     "src/img/ingredients/Peche.png",
-    "src/img/ingredients/PépitesDeChocolat.png",
     "src/img/ingredients/PetitPois.png",
     "src/img/ingredients/Piment.png",
     "src/img/ingredients/Poivre.png",
@@ -383,11 +382,8 @@ function validateRecipeCompletion(targetDivId) {
 
 function anomationCook() {
 
-    toNone = document.querySelectorAll(".casseroleContainer");
-    toNone.forEach(element => {
-        element.style.display = "none";
-    });
 
+    apDisap('.casseroleContainer', "none")
 
     /*
     //LANCER l'animation ici !!
@@ -408,9 +404,9 @@ function showRecipe() {
     const recipeImagePath = `src/img/recipes/${recipeName}.png`;
 
     appearPlat = document.querySelectorAll(".imgplat");
-    textFinsihTab= document.querySelectorAll(".TutoAndFish");
+    textFinsihTab = document.querySelectorAll(".TutoAndFish");
 
-    
+
 
     if (stateRecipe == false) {
 
@@ -420,11 +416,11 @@ function showRecipe() {
 
         });
 
+        apDisap('.casseroleContainer', "none")
 
-        textFinsihTab.forEach(element => {
-            element.innerHTML = `Mince tu as raté ta recette de ${recipeName}`
-            
-        });
+        apDisap('.txtTuto', "none")
+        apDisap('.txtFinisBad', "block")
+
 
 
     } else {
@@ -440,12 +436,11 @@ function showRecipe() {
 
         });
 
+        apDisap('.txtTuto', "none")
+        apDisap('.txtFinishGood', "block")
 
-        
-        textFinsihTab.forEach(element => {
-            element.innerHTML = `Bravo, tu as réussi ta recette de ${recipeName}`
-            
-        });
+
+
     }
 
 
@@ -453,16 +448,11 @@ function showRecipe() {
 
 
 
-    toFlex = document.querySelectorAll(".Contenerassiet");
-    toFlex.forEach(element => {
-        element.style.display = "flex";
-    });
+
+    apDisap(".Contenerassiet", "flex");
 
 
-    AllbtnNextRecipe = document.querySelectorAll(".btnNextRecipe");
-    AllbtnNextRecipe.forEach(element => {
-        element.style.display = "flex";
-    });
+    apDisap(".btnNextRecipe", "flex");
 
 
 
@@ -498,10 +488,13 @@ function nextRecipe() {
     });
 
 
-    AllbtnNextRecipe = document.querySelectorAll(".btnNextRecipe");
-    AllbtnNextRecipe.forEach(element => {
-        element.style.display = "none";
-    });
+    apDisap(".btnNextRecipe", "none");
+    apDisap('.txtTuto', "block")
+    apDisap('.txtFinishGood', "none")
+    apDisap('.txtFinisBad', "none")
+
+
+
 
 
 }
@@ -932,7 +925,14 @@ socket.on("updateRecipe", (total) => {
 
 
 
+function apDisap(classHtml, stateTo) {
 
+    elementToChange = document.querySelectorAll(classHtml);
+    elementToChange.forEach(element => {
+        element.style.display = stateTo;
+    });
+
+}
 
 
 
