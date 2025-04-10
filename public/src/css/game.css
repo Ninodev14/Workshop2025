@@ -598,7 +598,6 @@ button.active-btn {
     z-index: 9999;
     opacity: 0;
     transition: opacity 1s ease;
-    pointer-events: none;
     align-items: center;
     align-content: center;
     flex-direction: column;
