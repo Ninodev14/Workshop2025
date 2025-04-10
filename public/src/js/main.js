@@ -934,10 +934,47 @@ function apDisap(classHtml, stateTo) {
 
 }
 
-
-
 function endGame() {
+    const Player2Game = document.getElementById("Player2Game");
+    Player2Game.style.display = "none";
+    const Player1Game = document.getElementById("Player1Game");
+    Player1Game.style.display = "none";
+    const EndScreen = document.getElementById("start-end");
+    EndScreen.style.display = "flex";
+}
 
-    console.log("FIN DU JEU")
+function endGameResult() {
+    const EndScreen = document.getElementById("start-end");
+    EndScreen.style.display = "none";
 
+    const image = document.createElement('img');
+    const resultContainer = document.getElementById("resultContainer");
+    resultContainer.style.display = "flex";
+    image.alt = "Résultat final";
+
+    if (globalScore <= 2) {
+        resultContainer.style.backgroundImage = "url(src/img/game/result_bad.png)";
+        image.src = "src/img/game/1star.png";
+    } else if (globalScore <= 4) {
+        resultContainer.style.backgroundImage = "url(src/img/game/result_medium.png)";
+        image.src = "src/img/game/2star.png";
+    } else {
+        resultContainer.style.backgroundImage = "url(src/img/game/result_good.png)";
+        image.src = "src/img/game/3star.png";
+    }
+
+    resultContainer.appendChild(image);
+    overlay.style.display = "flex";
+    setTimeout(() => {
+        const overlay = document.getElementById("overlay");
+        overlay.classList.add("overlay-visible");
+    }, 3000);
+}
+
+function goToLobbyPage() {
+    window.location.href = "lobby.html";
+}
+
+function goToIndexPage() {
+    window.location.href = "index.html";
 }
