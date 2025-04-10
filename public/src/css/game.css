@@ -17,6 +17,18 @@
     width: 100%;
 }
 
+.tutoOrder {
+    width: 20vw;
+    height: auto;
+    margin-top: -80px;
+    z-index: 1;
+}
+
+.cuistoImg {
+    max-width: 56vw;
+    height: auto;
+}
+
 .textExplicationContener {
     display: flex;
     justify-content: center;
