@@ -68,7 +68,7 @@ socket.emit('requestRole', roomId, playerId, (response) => {
     if (response.success) {
         playerRole = response.role;
         console.log("🎭 Rôle assigné à l'entrée du jeu :", playerRole);
-        document.getElementById("start-instructions").style.display = "block";
+        document.getElementById("start-instructions").style.display = "flex";
         document.getElementById("btn-step1").disabled = false;
     } else {
         console.error("❌ Impossible d'assigner un rôle :", response.message);
@@ -77,7 +77,7 @@ socket.emit('requestRole', roomId, playerId, (response) => {
 
 function step2() {
     document.getElementById("start-instructions").style.display = "none";
-    document.getElementById("step2-instructions").style.display = "block";
+    document.getElementById("step2-instructions").style.display = "flex";
     document.getElementById("btn-step2").disabled = false;
 }
 
@@ -188,8 +188,8 @@ function displayRandomRecipe(targetDivId) {
         const img = document.createElement("img");
         img.src = imgSrc;
         img.alt = altText;
-        img.style.width = "auto";
-        img.style.height = "60px";
+        img.className = "ImgRicipe";
+        img.className = "ImgRicipe";
         img.setAttribute("data-state", state);
 
         wrapper.appendChild(img);
@@ -425,6 +425,9 @@ function showRecipe() {
     } else {
         appearPlat.forEach(element => {
 
+        const img = new Image();
+        img.src = recipeImagePath;
+        img.alt = recipeName
 
             element.src = recipeImagePath;
             element.alt = recipeName;
@@ -461,6 +464,7 @@ function nextRecipe() {
 
     toFlex = document.querySelectorAll(".casseroleContainer");
     toNone = document.querySelectorAll(".Contenerassiet");
+
 
 
     transitionDiv.style.display = "none";
@@ -839,7 +843,6 @@ socket.on('ingredientRemoved', (data) => {
 socket.on("GameCanBigin", () => {
     console.log("🎮 Le jeu peut commencer!");
 
-    document.getElementById("title").style.display = "none";
     if (playerRole === "P1") {
         document.getElementById("Player1Game").style.display = "block";
         displayRandomRecipe("Player1Recipe");

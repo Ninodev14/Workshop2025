@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="src/css/style.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,30 +17,29 @@
 
 </head>
 
-<body class="game-body">
-    <h1 id="title">Jeu de Cuisine Collaboratif</h1>
-
-    <div id="start-instructions">
-        <h2>Vous avez 2 min<br />pour réaliser minimum<br /><strong>3 recettes !</strong></h2>
+<body>
+    <div class="instructionContener" id="start-instructions">
+        <img src="src/img/cuisto.png" alt="">
+        <h2 class="textExplication">Vous avez 2 min<br />pour réaliser minimum<br /><strong>3 recettes !</strong><img src="src/img/game/dote.svg" alt=""></h2>
         <button class=" btnBoncy" id="btn-step1" onclick="step2()" disabled>Suivant</button>
     </div>
 
-    <div id="step2-instructions" style="display: none;">
-        <h2>Suivez la liste d’ingrédients comme ici :</h2>
+    <div class="instructionContener" id="step2-instructions" style="display: none;">
+        <h2 class="textExplication">Suivez la liste d’ingrédients comme ici :</h2>
         <button class="btnBoncy" id="btn-step2" onclick="step3()" disabled>Suivant</button>
     </div>
 
     <div id="step3-instructions-P1" style="display: none;">
-        <h2>Toi tu coupes et mets dans la marmite ! Envoie les ingrédients aux autres s’il faut les laver !</h2>
+        <h2 class="textExplication">Toi tu coupes et mets dans la marmite ! Envoie les ingrédients aux autres s’il faut les laver !</h2>
         <button class="btnBoncy" id="btn-p1" onclick="readyToStartP1()" disabled>Suivant</button>
     </div>
 
     <div id="step3-instructions-P2" style="display: none;">
-        <h2>Toi tu laves et mets dans la marmite ! Envoie les ingrédients aux autres s’il faut les couper !</h2>
+        <h2 class="textExplication">Toi tu laves et mets dans la marmite ! Envoie les ingrédients aux autres s’il faut les couper !</h2>
         <button class="btnBoncy" id="btn-p2" onclick="readyToStartP2()" disabled>Suivant</button>
     </div>
 
-    <div id="Player1Game" style="display: none;">
+    <div id="Player1Game" class="game-body" style="display: none;">
         <div class="tableauContainer">
             <div id="Player1Recipe">
                 <img class="pin" src="src/img/game/pin.png" alt="">
@@ -48,7 +48,18 @@
             <div class="tableau">
                 <img src="src/img/game/tableau.png" alt="">
                 <div class="contentTableau">
-                    <p class="score">0</p>
+                    <div class="contentTableauTexteScore">
+                        <div class="contnerTextTableau">
+                            <p>Joueur 1</p>
+                        </div>
+                        <div class="contnerTextTableau">
+                            <p>Recettes finies</p>
+                            <div class="contnerTextTableauScore">
+                                <p>0/</p>
+                                <p class="score">0</p>
+                            </div>
+                        </div>
+                    </div>
                     <p>Coupe et mets dans la casserole</p>
                 </div>
             </div>
@@ -99,7 +110,7 @@
         </div>
     </div>
 
-    <div id="Player2Game" style="display: none;">
+    <div id="Player2Game" class="game-body" style="display: none;">
         <div class="tableauContainer">
             <div id="Player2Recipe">
                 <img class="pin" src="src/img/game/pin.png" alt="">
@@ -107,10 +118,20 @@
             </div>
             <div class="tableau">
                 <img src="src/img/game/tableau.png" alt="">
-
                 <div class="contentTableau">
-                    <p class="score">0</p>
-                    <p>Lave et mets dans la casserole</p>
+                    <div class="contentTableauTexteScore">
+                        <div class="contnerTextTableau">
+                            <p>Joueur 2</p>
+                        </div>
+                        <div class="contnerTextTableau">
+                            <p>Recettes finies</p>
+                            <div class="contnerTextTableauScore">
+                                <p>0/</p>
+                                <p class="score">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p>Coupe et mets dans la casserole</p>
                 </div>
             </div>
             <div class="ChronoContener">
