@@ -2,6 +2,14 @@ body {
     background-color: #F1E1E1;
 }
 
+img {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 h1 {
     color: #5C0A96;
     font-family: Chewy;
@@ -180,6 +188,7 @@ button {
 
 
 /* DÉBUT DU DES MÉDIAS POUR LES ECRITURES DE DISCUSSIONS */
+
 @media screen and (max-width: 1920px) and (min-width: 1240px) {
     .h3 {
         font-size: 50px;
@@ -204,7 +213,10 @@ button {
     }
 }
 
+
 /* FIN DES MÉDIAS POUR LES ECRITURES DE DISCUSSIONS */
+
+
 /* DEBUT TITRE MEDIA */
 
 @media screen and (max-width: 1920px) and (min-width: 900px) {
@@ -224,7 +236,10 @@ button {
         font-size: 50px;
     }
 }
+
+
 /* FIN MEDIA TITRE */
+
 
 /* DEBUT BTN NAV */
 
