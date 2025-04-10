@@ -4,6 +4,38 @@
     height: 100vh;
 }
 
+.instructionContener {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.textExplication {
+    color: #000;
+    text-align: center;
+    font-family: Itim;
+    font-size: 59.401px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    padding: 40px;
+    border-radius: 50px;
+    background-color: #fff;
+    width: fit-content;
+    position: relative;
+}
+
+.textExplication img {
+    position: absolute;
+    width: 50px;
+    height: auto;
+    bottom: -10px;
+    left: -10px;
+}
+
 .ingredient-zone {
     position: relative;
     width: 100%;
@@ -180,6 +212,8 @@
     justify-content: center;
     gap: 40px;
     align-items: center;
+    z-index: 1;
+    position: relative;
 }
 
 .casserole {
@@ -197,8 +231,8 @@
 .fondCasserol {
     position: absolute;
     width: 268px;
-    z-index: -1;
     top: -22px;
+    z-index: -1;
 }
 
 .verification-zone {
@@ -283,7 +317,6 @@ button.active-btn {
 .tableau img {
     width: 100%;
     height: 100%;
-    z-index: -1;
 }
 
 .tableauContainer {
@@ -317,7 +350,6 @@ button.active-btn {
 .postIt {
     width: 100%;
     height: 100%;
-    z-index: -1;
 }
 
 .pin {
