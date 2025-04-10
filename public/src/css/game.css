@@ -214,7 +214,8 @@ button.active-btn {
     justify-content: space-around;
     align-items: center;
     width: 100%;
-    height: 50vh;
+    height: 48vh;
+    margin-bottom: 2vh;
 }
 
 #Player1DropZone {
