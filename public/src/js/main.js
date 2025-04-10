@@ -782,6 +782,13 @@ function transformIngredient(imgToCut) {
                     cutImageInTwo(imgToCut);
                 } else if (isInP2Zone) {
                     imgToCut.style.filter = 'brightness(1.8) grayscale(0.3)';
+                    const wrapper = document.createElement("div");
+                    wrapper.classList.add("washed-img");
+                    wrapper.setAttribute("data-state", "2");
+
+                    imgToCut.parentNode.replaceChild(wrapper, imgToCut);
+                    wrapper.appendChild(imgToCut);
+
                     imgToCut.setAttribute('data-state', '2');
                 }
                 clearInterval(decayInterval); // stop la baisse

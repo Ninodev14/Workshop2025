@@ -664,7 +664,7 @@ button.active-btn {
     background-repeat: no-repeat;
     pointer-events: none;
     z-index: 2;
-    margin-top: -40%;
+    margin-top: -50%;
     animation: starBlink 0.8s steps(1) infinite;
 }
 
