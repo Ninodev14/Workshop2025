@@ -278,6 +278,11 @@ function monitorVerificationZone(zoneId, buttonId) {
     observer.observe(zone, { childList: true });
 }
 
+
+
+
+let stateRecipe = null;
+
 function validateRecipeCompletion(targetDivId) {
     const expectedZoneId = targetDivId === "Player1Recipe" ? "Player1VerificationZone" : "Player2VerificationZone";
     const dropZone = document.getElementById(expectedZoneId);
@@ -340,7 +345,9 @@ function validateRecipeCompletion(targetDivId) {
     if (missingIngredients.length === 0 && incorrectIngredients.length === 0) {
 
         //messageDiv.className = "success-message";
-        showRecipe()
+        stateRecipe = true;
+
+        anomationCook()
 
         const data = {
             roomId: roomId
@@ -351,6 +358,7 @@ function validateRecipeCompletion(targetDivId) {
 
 
     } else {
+
         /*
         let errorMessage = "❌ Recette incorrecte.\n";
         if (missingIngredients.length > 0) {
@@ -362,10 +370,35 @@ function validateRecipeCompletion(targetDivId) {
         messageDiv.textContent = errorMessage;
         messageDiv.className = "error-message";
         */
+       console.log(stateRecipe);
 
-        showRecipe()
+        stateRecipe = false;
+        console.log(stateRecipe);
+
+
+        anomationCook()
 
     }
+}
+
+function anomationCook() {
+
+    toNone = document.querySelectorAll(".casseroleContainer");
+    toNone.forEach(element => {
+        element.style.display = "none";
+    });
+
+
+    /*
+    //LANCER l'animation ici !!
+
+    setTimeout(() => {
+        showRecipe()
+    }, 1000);
+    */
+
+    showRecipe()
+
 }
 
 
@@ -374,23 +407,35 @@ function showRecipe() {
     console.log(recipeName);
     const recipeImagePath = `src/img/recipes/${recipeName}.png`;
 
-    toNone = document.querySelectorAll(".casseroleContainer");
-    toNone.forEach(element => {
-        element.style.display = "none";
-    });
+    appearPlat = document.querySelectorAll(".imgplat");
+
+    if (stateRecipe == false) {
+        console.log("eeeeeee")
+
+        appearPlat.forEach(element => {
 
 
-    appearPlat = document.querySelectorAll(".plat");
-    appearPlat.forEach(element => {
-        console.log(appearPlat);
-        console.log(element);
+            element.src = `src/img/tableau.png`;
+            element.alt = `PlatRaté`;
 
 
-        element.src = recipeImagePath;
-        element.alt = recipeName;
+        });
 
-       
-    });
+
+    } else {
+        appearPlat.forEach(element => {
+
+
+            element.src = recipeImagePath;
+            element.alt = recipeName;
+
+
+        });
+    }
+
+
+
+
 
 
     toFlex = document.querySelectorAll(".Contenerassiet");
@@ -399,8 +444,11 @@ function showRecipe() {
     });
 
 
+    AllbtnNextRecipe = document.querySelectorAll(".btnNextRecipe");
+    AllbtnNextRecipe.forEach(element => {
+        element.style.display = "flex";
+    });
 
-    nextRecipe()
 
 
 }
@@ -413,27 +461,32 @@ function nextRecipe() {
 
     toFlex = document.querySelectorAll(".casseroleContainer");
     toNone = document.querySelectorAll(".Contenerassiet");
-    
 
-    setTimeout(() => {
-        transitionDiv.style.display = "none";
-        //messageDiv.style.display = "none";
-        document.getElementById("Player1IngredientZone").innerHTML = '';
-        document.getElementById("Player2IngredientZone").innerHTML = '';
-        document.getElementById("Player1VerificationZone").innerHTML = '';
-        document.getElementById("Player2VerificationZone").innerHTML = '';
-        if (playerRole === "P1") {
-            displayRandomRecipe("Player1Recipe");
-        } else if (playerRole === "P2") {
-            displayRandomRecipe("Player2Recipe");
-        }
-        toNone.forEach(element => {
-            element.style.display = "none";        
-        });
-        toFlex.forEach(element => {
-            element.style.display = "flex";
-        });
-    }, 3000);
+
+    transitionDiv.style.display = "none";
+    //messageDiv.style.display = "none";
+    document.getElementById("Player1IngredientZone").innerHTML = '';
+    document.getElementById("Player2IngredientZone").innerHTML = '';
+    document.getElementById("Player1VerificationZone").innerHTML = '';
+    document.getElementById("Player2VerificationZone").innerHTML = '';
+    if (playerRole === "P1") {
+        displayRandomRecipe("Player1Recipe");
+    } else if (playerRole === "P2") {
+        displayRandomRecipe("Player2Recipe");
+    }
+    toNone.forEach(element => {
+        element.style.display = "none";
+    });
+    toFlex.forEach(element => {
+        element.style.display = "flex";
+    });
+
+
+    AllbtnNextRecipe = document.querySelectorAll(".btnNextRecipe");
+    AllbtnNextRecipe.forEach(element => {
+        element.style.display = "none";
+    });
+
 
 }
 

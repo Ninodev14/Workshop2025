@@ -11,6 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dragula@3.7.3/dist/dragula.min.css">
 <script src="https://cdn.jsdelivr.net/npm/dragula@3.7.3/dist/dragula.min.js"></script>
+<script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.3.0/dist/dotlottie-wc.js" type="module"></script>
+
 
 </head>
 
@@ -79,9 +81,12 @@
 
             <div class="Contenerassiet">
                 <div class="assiet">
-                    <div class="plat"></div>
+                    <div class="plat">
+                        <img class="imgplat" src="src/img/recipes/BoeufBourguignon.png" alt="NomRecette">
+                    </div>
                 </div>
             </div>
+            <button class="btnBoncy btnNextRecipe" style="display: none;" onclick="nextRecipe()"> Recette suivante</button>
             <div class="casseroleContainer">
                 <div class="casserole">
                     <img class="plaqueCuisson" src="src/img/game/cuisson.png" alt="">
@@ -143,6 +148,8 @@
                     </div>
                 </div>
             </div>
+            <button class="btnBoncy btnNextRecipe" style="display: none;" onclick="nextRecipe()"> Recette suivante</button>
+
             <div class="casseroleContainer">
                 <div class="casserole">
                     <img class="plaqueCuisson" src="src/img/game/cuisson.png" alt="">
@@ -162,6 +169,16 @@
     <div id="next-recipe-transition" style="display: none;" class="transition-message">
         Préparez-vous pour la prochaine recette ! 🍽️
     </div>
+
+    
+        <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.3.0/dist/dotlottie-wc.js" type="module"></script>
+        <dotlottie-wc class="animationCook" src="https://lottie.host/52677748-8f45-4ab8-96ac-906279510c1c/6ThFj5wkDX.lottie" autoplay></dotlottie-wc>
+
+    
+
+
+
+
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="src/js/recipes.js"></script>
