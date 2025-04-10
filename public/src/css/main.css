@@ -136,6 +136,12 @@ button {
     animation: bounceClick 0.4s ease;
 }
 
+.btnBoncy:disabled {
+    background-color: #D7D7D7;
+    filter: grayscale(80%);
+    animation: none !important;
+}
+
 .btnBoncy:hover {
     animation: bounceClick 0.4s ease;
 }
@@ -185,7 +191,7 @@ button {
     filter: blur(0);
 }
 
-.btn-direction{
+.btn-direction {
     -webkit-text-stroke-width: 0px;
     padding-bottom: 18px;
     padding: 0;
@@ -198,7 +204,7 @@ button {
     user-select: none;
 }
 
-.btn-tuto-join-game{
+.btn-tuto-join-game {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -209,7 +215,7 @@ button {
     height: fit-content;
 }
 
-.Titre{
+.Titre {
     -webkit-user-select: none;
     -webkit-touch-callout: none;
     -moz-user-select: none;
