@@ -521,7 +521,6 @@ drake.on('drop', (el, target) => {
     const isGiveZone = target.classList.contains("give");
 
     if (forbiddenTakeZones.includes(target.id)) {
-        console.log("⛔ Impossible de déposer ici (zone de réception uniquement).");
         const id = el.getAttribute("data-id");
         el.remove();
         if (id) {
@@ -545,27 +544,27 @@ drake.on('drop', (el, target) => {
         }
     }
 
-    if (target.id == "Player1GiveZone" && playerRole == "P1") {
-        sendToPlayer(el, "P2");
-        return;
-    }
-
-    if (target.id == "Player2GiveZone" && playerRole == "P2") {
-        sendToPlayer(el, "P1");
-        return;
-    }
-
-    // --- AUTRES ZONES ---
     const allowedZoneClasses = ['drop-zone', 'verification-zone', 'ingredient-zone'];
     const isAllowedZone = allowedZoneClasses.some(cls => target.classList.contains(cls));
+    const imageCount = Array.from(target.children).filter(child => child.tagName === "IMG" || child.tagName === "DIV").length;
+    const limit = target.classList.contains('verification-zone') ? 6 : maxIngredients;
 
+    // ✅ Appliquer la limite aussi pour les GiveZone
+    if (
+        (target.id === "Player1GiveZone" && playerRole === "P1") ||
+        (target.id === "Player2GiveZone" && playerRole === "P2")
+    ) {
+        if (imageCount < limit) {
+            sendToPlayer(el, playerRole === "P1" ? "P2" : "P1");
+        } else {
+            console.log("Zone déjà pleine (give zone).");
+            el.remove();
+        }
+        return;
+    }
 
     if (isAllowedZone) {
-        const isVerificationZone = target.classList.contains('verification-zone');
         const isDropZone = target.classList.contains('drop-zone');
-
-        const limit = isVerificationZone ? 6 : maxIngredients;
-        const imageCount = Array.from(target.children).filter(child => child.tagName === "IMG").length;
 
         if (imageCount < limit) {
             el.draggable = false;
@@ -574,14 +573,11 @@ drake.on('drop', (el, target) => {
             el.style.position = "relative";
 
             if (isDropZone) {
-
                 setTimeout(() => {
-                    if (helpClic == false) {
+                    if (helpClic === false) {
                         apDisap(".clicindicateur", "block");
                     }
                 }, 2000);
-
-
             }
         } else {
             console.log("Zone déjà pleine.");
@@ -600,6 +596,7 @@ drake.on('drop', (el, target) => {
         }
     }
 });
+
 
 function sendToPlayer(el, to) {
     const isCut = !el.src;
@@ -677,7 +674,8 @@ function setupDragAndDropLogic() {
         const isVerificationZone = target.classList.contains('verification-zone');
         const limit = isVerificationZone ? 6 : maxIngredients;
 
-        const imageCount = Array.from(target.children).filter(child => child.tagName === "IMG").length;
+        const imageCount = Array.from(target.children).filter(child => child.tagName === "IMG" || child.tagName === "DIV").length;
+
 
         if (target.classList.contains('drop-zone') || isVerificationZone) {
             if (imageCount < limit) {
