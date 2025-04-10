@@ -166,7 +166,7 @@ function displayRandomRecipe(targetDivId) {
     ingredientsDiv.innerHTML = '';
 
     document.body.appendChild(ingredientsDiv)
-        recipe.ingredients.forEach(ingredient => {
+    recipe.ingredients.forEach(ingredient => {
         let imgSrc, state;
 
         if (typeof ingredient === 'object' && ingredient.src) {
@@ -338,9 +338,9 @@ function validateRecipeCompletion(targetDivId) {
 
 
     if (missingIngredients.length === 0 && incorrectIngredients.length === 0) {
-        
+
         //messageDiv.className = "success-message";
-        showRecipe()  
+        showRecipe()
 
         const data = {
             roomId: roomId
@@ -364,15 +364,45 @@ function validateRecipeCompletion(targetDivId) {
         */
 
         showRecipe()
-        
+
     }
 }
 
 
 function showRecipe() {
-    
+
     console.log(recipeName);
     const recipeImagePath = `src/img/recipes/${recipeName}.png`;
+
+    toNone = document.querySelectorAll(".casseroleContainer");
+    toNone.forEach(element => {
+        element.style.display = "none";
+    });
+
+    toFlex = document.querySelectorAll(".Contenerassiet");
+    toFlex.forEach(element => {
+        element.style.display = "flex";
+    });
+
+
+    appearPlat = document.querySelectorAll(".plat");
+    appearPlat.forEach(element => {
+
+        const img = new Image();
+        img.src = recipeImagePath;
+        img.alt = recipeName;
+        img.onload = () => {
+            recipeDisplay.innerHTML = ''; // vide l'ancienne image
+            recipeDisplay.appendChild(img);
+        }
+
+
+        
+
+
+
+
+    });
 
 
 
@@ -385,21 +415,31 @@ function showRecipe() {
 function nextRecipe() {
 
     const transitionDiv = document.getElementById("next-recipe-transition");
-        transitionDiv.style.display = "block";
+    transitionDiv.style.display = "block";
 
-        setTimeout(() => {
-            transitionDiv.style.display = "none";
-           //messageDiv.style.display = "none";
-            document.getElementById("Player1IngredientZone").innerHTML = '';
-            document.getElementById("Player2IngredientZone").innerHTML = '';
-            document.getElementById("Player1VerificationZone").innerHTML = '';
-            document.getElementById("Player2VerificationZone").innerHTML = '';
-            if (playerRole === "P1") {
-                displayRandomRecipe("Player1Recipe");
-            } else if (playerRole === "P2") {
-                displayRandomRecipe("Player2Recipe");
-            }
-        }, 3000);
+    toFlex = document.querySelectorAll(".casseroleContainer");
+    toFNone = document.querySelectorAll(".Contenerassiet");
+    
+
+    setTimeout(() => {
+        transitionDiv.style.display = "none";
+        //messageDiv.style.display = "none";
+        document.getElementById("Player1IngredientZone").innerHTML = '';
+        document.getElementById("Player2IngredientZone").innerHTML = '';
+        document.getElementById("Player1VerificationZone").innerHTML = '';
+        document.getElementById("Player2VerificationZone").innerHTML = '';
+        if (playerRole === "P1") {
+            displayRandomRecipe("Player1Recipe");
+        } else if (playerRole === "P2") {
+            displayRandomRecipe("Player2Recipe");
+        }
+        toNone.forEach(element => {
+            element.style.display = "none";        
+        });
+        toFlex.forEach(element => {
+            element.style.display = "flex";
+        });
+    }, 3000);
 
 }
 
