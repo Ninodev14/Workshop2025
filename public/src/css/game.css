@@ -262,6 +262,7 @@
 }
 
 .verification-zone {
+    z-index: -1;
     width: 58%;
     height: 100%;
     margin-top: -60%;
@@ -280,9 +281,9 @@
 }
 
 .verification-zone img {
+    pointer-events: all;
     position: static;
     animation: none;
-    z-index: -1;
     margin-top: -20px;
     top: 0%;
     width: auto;
