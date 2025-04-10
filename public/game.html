@@ -77,7 +77,7 @@
                             </div>
                         </div>
                     </div>
-                    <p class="txtTuto" >Coupe et mets dans la casserole</p>
+                    <p class="txtTuto">Coupe et mets dans la casserole</p>
                     <p class="txtFinishGood" style="display: none;">Bravo, tu as réussi ta recette !</p>
                     <p class="txtFinisBad" style="display: none;">Mince, tu as raté ta recette !</p>
                 </div>
@@ -125,7 +125,9 @@
                 </div>
                 <button class="btnBoncy btncreatroom" id="validateButtonP1" disabled>Envoyer en cuisine</button>
             </div>
-            
+            <div class="progressbar">
+                <div class="progressbarRemplisage"></div>
+            </div>
             <div class="drop-zone" id="Player1DropZone"></div>
             <img class="clicindicateur" style="display: none;" src="src/img/clic.png" alt="indicateur clic">
         </div>
@@ -220,9 +222,19 @@
         <dotlottie-wc class="animationCook" src="https://lottie.host/52677748-8f45-4ab8-96ac-906279510c1c/6ThFj5wkDX.lottie" autoplay></dotlottie-wc>
     -->
 
+    <div class="instructionContener" id="start-end">
+        <img class="cuistoImg" src="src/img/cuisto.png" alt="">
+        <div class="textExplicationContener">
+            <h2 class="textExplication">Temps écoulé ! Voyons votre travail ...<img src="src/img/game/dote.svg" alt=""></h2>
+            <button class=" btnBoncy" id="btn-step1" onclick="endGameResult()">Évaluer</button>
+        </div>
+    </div>
 
-
-
+    <div class="resultContainer" id="resultContainer"></div>
+    <div id="overlay" class="overlay-hidden">
+        <button class="btnBoncy" onclick="goToLobbyPage()">Rejouer</button>
+        <button class="btnBoncy btnquitter" onclick="goToIndexPage()">Quitter</button>
+    </div>
 
 
     <script src="/socket.io/socket.io.js"></script>

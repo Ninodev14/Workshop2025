@@ -16,26 +16,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
     <title>Waiting Room</title>
     <script src="/socket.io/socket.io.js"></script>
-    <style>
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .btn {
-            padding: 10px 20px;
-            margin-top: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-        }
-        
-        .btn:disabled {
-            background: #aaa;
-            cursor: not-allowed;
-        }
-    </style>
 </head>
 
 <body>
@@ -45,7 +25,9 @@
         </button>
     </div>
 
-    <h1 class="Titre">Waiting Room</h1>
+    <h1 class="Titre">Equipe</h1>
+
+    <img class="cuistoAbsolute" src="src/img/cuisto.png" alt="">
 
     <div class="room-info">
         <div class="encadreroomName">
@@ -55,14 +37,34 @@
     </div>
 
     <div class="player-list">
-        <h3>Players:</h3>
-        <ul id="playerList" class="h4">
-            <!-- Players will be listed here -->
-        </ul>
+        <div id="playerList" class="h4">
+            <div class="player-slot" id="player1">
+                <div class="player-label">
+                    <p>Joueur</p>
+                    <p> 1</p>
+                    <p> :</p>
+                </div>
+                <div class="player-name">
+                    <p>En attente du joueur...</p>
+                </div>
+            </div>
+            <div class="player-slot" id="player2">
+                <div class="player-label">
+                    <div class="player-label">
+                        <p>Joueur</p>
+                        <p> 2</p>
+                        <p> :</p>
+                    </div>
+                </div>
+                <div class="player-name">
+                    <p>En attente du joueur...</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="room-info">
-        <button class="btn" id="startGameBtn" disabled>Start Game</button>
+        <button class="btnBoncy" id="startGameBtn" disabled>Start Game</button>
     </div>
 
     <script>
@@ -97,29 +99,29 @@
         });
 
         function updatePlayerList(players, hostId) {
-            console.log("👥 Mise à jour des joueurs :", players);
-            console.log("🏠 Host ID :", hostId);
-            console.log("🎮 Mon Player ID :", playerId);
-            console.log("👥 Nombre de joueurs :", players.length);
-            console.log("🔍 Condition :", playerId === hostId, players.length > 1);
+            const slot1 = document.querySelector("#player1 .player-name p");
+            const slot2 = document.querySelector("#player2 .player-name p");
 
-            playerListElement.innerHTML = '';
-            players.forEach(player => {
-                const li = document.createElement('li');
-                li.classList.add('player-item');
-                li.textContent = "Player" + " " + player.name + (player.id === hostId ? " (Host)" : "");
-                playerListElement.appendChild(li);
+            // Reset
+            slot1.textContent = "En attente du joueur...";
+            slot2.textContent = "En attente du joueur...";
+
+            players.forEach((player, index) => {
+                const name = `${player.name}${player.id === hostId ? " (Host)" : ""}`;
+                if (index === 0) {
+                    slot1.textContent = name;
+                } else if (index === 1) {
+                    slot2.textContent = name;
+                }
             });
-
-            if (playerId && hostId && playerId === hostId && players.length > 1) {
+            if (players.length === 2 && playerId === hostId) {
                 startGameBtn.disabled = false;
-                console.log("✅ Le bouton Start Game est activé !");
             } else {
                 startGameBtn.disabled = true;
-                console.log("❌ Le bouton Start Game reste désactivé.");
-                print
             }
         }
+
+
 
 
         startGameBtn.addEventListener('click', () => {
