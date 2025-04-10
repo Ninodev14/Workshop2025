@@ -379,22 +379,23 @@ function showRecipe() {
         element.style.display = "none";
     });
 
-    toFlex = document.querySelectorAll(".Contenerassiet");
-    toFlex.forEach(element => {
-        element.style.display = "flex";
-    });
-
 
     appearPlat = document.querySelectorAll(".plat");
     appearPlat.forEach(element => {
-
-        const img = new Image();
-        img.src = recipeImagePath;
-        img.alt = recipeName 
+        console.log(appearPlat);
+        console.log(element);
 
 
+        element.src = recipeImagePath;
+        element.alt = recipeName;
+
+       
+    });
 
 
+    toFlex = document.querySelectorAll(".Contenerassiet");
+    toFlex.forEach(element => {
+        element.style.display = "flex";
     });
 
 
