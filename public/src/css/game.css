@@ -142,6 +142,22 @@
     cursor: pointer;
 }
 
+.Contenerassiet {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
+    align-items: center;
+}
+
+.casseroleContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
+    align-items: center;
+}
+
 .casserole {
     width: 400px;
     height: 160px;
@@ -151,14 +167,6 @@
     background-repeat: no-repeat;
     display: flex;
     justify-content: center;
-    align-items: center;
-}
-
-.casseroleContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 40px;
     align-items: center;
 }
 
