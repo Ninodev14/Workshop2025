@@ -408,17 +408,22 @@ function showRecipe() {
     const recipeImagePath = `src/img/recipes/${recipeName}.png`;
 
     appearPlat = document.querySelectorAll(".imgplat");
+    textFinsihTab= document.querySelectorAll(".TutoAndFish");
+
+    
 
     if (stateRecipe == false) {
-        console.log("eeeeeee")
 
         appearPlat.forEach(element => {
-
-
             element.src = `src/img/tableau.png`;
             element.alt = `PlatRaté`;
 
+        });
 
+
+        textFinsihTab.forEach(element => {
+            element.innerHTML = `Mince tu as raté ta recette de ${recipeName}`
+            
         });
 
 
@@ -433,6 +438,13 @@ function showRecipe() {
             element.alt = recipeName;
 
 
+        });
+
+
+        
+        textFinsihTab.forEach(element => {
+            element.innerHTML = `Bravo, tu as réussi ta recette de ${recipeName}`
+            
         });
     }
 
