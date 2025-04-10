@@ -270,43 +270,6 @@ button.active-btn {
     background-repeat: no-repeat;
 }
 
-.contenerGiveTake {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
-
-.give,
-.take {
-    width: 240px;
-    height: 100px;
-    background-image: url(../img/game/Give.png);
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.3s ease-in-out;
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
-.take {
-    background-image: url(../img/game/Take.png);
-}
-
-.give img,
-.take img,
-.give div,
-.take div {
-    margin-top: -30px;
-    position: static;
-    top: 0%;
-    transform: translateY(0%);
-    right: 0;
-}
-
 .tableau {
     display: flex;
     justify-content: center;
@@ -397,4 +360,77 @@ button.active-btn {
 #validateButtonP1,
 #validateButtonP2 {
     scale: 0.8;
+}
+
+.contenerGiveTake {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.texteAndPlateform {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.TextandImg {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    height: fit-content;
+    align-items: center;
+    gap: 20px;
+}
+
+.TextandImg p {
+    color: #2A0343;
+    font-family: Itim;
+    font-size: 2.2em;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%;
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: auto;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
+}
+
+.TextandImg img {
+    width: auto;
+    height: 40px;
+}
+
+.give,
+.take {
+    width: 24vh;
+    height: 10vh;
+    background-image: url(../img/game/Give.png);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease-in-out;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.take {
+    background-image: url(../img/game/Take.png);
+}
+
+.give img,
+.take img,
+.give div,
+.take div {
+    margin-top: -30px;
+    position: static;
+    top: 0%;
+    transform: translateY(0%);
+    right: 0;
 }
