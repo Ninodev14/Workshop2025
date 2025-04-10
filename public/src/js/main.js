@@ -411,8 +411,8 @@ function showRecipe() {
     if (stateRecipe == false) {
 
         appearPlat.forEach(element => {
-            element.src = `src/img/tableau.png`;
-            element.alt = `PlatRaté`;
+            element.src = `src/img/recipes/PlatFoireux.png`;
+            element.alt = `PlatFoireux`;
 
         });
 
