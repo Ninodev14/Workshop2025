@@ -5,10 +5,14 @@
 }
 
 .instructionContener {
+    position: absolute;
+    bottom: 0;
+    left: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     flex-direction: column;
+    flex-direction: row;
     gap: 20px;
     width: 100%;
 }
