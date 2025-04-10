@@ -559,7 +559,7 @@ drake.on('drop', (el, target) => {
     const allowedZoneClasses = ['drop-zone', 'verification-zone', 'ingredient-zone'];
     const isAllowedZone = allowedZoneClasses.some(cls => target.classList.contains(cls));
 
-   
+
     if (isAllowedZone) {
         const isVerificationZone = target.classList.contains('verification-zone');
         const isDropZone = target.classList.contains('drop-zone');
@@ -577,11 +577,11 @@ drake.on('drop', (el, target) => {
 
                 setTimeout(() => {
                     if (helpClic == false) {
-                        apDisap(".clicindicateur","block");     
+                        apDisap(".clicindicateur", "block");
                     }
                 }, 2000);
-                
-    
+
+
             }
         } else {
             console.log("Zone déjà pleine.");
