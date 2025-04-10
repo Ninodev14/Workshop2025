@@ -22,7 +22,7 @@
 
 <body>
     <div class="instructionContener" id="start-instructions">
-        <img src="src/img/cuisto.png" alt="">
+        <img class="cuistoImg" src="src/img/cuisto.png" alt="">
         <div class="textExplicationContener">
             <h2 class="textExplication">Vous avez 2 min<br />pour réaliser minimum<br /><strong>3 recettes !</strong><img src="src/img/game/dote.svg" alt=""></h2>
             <button class=" btnBoncy" id="btn-step1" onclick="step2()" disabled>Suivant</button>
@@ -30,26 +30,27 @@
     </div>
 
     <div class="instructionContener" id="step2-instructions" style="display: none;">
-        <img src="src/img/cuisto.png" alt="">
+        <img class="cuistoImg" src="src/img/cuisto.png" alt="">
         <div class="textExplicationContener">
-            <h2 class="textExplication">Suivez la liste d’ingrédients<br />comme ici :</h2>
+            <h2 class="textExplication">Suivez la liste d’ingrédients<br />comme ici :<img src="src/img/game/dote.svg" alt=""></h2>
+            <img class="tutoOrder" src="src/img/game/tutoOrder.png" alt="">
             <button class="btnBoncy" id="btn-step2" onclick="step3()" disabled>Suivant</button>
         </div>
 
     </div>
 
     <div class="instructionContener" id="step3-instructions-P1" style="display: none;">
-        <img src="src/img/cuisto.png" alt="">
+        <img class="cuistoImg" src="src/img/cuisto.png" alt="">
         <div class="textExplicationContener">
-            <h2 class="textExplication">Toi tu coupes et mets dans la marmite ! Envoie les ingrédients à ton partenaire s’il faut les laver !</h2>
+            <h2 class="textExplication">Toi tu coupes et mets dans la marmite ! Envoie les ingrédients à ton partenaire s’il faut les laver !<img src="src/img/game/dote.svg" alt=""></h2>
             <button class="btnBoncy" id="btn-p1" onclick="readyToStartP1()" disabled>Suivant</button>
         </div>
     </div>
 
     <div class="instructionContener" id="step3-instructions-P2" style="display: none;">
-        <img src="src/img/cuisto.png" alt="">
+        <img class="cuistoImg" src="src/img/cuisto.png" alt="">
         <div class="textExplicationContener">
-            <h2 class="textExplication">Toi tu laves et mets dans la marmite ! Envoie les ingrédients à ton partenaire s’il faut les couper !</h2>
+            <h2 class="textExplication">Toi tu laves et mets dans la marmite ! Envoie les ingrédients à ton partenaire s’il faut les couper !<img src="src/img/game/dote.svg" alt=""></h2>
             <button class="btnBoncy" id="btn-p2" onclick="readyToStartP2()" disabled>Suivant</button>
         </div>
     </div>
@@ -162,8 +163,6 @@
             </div>
         </div>
 
-
-
         <div class="ingredient-zone" id="Player2IngredientZone"></div>
         <div class="contenerAction">
 
@@ -213,16 +212,9 @@
     </div>
 
     <!-- 
-    
      <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.3.0/dist/dotlottie-wc.js" type="module"></script>
         <dotlottie-wc class="animationCook" src="https://lottie.host/52677748-8f45-4ab8-96ac-906279510c1c/6ThFj5wkDX.lottie" autoplay></dotlottie-wc>
-    
-    
-    
     -->
-
-
-
 
 
 
