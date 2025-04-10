@@ -632,3 +632,44 @@ button.active-btn {
     width: 0%;
     transition: width 0.2s ease-in-out;
 }
+
+.washed-img {
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+    height: fit-content;
+    margin-top: 0px !important;
+}
+
+@keyframes starBlink {
+
+    0%,
+    100% {
+        background-image: url('../img/game/starAnnim1.png');
+    }
+
+    50% {
+        background-image: url('../img/game/starAnnim2.png');
+    }
+}
+
+.washed-img::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 2;
+    margin-top: -40%;
+    animation: starBlink 0.8s steps(1) infinite;
+}
+
+.washed-img img {
+    position: relative;
+    z-index: 1;
+    display: block;
+}
