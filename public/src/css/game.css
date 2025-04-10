@@ -11,7 +11,7 @@
     margin-top: 20px;
     background-image: url(../img/game/tapis1.png);
     animation: alternateBackground 1s infinite;
-    background-size: contain;
+    background-size: auto 100%;
 }
 
 @keyframes alternateBackground {
@@ -153,6 +153,14 @@
     align-items: center;
 }
 
+.casseroleContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 50px;
+    align-items: center;
+}
+
 .fondCasserol {
     position: absolute;
     width: 268px;
@@ -167,9 +175,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap-reverse;
-    /* ← la clé ici */
     align-content: flex-start;
-    /* ← pousse tout en bas */
     justify-content: space-between;
     align-items: flex-start;
     position: relative;
@@ -177,7 +183,6 @@
 
 .verification-zone>* {
     flex: 0 0 calc(33.33% - 10px);
-    /* 3 colonnes max, -10px pour le gap */
     box-sizing: border-box;
 }
 
@@ -214,8 +219,8 @@ button.active-btn {
     justify-content: space-around;
     align-items: center;
     width: 100%;
-    height: 48vh;
-    margin-bottom: 2vh;
+    height: 44vh;
+    margin-bottom: 6vh;
 }
 
 #Player1DropZone {
@@ -342,4 +347,17 @@ button.active-btn {
     background-image: url(../img/game/background.jpg);
     background-size: auto 100%;
     background-repeat: repeat-x;
+}
+
+.plaqueCuisson {
+    width: 100%;
+    height: 100%;
+    margin-top: 9%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url(../img/game/plaqueCuisson.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
 }
