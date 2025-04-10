@@ -263,6 +263,7 @@ button.active-btn {
 }
 
 #Player2DropZone {
+    margin-top: -40px;
     width: 240px;
     height: 200px;
     background-image: url(../img/game/evier.png);
@@ -435,8 +436,36 @@ button.active-btn {
     right: 0;
 }
 
-@media screen and (max-width: 500px) {
-    .ingredient-zone {
-        height: 20vh;
+.ImgRicipe {
+    height: 60px;
+    width: auto;
+}
+
+@media screen and (max-width: 800px) {
+    .contenerAction {
+        flex-direction: column !important;
+    }
+
+    .contenerGiveTake {
+        flex-direction: row !important;
+    }
+
+    .ingredient-img {
+        height: 30px;
+    }
+
+    .image-part {
+        width: 15px;
+        height: 30px;
+    }
+
+    .verification-zone img {
+        width: auto;
+        height: 30px;
+    }
+
+    .ImgRicipe {
+        height: 30px;
+        width: auto;
     }
 }

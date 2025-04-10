@@ -188,8 +188,7 @@ function displayRandomRecipe(targetDivId) {
         const img = document.createElement("img");
         img.src = imgSrc;
         img.alt = altText;
-        img.style.width = "auto";
-        img.style.height = "60px";
+        img.className = "ImgRicipe";
         img.setAttribute("data-state", state);
 
         wrapper.appendChild(img);
@@ -385,11 +384,14 @@ function showRecipe() {
         console.log(appearPlat);
         console.log(element);
 
+        const img = new Image();
+        img.src = recipeImagePath;
+        img.alt = recipeName
 
         element.src = recipeImagePath;
         element.alt = recipeName;
 
-       
+
     });
 
 
@@ -413,7 +415,7 @@ function nextRecipe() {
 
     toFlex = document.querySelectorAll(".casseroleContainer");
     toNone = document.querySelectorAll(".Contenerassiet");
-    
+
 
     setTimeout(() => {
         transitionDiv.style.display = "none";
@@ -428,7 +430,7 @@ function nextRecipe() {
             displayRandomRecipe("Player2Recipe");
         }
         toNone.forEach(element => {
-            element.style.display = "none";        
+            element.style.display = "none";
         });
         toFlex.forEach(element => {
             element.style.display = "flex";
