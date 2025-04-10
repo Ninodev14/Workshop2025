@@ -390,14 +390,7 @@ function showRecipe() {
 
         const img = new Image();
         img.src = recipeImagePath;
-        img.alt = recipeName;
-        img.onload = () => {
-            recipeDisplay.innerHTML = ''; // vide l'ancienne image
-            recipeDisplay.appendChild(img);
-        }
-
-
-        
+        img.alt = recipeName 
 
 
 
@@ -418,7 +411,7 @@ function nextRecipe() {
     transitionDiv.style.display = "block";
 
     toFlex = document.querySelectorAll(".casseroleContainer");
-    toFNone = document.querySelectorAll(".Contenerassiet");
+    toNone = document.querySelectorAll(".Contenerassiet");
     
 
     setTimeout(() => {
