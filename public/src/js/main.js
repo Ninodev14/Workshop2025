@@ -99,11 +99,13 @@ function step3() {
 
 function readyToStartP1() {
     document.getElementById("step3-instructions-P1").style.display = "none";
+    document.getElementById("Waiting").style.display = "flex";
     socket.emit("playerReadyForGame", roomId, playerId);
 }
 
 function readyToStartP2() {
     document.getElementById("step3-instructions-P2").style.display = "none";
+    document.getElementById("Waiting").style.display = "flex";
     socket.emit("playerReadyForGame", roomId, playerId);
 }
 
@@ -909,7 +911,7 @@ socket.on('ingredientRemoved', (data) => {
 
 socket.on("GameCanBigin", () => {
     console.log("🎮 Le jeu peut commencer!");
-
+    document.getElementById("Waiting").style.display = "none";
     if (playerRole === "P1") {
         document.getElementById("Player1Game").style.display = "block";
         displayRandomRecipe("Player1Recipe");
