@@ -24,6 +24,11 @@ body {
     display: flex;
     justify-content: center;
     scale: 0.8;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .room-item {

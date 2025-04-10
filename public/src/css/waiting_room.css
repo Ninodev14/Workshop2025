@@ -3,12 +3,22 @@
     max-width: 400px;
     border: none;
     padding: 10px;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .player-item {
     padding: 5px;
     margin: 5px 0;
     background: #f4f4f4;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .encadreroomName{
@@ -18,10 +28,20 @@
     justify-content: center;
     font-size: 32px;
     font-family: itim;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .room-info {
     margin: 20px 0;
     display: flex;
     justify-content: center;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
