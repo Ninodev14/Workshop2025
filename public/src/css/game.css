@@ -141,13 +141,37 @@
     cursor: pointer;
 }
 
-.casseroleContainer {
+.Contenerassiet {
     z-index: 10000;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 40px;
     align-items: center;
+}
+
+.assiet {
+    background-image: url(../img/game/asiette.png);
+    width: 400px;
+    height: 160px;
+    position: relative;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.plat {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 20%;
+}
+
+.plat img {
+    width: auto;
+    height: 100%;
 }
 
 .casseroleContainer {
