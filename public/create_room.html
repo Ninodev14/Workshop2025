@@ -11,7 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">    <title>Créer une Room</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    <title>Créer une Room</title>
 </head>
 
 <body>
@@ -42,6 +43,9 @@
 
 
     </div>
+    <div id="screen-warning" class="screen-warning">
+        <p>Ce site est uniquement accessible sur PC et tablette. Veuillez ajuster votre écran pour y accéder.</p>
+    </div>
 
 
     <script src="/socket.io/socket.io.js"></script>
@@ -53,7 +57,7 @@
         }
         const playerId = localStorage.getItem("playerId");
 
-        document.getElementById('create-form').addEventListener('submit', function (e) {
+        document.getElementById('create-form').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const playerName = document.getElementById('player-name').value.trim();

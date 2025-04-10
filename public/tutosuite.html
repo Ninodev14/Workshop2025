@@ -16,6 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
     <script src="/socket.io/socket.io.js"></script>
 </head>
+
 <body>
 
     <div class="titre-id-for-player1" id="aflouter1">
@@ -28,12 +29,12 @@
                 <button class="btnBoncy btnquitter" onclick="goToIndexPage()" style="z-index: 999999;">Quitter</button>
                 <button id="destineadisparaitre" class="btnBoncy btn-tuto-join-game" onclick="goToLobbyPage()" style="z-index: 9999999 ;">Rejoindre une partie</button>
             </div>
-              
+
         </div>
         <div class="premier-plan" style="z-index: -100000;" id="aflouter">
             <img id="myImage" src="src/img/tutosuite1tableau.png" class="diapo">
         </div>
-    
+
         <div class="deuxieme-plan">
             <img src="src/img/cuisto.png" style="position: absolute; left: 0; bottom: 0; max-width: 33vw;">
             <div class="container-dialogue-arrow " style="z-index: 1;">
@@ -43,105 +44,107 @@
             </div>
         </div>
 
-        <div class="text-tuto-transition clean" style="z-index: 999999999;" id="presentpourlafin" >
+        <div class="text-tuto-transition clean" style="z-index: 999999999;" id="presentpourlafin">
             <div class="create-room plan-1">
-                <button class="btnBoncy " onclick="goToLobbyPage()" style="z-index: 9999999 ;" >Rejoindre une partie</button>
-            </div>  
-            <div class="create-room plan-1" >
-                <button class="btnBoncy btncreatroom " onclick="goToCreatePage()" style="z-index: 9999999 ; " >Créer une équipe</button>
-            </div>  
+                <button class="btnBoncy " onclick="goToLobbyPage()" style="z-index: 9999999 ;">Rejoindre une partie</button>
+            </div>
+            <div class="create-room plan-1">
+                <button class="btnBoncy btncreatroom " onclick="goToCreatePage()" style="z-index: 9999999 ; ">Créer une équipe</button>
+            </div>
         </div>
         <img src="src/img/bulle-discussion3.png" class="plan-3 clean" id="myImageapp" style="z-index: 10;">
-        <button id="myImageapp1" class="btnBoncy btn-tuto clean" onclick="changePlan()" >
+        <button id="myImageapp1" class="btnBoncy btn-tuto clean" onclick="changePlan()">
             Suite
         </button>
-        
+
 
 
     </div>
+    <div id="screen-warning" class="screen-warning">
+        <p>Ce site est uniquement accessible sur PC et tablette. Veuillez ajuster votre écran pour y accéder.</p>
+    </div>
+
     <script src="src/js/tutoriel.js"></script>
 
 
     <script>
-
         document.addEventListener("DOMcontentLoaded", function start() {
-                console.log("Bonjour");
-            } 
-        )   
+            console.log("Bonjour");
+        })
 
-        function start(){
+        function start() {
             document.body.style.backgroundColor = "#F1E1E1";
         }
 
         function goToIndexPage() {
-           window.location.href = "index.html";
-       }
+            window.location.href = "index.html";
+        }
 
-       function goToCreatePage() {
+        function goToCreatePage() {
             window.location.href = "create_room.html";
         }
 
         function goToLobbyPage() {
-           window.location.href = "lobby.html";
-       }
+            window.location.href = "lobby.html";
+        }
 
 
-    //    AVANCER DE SLIDE DANS LE TUTO
+        //    AVANCER DE SLIDE DANS LE TUTO
         function changePlan() {
-           const image = document.getElementById("myImage");
-           const textbtn = document.getElementById("nameBtnChange");
-           const textTitre = document.getElementById("textTitre");
-           if (numSlide == 0) {
+            const image = document.getElementById("myImage");
+            const textbtn = document.getElementById("nameBtnChange");
+            const textTitre = document.getElementById("textTitre");
+            if (numSlide == 0) {
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite2tableau.png";
-                textbtn.innerHTML = "Place la pomme découpée <br> dans la casserole !" 
-            } else if (numSlide == 1){
+                textbtn.innerHTML = "Place la pomme découpée <br> dans la casserole !"
+            } else if (numSlide == 1) {
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite3tableau.png";
-                textbtn.innerHTML = "Glisse la 🥕 sur la plaque <br>💧 pour que le J2 la lave" 
-            } else if (numSlide == 2){
+                textbtn.innerHTML = "Glisse la 🥕 sur la plaque <br>💧 pour que le J2 la lave"
+            } else if (numSlide == 2) {
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite4tableau.png";
-                textbtn.innerHTML = "Si tu n'en veux, tu peux <br> ramener le 🥩 en réserve 🕳️" 
+                textbtn.innerHTML = "Si tu n'en veux, tu peux <br> ramener le 🥩 en réserve 🕳️"
 
                 // ERREUUURRRR J'AI FAIT EN DOUBLE CORRIGER CELA
-            // } else if (numSlide == 3){
-            //     numSlide++;
-            //     console.log(numSlide);
-            //     image.src = "src/img/tutosuite5tableau.png";
-            //     textbtn.innerHTML = "Glisse la 🍏 dans le lavabo💧 " 
-            // } else if (numSlide == 4){
-            //     numSlide++;
-            //     console.log(numSlide);
-            //     image.src = "src/img/tutosuite6tableau.png";
-            //     textbtn.innerHTML = "Tape pour laver et envoie <br> la 🍏 en cuisine " 
-            // } else if (numSlide == 5){
-            //     numSlide++;
-            //     console.log(numSlide);
-            //     image.src = "src/img/tutosuite7tableau.png";
-            //     textbtn.innerHTML = " Envoie le 🧈 au J1 pour le <br> couper " 
+                // } else if (numSlide == 3){
+                //     numSlide++;
+                //     console.log(numSlide);
+                //     image.src = "src/img/tutosuite5tableau.png";
+                //     textbtn.innerHTML = "Glisse la 🍏 dans le lavabo💧 " 
+                // } else if (numSlide == 4){
+                //     numSlide++;
+                //     console.log(numSlide);
+                //     image.src = "src/img/tutosuite6tableau.png";
+                //     textbtn.innerHTML = "Tape pour laver et envoie <br> la 🍏 en cuisine " 
+                // } else if (numSlide == 5){
+                //     numSlide++;
+                //     console.log(numSlide);
+                //     image.src = "src/img/tutosuite7tableau.png";
+                //     textbtn.innerHTML = " Envoie le 🧈 au J1 pour le <br> couper " 
 
                 // FIN DE LA PARTIE EN DOUBLE
-            } else if (numSlide == 3){
+            } else if (numSlide == 3) {
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite8tableau.png";
-                textbtn.innerHTML = " Une fois la recette finie tu <br> peux 'Envoyer le plat' " 
-            } else if (numSlide == 4){
+                textbtn.innerHTML = " Une fois la recette finie tu <br> peux 'Envoyer le plat' "
+            } else if (numSlide == 4) {
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite9tableau.png";
-                textbtn.innerHTML = "" 
+                textbtn.innerHTML = ""
                 const floute = document.getElementById("aflouter")
                 floute.style.filter = "blur(10px)"
                 const floutes = document.getElementById("aflouter1")
                 floutes.style.filter = "blur(10px)"
                 const suppboutons = document.querySelectorAll("#For2player")
                 suppboutons.forEach(suppbouton => {
-                suppbouton.classList.add("clean");
+                    suppbouton.classList.add("clean");
                 })
                 document.body.style.backgroundColor = "#C1b1b1";
                 const changecouleur = document.querySelectorAll(".deuxieme-plan");
@@ -154,19 +157,19 @@
                 mylittleimg1.classList.remove("clean");
                 const imgombre = document.getElementById("myImage")
                 imgombre.style.filter = "brightness(0.5)";
-            } else if (numSlide == 5){  //PARTIE EN DOUBLE ICI SUPPRIMER LA OU AUTRE
+            } else if (numSlide == 5) { //PARTIE EN DOUBLE ICI SUPPRIMER LA OU AUTRE
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite5tableau.png";
                 textbtn.innerHTML = "Glisse 🍏 dans le lavabo 💧";
-                textTitre.innerHTML = "Tutoriel - Joueur 2"; 
+                textTitre.innerHTML = "Tutoriel - Joueur 2";
                 const floute = document.getElementById("aflouter")
                 floute.style.filter = "blur(0)"
                 const floutes = document.getElementById("aflouter1")
                 floutes.style.filter = "blur(0)"
                 const suppboutons = document.querySelectorAll("#For2player")
                 suppboutons.forEach(suppbouton => {
-                suppbouton.classList.remove("clean");
+                    suppbouton.classList.remove("clean");
                 })
                 document.body.style.backgroundColor = "#F1E1E1";
                 const changecouleur = document.querySelectorAll(".deuxieme-plan");
@@ -183,32 +186,32 @@
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite6tableau.png";
-                textbtn.innerHTML = "Tape pour laver et envoie <br> la 🍏 en cuisine" 
-                textTitre.innerHTML = "Tutoriel - Joueur 2"; 
+                textbtn.innerHTML = "Tape pour laver et envoie <br> la 🍏 en cuisine"
+                textTitre.innerHTML = "Tutoriel - Joueur 2";
             } else if (numSlide == 7) {
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite7tableau.png";
-                textbtn.innerHTML = "Enleve le 🧈 au J1 pour le <br> couper" 
-                textTitre.innerHTML = "Tutoriel - Joueur 2"; 
+                textbtn.innerHTML = "Enleve le 🧈 au J1 pour le <br> couper"
+                textTitre.innerHTML = "Tutoriel - Joueur 2";
             } else if (numSlide == 8) {
                 numSlide++;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite8tableau.png";
-                textbtn.innerHTML = "Une fois la recette finie tu <br> peux 'Envoyer le plat' " 
+                textbtn.innerHTML = "Une fois la recette finie tu <br> peux 'Envoyer le plat' "
                 textTitre.innerHTML = "Tutoriel - Joueur 2"; // FIN DE LA PARTIE EN DOUBLE 
             } else if (numSlide == 9) {
                 numSlide++;
                 console.log(numSlide);
-                textbtn.innerHTML = "" 
-                textTitre.innerHTML = "Tutoriel - Joueur 2"; 
+                textbtn.innerHTML = ""
+                textTitre.innerHTML = "Tutoriel - Joueur 2";
                 const floute = document.getElementById("aflouter")
                 floute.style.filter = "blur(10px)"
                 const floutes = document.getElementById("aflouter1")
                 floutes.style.filter = "blur(10px)"
                 const suppboutons = document.querySelectorAll("#For2player")
                 suppboutons.forEach(suppbouton => {
-                suppbouton.classList.add("clean");
+                    suppbouton.classList.add("clean");
                 })
                 document.body.style.backgroundColor = "#C1b1b1";
                 const changecouleur = document.querySelectorAll(".deuxieme-plan");
@@ -231,36 +234,36 @@
         //RETOURNER EN ARRIÈRE
 
         function changePlanInverse() {
-           const image = document.getElementById("myImage");
-           const textbtn = document.getElementById("nameBtnChange");
-           if (numSlide == 1) {
+            const image = document.getElementById("myImage");
+            const textbtn = document.getElementById("nameBtnChange");
+            if (numSlide == 1) {
                 numSlide--;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite1tableau.png";
                 textbtn.innerHTML = "Glisse la 🍏 sur la plaque <br> 🔪 pour la couper";
-            } else if (numSlide == 2){
+            } else if (numSlide == 2) {
                 numSlide--;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite2tableau.png";
-                textbtn.innerHTML = "Place la pomme découpée <br> dans la casserole !" 
-            } else if(numSlide == 3){
+                textbtn.innerHTML = "Place la pomme découpée <br> dans la casserole !"
+            } else if (numSlide == 3) {
                 numSlide--;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite3tableau.png";
-                textbtn.innerHTML = "Glisse la 🥕 sur la plaque <br>💧 pour que le J2 la lave" 
-            } else if(numSlide == 4){
+                textbtn.innerHTML = "Glisse la 🥕 sur la plaque <br>💧 pour que le J2 la lave"
+            } else if (numSlide == 4) {
                 numSlide--;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite4tableau.png";
-                textbtn.innerHTML = "Si tu n'en veux, tu peux <br> ramener le 🥩 en réserve 🕳️" 
-            } else if(numSlide == 5){
+                textbtn.innerHTML = "Si tu n'en veux, tu peux <br> ramener le 🥩 en réserve 🕳️"
+            } else if (numSlide == 5) {
                 numSlide--;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite9tableau.png";
-                textbtn.innerHTML = "" 
+                textbtn.innerHTML = ""
                 const suppboutons = document.querySelectorAll("#For2player")
                 suppboutons.forEach(suppbouton => {
-                suppbouton.classList.add("clean");
+                    suppbouton.classList.add("clean");
                 })
                 document.body.style.backgroundColor = "#C1b1b1";
                 const changecouleur = document.querySelectorAll(".deuxieme-plan");
@@ -274,24 +277,24 @@
                 const imgombre = document.getElementById("myImage")
                 imgombre.style.filter = "brightness(0.5)";
                 // Y'A PAS DE 6 PSK C LA SCENE DE TRANSITION AVANT MAIS SI BESOIN IL FAUT FAIRE LA PAGE 6 ICI
-            } else if (numSlide == 7) { 
-                numSlide--; 
+            } else if (numSlide == 7) {
+                numSlide--;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite5tableau.png";
-                textbtn.innerHTML = "Glisse 🍏 dans le lavabo 💧" 
+                textbtn.innerHTML = "Glisse 🍏 dans le lavabo 💧"
             } else if (numSlide == 8) {
                 numSlide--;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite6tableau.png";
-                textbtn.innerHTML = "Tape pour laver et envoie <br> la 🍏 en cuisine" 
+                textbtn.innerHTML = "Tape pour laver et envoie <br> la 🍏 en cuisine"
             } else if (numSlide == 9) {
                 numSlide--;
                 console.log(numSlide);
                 image.src = "src/img/tutosuite7tableau.png";
-                textbtn.innerHTML = "Enleve le 🧈 au J1 pour le <br> couper"  //FINDE LA PARTIE EN DOUBLE
-            }               
-        }   
-
-   </script>
+                textbtn.innerHTML = "Enleve le 🧈 au J1 pour le <br> couper" //FINDE LA PARTIE EN DOUBLE
+            }
+        }
+    </script>
 </body>
+
 </html>
