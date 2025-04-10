@@ -5,7 +5,7 @@ let maxIngredients = 2;
 const roomId = new URLSearchParams(window.location.search).get('roomId');
 const playerId = localStorage.getItem("playerId");
 const playerName = localStorage.getItem("playerName");
-
+let helpClic = false;
 
 
 const additionalImages = [
@@ -559,8 +559,11 @@ drake.on('drop', (el, target) => {
     const allowedZoneClasses = ['drop-zone', 'verification-zone', 'ingredient-zone'];
     const isAllowedZone = allowedZoneClasses.some(cls => target.classList.contains(cls));
 
+   
     if (isAllowedZone) {
         const isVerificationZone = target.classList.contains('verification-zone');
+        const isDropZone = target.classList.contains('drop-zone');
+
         const limit = isVerificationZone ? 6 : maxIngredients;
         const imageCount = Array.from(target.children).filter(child => child.tagName === "IMG").length;
 
@@ -569,7 +572,17 @@ drake.on('drop', (el, target) => {
             target.appendChild(el);
             el.style.animation = 'none';
             el.style.position = "relative";
-            console.log(`${target.id} a maintenant ${imageCount + 1} ingrédients.`);
+
+            if (isDropZone) {
+
+                setTimeout(() => {
+                    if (helpClic == false) {
+                        apDisap(".clicindicateur","block");     
+                    }
+                }, 2000);
+                
+    
+            }
         } else {
             console.log("Zone déjà pleine.");
             el.remove();
@@ -718,7 +731,13 @@ function transformIngredient(imgToCut) {
     const player1DropZone = document.getElementById("Player1DropZone");
     const player2DropZone = document.getElementById("Player2DropZone");
 
+
     imgToCut.addEventListener('click', () => {
+        
+        //Bar de progression qui augmente a chaque clickCounts et est a 100% à 10 cliccounts
+        helpClic = true;
+        apDisap(".clicindicateur","none");     
+
         if (Array.from(player1DropZone.children).includes(imgToCut)) {
             clickCounts[imgToCut.src] += 1;
 
