@@ -12,6 +12,7 @@
     background-image: url(../img/game/tapis1.png);
     animation: alternateBackground 1s infinite;
     background-size: auto 100%;
+    background-color: #000;
 }
 
 @keyframes alternateBackground {
@@ -143,6 +144,7 @@
 
 .Contenerassiet {
     z-index: 10000;
+    display: none;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -158,7 +160,6 @@
     background-size: auto 100%;
     background-repeat: no-repeat;
     background-position: center;
-    display: none;
     justify-content: center;
     align-items: center;
 }
@@ -275,12 +276,12 @@ button.active-btn {
     justify-content: center;
     align-items: center;
     position: relative;
-    width: fit-content;
+    width: 50vw;
     height: 100%;
 }
 
 .tableau img {
-    width: auto;
+    width: 100%;
     height: 100%;
     z-index: -1;
 }
@@ -304,7 +305,7 @@ button.active-btn {
 
 #Player2Recipe,
 #Player1Recipe {
-    width: fit-content;
+    width: 30vw;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -313,7 +314,7 @@ button.active-btn {
 }
 
 .postIt {
-    width: auto;
+    width: 100%;
     height: 100%;
     z-index: -1;
 }
