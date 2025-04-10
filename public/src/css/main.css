@@ -179,6 +179,77 @@ button {
 }
 
 
+/* DÉBUT DU DES MÉDIAS POUR LES ECRITURES DE DISCUSSIONS */
+@media screen and (max-width: 1920px) and (min-width: 1240px) {
+    .h3 {
+        font-size: 50px;
+    }
+}
+
+@media screen and (max-width: 1240px) and (min-width: 1010px) {
+    .h3 {
+        font-size: 35px;
+    }
+}
+
+@media screen and (max-width: 1010px) and (min-width: 850px) {
+    .h3 {
+        font-size: 25px;
+    }
+}
+
+@media screen and (max-width: 850px) and (min-width: 0px) {
+    .h3 {
+        font-size: 20px;
+    }
+}
+
+/* FIN DES MÉDIAS POUR LES ECRITURES DE DISCUSSIONS */
+/* DEBUT TITRE MEDIA */
+
+@media screen and (max-width: 1920px) and (min-width: 900px) {
+    h1 {
+        font-size: 93px;
+    }
+}
+
+@media screen and (max-width: 900px) and (min-width: 522px) {
+    h1 {
+        font-size: 70px;
+    }
+}
+
+@media screen and (max-width: 522px) and (min-width: 0px) {
+    h1 {
+        font-size: 50px;
+    }
+}
+/* FIN MEDIA TITRE */
+
+/* DEBUT BTN NAV */
+
+@media screen and (max-width: 2000px) and (min-width: 1240px) {
+    .btn-direction {
+        max-width: 100px;
+        max-height: 100px;
+    }
+}
+
+@media screen and (max-width: 1240px) and (min-width: 1010px) {
+    .btn-direction {
+        max-width: 50px;
+        max-height: 50px;
+    }
+}
+
+@media screen and (max-width: 1010px) and (min-width: 0px) {
+    .btn-direction {
+        max-width: 35px;
+        max-height: 35px;
+    }
+}
+
+
 /* Le bouton quitter */
 
 .btnquitter {
