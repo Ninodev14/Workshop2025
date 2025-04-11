@@ -810,7 +810,6 @@ function isInPlayer1DropZone(imgElement) {
 function transformIngredient(imgToCut) {
     const player1DropZone = document.getElementById("Player1DropZone");
     const player2DropZone = document.getElementById("Player2DropZone");
-    console.log("transformIngredient")
     const id = imgToCut.src;
     if (!clickCounts[id]) clickCounts[id] = 0;
 
@@ -840,7 +839,6 @@ function transformIngredient(imgToCut) {
     };
 
     imgToCut.addEventListener('click', () => {
-        console.log("cliiiiiiiiiiiiiiiiiiiic22")
 
         helpClic = true;
         apDisap(".clicindicateur", "none");
@@ -852,9 +850,7 @@ function transformIngredient(imgToCut) {
 
         const isInP1Zone = Array.from(player1DropZone.children).includes(imgToCut);
         const isInP2Zone = Array.from(player2DropZone.children).includes(imgToCut);
-        console.log("ezeze")
         if (isInP1Zone || isInP2Zone) {
-            console.log("cliiiiiiiiiiiiiiiiiiiic")
             clickCounts[id] += 1;
             if (clickCounts[id] > 10) clickCounts[id] = 10;
 
@@ -1087,7 +1083,7 @@ socket.on("updateRecipe", (total) => {
         element.innerHTML = globalScore;
     });
 
-    if (globalScore >= 4) {
+    if (globalScore >= 7) {
         endGame();
     }
 
