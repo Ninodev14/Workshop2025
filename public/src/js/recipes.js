@@ -106,6 +106,18 @@ const recipes = [
         ]
     },
 
+    {
+        name: "Crêpe",
+        ingredients: [
+            { src: "src/img/ingredients/Lait.png", state: 0 },
+            { src: "src/img/ingredients/Farine.png", state: 0 },
+            { src: "src/img/ingredients/Vanille.png", state: 1 },
+            { src: "src/img/ingredients/Miel.png", state: 0 },
+            { src: "src/img/ingredients/Oeuf.png", state: 2 }
+        ]
+    },
+
+
 
 
 
@@ -263,21 +275,7 @@ const recipes = [
         ]
     },
 
-
-
-
-
-
-
-    */
-
-
-    /*
-
-    PAS VISUEL DE LA RECETTE 
-
-
-    {
+{
         name: "Salade",
         ingredients: [
             { src: "src/img/ingredients/Salade.png", state: 2 },
@@ -289,35 +287,13 @@ const recipes = [
     },
 
 
-    {
-        name: "Crêpe",
-        ingredients: [
-            { src: "src/img/ingredients/Lait.png", state: 0 },
-            { src: "src/img/ingredients/Farine.png", state: 0 },
-            { src: "src/img/ingredients/Vanille.png", state: 1 },
-            { src: "src/img/ingredients/Miel.png", state: 0 },
-            { src: "src/img/ingredients/Oeuf.png", state: 2 }
-        ]
-    },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
     */
+
+
+    
 
 
 

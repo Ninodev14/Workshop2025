@@ -6,7 +6,7 @@ const roomId = new URLSearchParams(window.location.search).get('roomId');
 const playerId = localStorage.getItem("playerId");
 const playerName = localStorage.getItem("playerName");
 let helpClic = false;
-
+let probarCanUpdate = false;
 
 const additionalImages = [
 
@@ -288,25 +288,45 @@ function validateRecipeCompletion(targetDivId) {
     const recipeDiv = document.getElementById(targetDivId);
 
     function getDroppedIngredientData(element) {
+        // Cas d'un élément lavé ou découpé contenu dans une div
+        if (element.tagName === "DIV") {
+            const alt = element.getAttribute('data-alt');
+            const state = element.getAttribute('data-state');
+
+            if (alt && state) {
+                return {
+                    text: alt,
+                    state: state
+                };
+            }
+
+            // Si la div contient une image, on récupère les infos depuis celle-ci
+            const img = element.querySelector('img');
+            if (img) {
+                const altText = img.alt || img.getAttribute('data-alt');
+                const state = img.getAttribute('data-state');
+                return {
+                    text: altText,
+                    state: state
+                };
+            }
+        }
+
+        // Cas d'un élément image directe
         if (element.tagName === "IMG") {
             return {
-                text: element.alt,
+                text: element.alt || element.getAttribute('data-alt'),
                 state: element.getAttribute('data-state')
             };
-        } else if (element.classList.contains("cut-container")) {
-
-            return {
-                text: element.getAttribute('data-alt') || element.textContent.trim(),
-                state: element.getAttribute('data-state')
-            };
-
         }
+
         console.warn("⚠️ Élément non reconnu :", element);
         return null;
     }
 
+    // Lecture des ingrédients de la recette attendue
     const recipeIngredients = Array.from(recipeDiv.querySelectorAll("img"))
-        .filter(img => img.parentElement.tagName === "DIV" && img.getAttribute('data-state') !== null)
+        .filter(img => img.getAttribute('data-state') !== null)
         .map(img => {
             return {
                 text: img.src.split('/').pop().replace('.png', ''),
@@ -314,12 +334,12 @@ function validateRecipeCompletion(targetDivId) {
             };
         });
 
-
+    // Lecture des ingrédients déposés
     const droppedIngredients = Array.from(dropZone.children)
         .map(el => getDroppedIngredientData(el))
         .filter(data => data !== null);
 
-
+    // Comparaison
     const missingIngredients = recipeIngredients.filter(recipeIng =>
         !droppedIngredients.some(droppedIng =>
             droppedIng.text === recipeIng.text && droppedIng.state === recipeIng.state
@@ -332,21 +352,15 @@ function validateRecipeCompletion(targetDivId) {
         )
     );
 
-
     console.log("❓ Ingrédients manquants :", missingIngredients);
     console.log("🚫 Ingrédients incorrects :", incorrectIngredients);
 
     const messageDiv = document.getElementById("recipe-validation-message");
     messageDiv.style.display = "block";
 
-
-
     if (missingIngredients.length === 0 && incorrectIngredients.length === 0) {
-
-        //messageDiv.className = "success-message";
         stateRecipe = true;
-
-        anomationCook()
+        anomationCook();
 
         const data = {
             roomId: roomId
@@ -354,31 +368,13 @@ function validateRecipeCompletion(targetDivId) {
 
         console.log(`[${playerRole}] envoie TotRecipeDone`);
         socket.emit("TotRecipeDone", data);
-
-
     } else {
-
-        /*
-        let errorMessage = "❌ Recette incorrecte.\n";
-        if (missingIngredients.length > 0) {
-            errorMessage += `🧂 Ingrédients manquants : ${missingIngredients.map(ing => ing.text).join(", ")}.\n`;
-        }
-        if (incorrectIngredients.length > 0) {
-            errorMessage += `🍄 Ingrédients incorrects : ${incorrectIngredients.map(ing => ing.text).join(", ")}.`;
-        }
-        messageDiv.textContent = errorMessage;
-        messageDiv.className = "error-message";
-        */
-        console.log(stateRecipe);
-
         stateRecipe = false;
         console.log(stateRecipe);
-
-
-        anomationCook()
-
+        anomationCook();
     }
 }
+
 
 function anomationCook() {
 
@@ -574,6 +570,7 @@ drake.on('drop', (el, target) => {
             el.style.position = "relative";
 
             if (isDropZone) {
+                probarCanUpdate = true;
 
                 setTimeout(() => {
                     if (helpClic == false) {
@@ -608,6 +605,8 @@ function sendToPlayer(el, to) {
     const state = el.getAttribute('data-state') || "0";
 
     if (!src || !alt) {
+        console.log(el);
+        console.log(el.alt);
         console.log("❌ Données manquantes");
         return;
     }
@@ -762,8 +761,11 @@ function transformIngredient(imgToCut) {
     imgToCut.addEventListener('click', () => {
         helpClic = true;
         apDisap(".clicindicateur", "none");
-        apDisap(".progressbar", "block")
+        if (probarCanUpdate == true) {
+            apDisap(".progressbar", "block");
 
+
+        }
         clearTimeout(decayTimeout);
         clearInterval(decayInterval);
 
@@ -781,17 +783,11 @@ function transformIngredient(imgToCut) {
                 if (isInP1Zone) {
                     cutImageInTwo(imgToCut);
                 } else if (isInP2Zone) {
-                    imgToCut.style.filter = 'brightness(1.8) grayscale(0.3)';
-                    const wrapper = document.createElement("div");
-                    wrapper.classList.add("washed-img");
-                    wrapper.setAttribute("data-state", "2");
+                    WashItem(imgToCut); 
 
-                    imgToCut.parentNode.replaceChild(wrapper, imgToCut);
-                    wrapper.appendChild(imgToCut);
-
-                    imgToCut.setAttribute('data-state', '2');
                 }
                 clearInterval(decayInterval); // stop la baisse
+                probarCanUpdate = false;
             } else {
                 decayTimeout = setTimeout(() => {
                     startDecay();
@@ -800,6 +796,8 @@ function transformIngredient(imgToCut) {
         }
     });
 }
+
+
 
 
 socket.on("receiveIngredient", (data) => {
@@ -827,8 +825,9 @@ socket.on("receiveIngredient", (data) => {
             img.draggable = false;
 
             imageContainer.appendChild(img);
-            cutImageInTwo(img, imageContainer);
-            zone.appendChild(imageContainer);
+            cutImageInTwo(img);
+            zone.appendChild(imageContainer); 
+
         } else if (data.state == "2") {
             const img = document.createElement("img");
             img.src = data.src;
@@ -838,7 +837,8 @@ socket.on("receiveIngredient", (data) => {
             img.setAttribute("data-id", id);
             img.draggable = false;
             zone.appendChild(img);
-            img.style.filter = 'brightness(1.8) grayscale(0.3)';
+            img.style.animation = 'none';
+            WashItem(img);
 
         } else {
             const img = document.createElement("img");
@@ -887,6 +887,22 @@ function cutImageInTwo(imgElement) {
     cutContainer.appendChild(rightPart);
     imageContainer.appendChild(cutContainer);
 
+}
+
+function WashItem(imgElement) {
+    const src = imgElement.src;
+    const altText = imgElement.alt;
+
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("washed-img");
+    wrapper.setAttribute("data-state", "2");
+    wrapper.setAttribute("data-alt",altText);
+    wrapper.setAttribute("data-src", src)
+
+
+    imgElement.parentNode.replaceChild(wrapper, imgElement);
+    wrapper.appendChild(imgElement);
+    
 }
 
 socket.on('ingredientRemoved', (data) => {
