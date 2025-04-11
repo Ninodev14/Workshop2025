@@ -493,6 +493,14 @@ button.active-btn {
     background-image: url(../img/game/Take.png);
 }
 
+#Player2TakeZone {
+    background-image: url(../img/game/Give.png);
+}
+
+#Player2GiveZone {
+    background-image: url(../img/game/Take.png);
+}
+
 .give img,
 .take img,
 .give div,
