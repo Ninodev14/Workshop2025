@@ -36,7 +36,7 @@ const recipes = [
 
 
     {
-        name: "SaladeDeFruit",
+        name: "SaladeFruit",
         ingredients: [
             { src: "src/img/ingredients/Pomme.png", state: 1 },
             { src: "src/img/ingredients/Orange.png", state: 1 },
@@ -96,7 +96,7 @@ const recipes = [
 
 
     {
-        name: "TarteAuCitron",
+        name: "TarteCitron",
         ingredients: [
             { src: "src/img/ingredients/Citron.png", state: 1 },
             { src: "src/img/ingredients/Farine.png", state: 0 },
@@ -154,7 +154,7 @@ const recipes = [
 
      {
 
-        name: "PouletFrit",
+        name: "PouletFrites",
         ingredients: [
             { src: "src/img/ingredients/Poulet.png", state: 1 },
             { src: "src/img/ingredients/Poivre.png", state: 0 },
@@ -167,7 +167,7 @@ const recipes = [
 
 
      {
-        name: "SteakFrite",
+        name: "SteakFrites",
         ingredients: [
             { src: "src/img/ingredients/Steak.png", state: 1 },
             { src: "src/img/ingredients/Patate.png", state: 1 },
@@ -180,7 +180,7 @@ const recipes = [
 
 
      {
-        name: "Lasagne",
+        name: "Lasagnes",
         ingredients: [
             { src: "src/img/ingredients/Epinards.png", state: 2 },
             { src: "src/img/ingredients/SauceTomate.png", state: 0 },
@@ -223,7 +223,7 @@ const recipes = [
 
 
     {
-        name: "FondantAuChocolat",
+        name: "FondantChocolat",
         ingredients: [
             { src: "src/img/ingredients/Chocolat.png", state: 1 },
             { src: "src/img/ingredients/Farine.png", state: 0 },
@@ -238,7 +238,7 @@ const recipes = [
 
 
      {
-        name: "Cookie",
+        name: "Cookies",
         ingredients: [
             { src: "src/img/ingredients/Chocolat.png", state: 1 },
             { src: "src/img/ingredients/Farine.png", state: 0 },
@@ -250,7 +250,7 @@ const recipes = [
 
 
     {
-        name: "PommeAuFour",
+        name: "PommeFour",
         ingredients: [
             { src: "src/img/ingredients/Canelle.png", state: 0 },
             { src: "src/img/ingredients/Pomme.png", state: 2 },
@@ -262,7 +262,7 @@ const recipes = [
 
 
     {
-        name: "TarteAuPomme",
+        name: "TartePommes",
         ingredients: [
             { src: "src/img/ingredients/Pomme.png", state: 2 },
             { src: "src/img/ingredients/Farine.png", state: 0 },
@@ -273,7 +273,7 @@ const recipes = [
     },
 
 {
-        name: "Salade",
+        name: "SaladeComposee",
         ingredients: [
             { src: "src/img/ingredients/Salade.png", state: 2 },
             { src: "src/img/ingredients/Tomate.png", state: 2 },
