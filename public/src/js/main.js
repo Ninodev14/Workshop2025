@@ -1090,7 +1090,8 @@ socket.on("updateRecipe", (total) => {
     });
 
     if (globalScore >= 6) {
-        document.getElementsByClassName(".textExplication").innerHTML = "Bravo, vous avez terminé à temps ! Voyons votre travail ...";
+        const textExplication = document.getElementById("textExplication")
+        textExplication.innerHTML = "Bravo, vous avez terminé à temps ! Voyons votre travail ...";
         endGame();
     }
 
