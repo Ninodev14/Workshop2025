@@ -13,7 +13,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">    <script src="/socket.io/socket.io.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    <script src="/socket.io/socket.io.js"></script>
     <style>
 
     </style>
@@ -55,6 +56,9 @@
             <button class="btnBoncy btncreatroom" onclick="hideNamePrompt()">Retour</button>
         </div>
     </div>
+    <div id="screen-warning" class="screen-warning">
+        <p>Ce site est uniquement accessible sur PC et tablette. Veuillez ajuster votre écran pour y accéder.</p>
+    </div>
 
     <script>
         const socket = io();
@@ -78,20 +82,24 @@
             }
 
             Object.entries(rooms).forEach(([roomId, room]) => {
+                // Si la room n'est plus disponible (la partie a commencé), on ne l'affiche pas
+                if (!room) return; // Si la room a été supprimée par le serveur, on saute cette itération
+
                 const li = document.createElement('li');
                 li.classList.add('room-item');
                 li.innerHTML = `
-                <p class="h3">Equipe</p>
-                <div class="beautruc">
-                    <div></div>
-                    <strong class="h3">${room.name}</strong> 
-                    <div class="h3">(${room.players.length}/${room.maxPlayers})</div>
-                </div>
-                <button class="btnBoncy" onclick="showNamePrompt('${roomId}', '${room.name}')">Rejoindre</button>
-            `;
+            <p class="h3">Equipe</p>
+            <div class="beautruc">
+                <div></div>
+                <strong class="h3">${room.name}</strong> 
+                <div class="h3">(${room.players.length}/${room.maxPlayers})</div>
+            </div>
+            <button class="btnBoncy" onclick="showNamePrompt('${roomId}', '${room.name}')">Rejoindre</button>
+        `;
                 roomList.appendChild(li);
             });
         });
+
 
         function showNamePrompt(roomId, roomName) {
             selectedRoomId = roomId;

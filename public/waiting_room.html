@@ -66,6 +66,9 @@
     <div class="room-info">
         <button class="btnBoncy" id="startGameBtn" disabled>Start Game</button>
     </div>
+    <div id="screen-warning" class="screen-warning">
+        <p>Ce site est uniquement accessible sur PC et tablette. Veuillez ajuster votre écran pour y accéder.</p>
+    </div>
 
     <script>
         const socket = io();
@@ -78,9 +81,16 @@
 
 
         socket.on('connect', () => {
-            console.log("🔄 Tentative de reconnexion...");
-            if (roomId && playerId) {
+            const playerId = localStorage.getItem('playerId');
+            const roomId = new URLSearchParams(window.location.search).get('roomId');
+
+            console.log("📦 Récupération localStorage => playerId:", playerId, "roomId:", roomId);
+
+            if (playerId && roomId) {
+                console.log("🔁 Envoi de reconnectPlayer au serveur");
                 socket.emit('reconnectPlayer', roomId, playerId);
+            } else {
+                console.log("❌ Aucune info de reconnexion trouvée");
             }
         });
 

@@ -47,6 +47,13 @@
         </div>
     </div>
 
+    <div class="instructionContener" id="Waiting" style="display: none;">
+        <img class="cuistoImg" src="src/img/cuisto.png" alt="">
+        <div class="textExplicationContener">
+            <h2 class="textExplication">En attente de l'autre Joueur...<img src="src/img/game/dote.svg" alt=""></h2>
+        </div>
+    </div>
+
     <div class="instructionContener" id="step3-instructions-P2" style="display: none;">
         <img class="cuistoImg" src="src/img/cuisto.png" alt="">
         <div class="textExplicationContener">
@@ -115,10 +122,11 @@
                         <img class="imgplat" src="src/img/recipes/BoeufBourguignon.png" alt="NomRecette">
                     </div>
                 </div>
+                <button class="btnBoncy btnNextRecipe" style="display: none;" onclick="nextRecipe()"> Recette suivante</button>
             </div>
-            <button class="btnBoncy btnNextRecipe" style="display: none;" onclick="nextRecipe()"> Recette suivante</button>
+
             <div class="casseroleContainer">
-                <div class="casserole">
+                <div class="casserole" id="Player1VerificationZoneCasserole">
                     <img class="plaqueCuisson" src="src/img/game/cuisson.png" alt="">
                     <img class="fondCasserol" src="src/img/game/fondCasserol.png" alt="">
                     <div class="verification-zone" id="Player1VerificationZone"></div>
@@ -192,11 +200,12 @@
                         <img class="imgplat" src="src/img/recipes/BoeufBourguignon.png" alt="NomRecette">
                     </div>
                 </div>
+                <button class="btnBoncy btnNextRecipe" style="display: none;" onclick="nextRecipe()"> Recette suivante</button>
             </div>
-            <button class="btnBoncy btnNextRecipe" style="display: none;" onclick="nextRecipe()"> Recette suivante</button>
+
 
             <div class="casseroleContainer">
-                <div class="casserole">
+                <div class="casserole" id="Player2VerificationZoneCasserole">
                     <img class="plaqueCuisson" src="src/img/game/cuisson.png" alt="">
                     <img class="fondCasserol" src="src/img/game/fondCasserol.png" alt="">
                     <div class="verification-zone" id="Player2VerificationZone"></div>
@@ -238,6 +247,9 @@
     </div>
     <div class="resultContainer" id="resultContainer"></div>
 
+    <div id="screen-warning" class="screen-warning">
+        <p>Ce site est uniquement accessible sur PC et tablette. Veuillez ajuster votre écran pour y accéder.</p>
+    </div>
 
 
     <script src="/socket.io/socket.io.js"></script>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
-    
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,37 +13,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">    <script src="/socket.io/socket.io.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+    <script src="/socket.io/socket.io.js"></script>
 
 </head>
+
 <body>
-        
-        <div class="objet-table ">
-            <div class="mur sombre">
-                <div></div>
-                <div class="card sombre">
-                    <img src="src/img/Bloc-note.png" class="flou moitie">
-                </div>
-                <div class="card sombre">
-                    <img src="src/img/tableau.png" class="flou moitie">
-                </div>
-                <div class="card sombre">
-                </div>
-                <div></div>
+
+    <div class="objet-table ">
+        <div class="mur sombre">
+            <div></div>
+            <div class="card sombre">
+                <img src="src/img/Bloc-note.png" class="flou moitie">
             </div>
-            <div class="mur clean">
-                <div class="tuto">
-                    <div class="top-page">
-                        <button class="btnBoncy btnquitter" onclick="goToIndexPage()" style="z-index: 999999;">Quitter</button>
-                    </div>
-                    <div class="create-room plan-1" style="z-index: 999999;">
-                        <button class="btnBoncy " onclick="goToLobbyPage()" >Rejoindre une partie</button>
-                    </div>   
+            <div class="card sombre">
+                <img src="src/img/tableau.png" class="flou moitie">
+            </div>
+            <div class="card sombre">
+            </div>
+            <div></div>
+        </div>
+        <div class="mur clean">
+            <div class="tuto">
+                <div class="top-page">
+                    <button class="btnBoncy btnquitter" onclick="goToIndexPage()" style="z-index: 999999;">Quitter</button>
+                </div>
+                <div class="create-room plan-1" style="z-index: 999999;">
+                    <button class="btnBoncy " onclick="goToLobbyPage()">Rejoindre une partie</button>
                 </div>
             </div>
-            
-            <div class="tapisroulant sombre ">
-                <!-- <img src="src/img/Plancheadecoupe.png" class="flou">
+        </div>
+
+        <div class="tapisroulant sombre ">
+            <!-- <img src="src/img/Plancheadecoupe.png" class="flou">
                 <img src="src/img/Plancheadecoupe.png" class="flou">
                 <img src="src/img/Plancheadecoupe.png" class="flou">
                 <img src="src/img/Plancheadecoupe.png" class="flou">
@@ -54,32 +56,35 @@
                 <img src="src/img/Plancheadecoupe.png" class="flou">
                 <img src="src/img/Plancheadecoupe.png" class="flou">
                 <img src="src/img/Plancheadecoupe.png" class="flou"> -->
-                <img src="src/img/tapisroulant.png" class="tapis flou">
-            </div>
-            
-            <div class="tableclair sombre">
-                <div></div>
-                <div class="planche flou">
-                    <img src="src/img/Plancheadecoupebleu.png" >
-                    <img src="src/img/Plancheadecoupebleu.png" >
-                </div>
-                <div class="cuire flou">
-                    <img src="src/img/groupecuisson.png" >
-                </div>
-                <div class="perso1 flou">
-                    <img src="src/img/planchecouteau.png" class="flou">
-                </div>
-            </div>
-            
-            <div class="tablemarron sombre">
+            <img src="src/img/tapisroulant.png" class="tapis flou">
+        </div>
 
+        <div class="tableclair sombre">
+            <div></div>
+            <div class="planche flou">
+                <img src="src/img/Plancheadecoupebleu.png">
+                <img src="src/img/Plancheadecoupebleu.png">
             </div>
-            <img src="src/img/cuisto.png" class="plan-2">
-            <img src="src/img/bulle-discussion.png" class="plan-3" id="myImage">
-            <button id="nameBtnChange" class="btnBoncy btn-tuto" onclick="changePlan()" >
+            <div class="cuire flou">
+                <img src="src/img/groupecuisson.png">
+            </div>
+            <div class="perso1 flou">
+                <img src="src/img/planchecouteau.png" class="flou">
+            </div>
+        </div>
+
+        <div class="tablemarron sombre">
+
+        </div>
+        <img src="src/img/cuisto.png" class="plan-2">
+        <img src="src/img/bulle-discussion.png" class="plan-3" id="myImage">
+        <button id="nameBtnChange" class="btnBoncy btn-tuto" onclick="changePlan()">
                 Suite
             </button>
-        </div>
+    </div>
+    <div id="screen-warning" class="screen-warning">
+        <p>Ce site est uniquement accessible sur PC et tablette. Veuillez ajuster votre écran pour y accéder.</p>
+    </div>
 
     <script src="src/js/tutoriel.js"></script>
 
@@ -108,18 +113,18 @@
                 numTuto++;
                 console.log(numTuto);
                 image.src = "src/img/bulle-discussion2.png";
-                textbtn.textContent = "Commencer" 
+                textbtn.textContent = "Commencer"
                 textbtn.style.left = "39%";
-            } else if (numTuto == 1){
+            } else if (numTuto == 1) {
                 numTuto++;
                 console.log(numTuto);
                 window.location.href = "tutosuite.html";
-            } else if (numTuto == 2){
+            } else if (numTuto == 2) {
                 image.src = "src/img/bulle-discussion3.png";
                 textbtn.textContent = "C'est parti !"
             }
         }
-        
     </script>
 </body>
+
 </html>

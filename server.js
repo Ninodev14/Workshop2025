@@ -10,13 +10,13 @@ let playerSockets = {};
 let rooms = {};
 let roomReadyPlayers = {};
 let roomRecipeTotals = {};
+let disconnectTimeouts = {};
 
 
 app.use(express.static('public'));
 
 io.on('connection', (socket) => {
     console.log(`Joueur connecté: ${socket.id}`);
-
     socket.on('requestRooms', () => {
         socket.emit('updateRooms', rooms);
     });
@@ -78,18 +78,6 @@ io.on('connection', (socket) => {
     });
 
 
-    socket.on('reconnectPlayer', (roomId, playerId) => {
-        if (rooms[roomId]) {
-            const player = rooms[roomId].players.find(p => p.id === playerId);
-            if (player) {
-                socket.join(roomId);
-                console.log(`🔄 Reconnexion du joueur ${player.name} (${playerId}) dans la room ${roomId}`);
-                io.to(roomId).emit('updatePlayers', rooms[roomId].players, rooms[roomId].host);
-            }
-        }
-    });
-
-
     socket.on('showRoomDetails', (roomId, callback) => {
         console.log(`🔍 Demande de détails de la room: ${roomId}`);
         if (!rooms[roomId]) {
@@ -109,6 +97,8 @@ io.on('connection', (socket) => {
         if (rooms[roomId] && rooms[roomId].host === playerId) {
             console.log(`🎮 Démarrage de la partie dans la room ${roomId}`);
             io.to(roomId).emit('gameStarted');
+            delete rooms[roomId];
+            io.emit('updateRooms', rooms);
         } else {
             console.log(`❌ Tentative de démarrage refusée pour le joueur ${playerId}`);
         }
@@ -134,30 +124,80 @@ io.on('connection', (socket) => {
     });
 
 
+
+
     socket.on('disconnect', () => {
-        let roomToDelete = null;
+        const playerId = Object.keys(playerSockets).find(id => playerSockets[id] === socket.id);
+        console.log('🔌 Déconnexion détectée pour le socket:', socket.id);
+        console.log('➡️ Résolu comme playerId:', playerId);
+        if (!playerId) return;
 
-        for (const roomId in rooms) {
-            rooms[roomId].players = rooms[roomId].players.filter(player => player.id !== socket.id);
-            if (roomReadyPlayers[roomId]) {
-                roomReadyPlayers[roomId].delete(socket.id);
-            }
+        console.log(`🔌 Déconnexion détectée pour le joueur ${playerId}`);
 
-            if (rooms[roomId].host === socket.id) {
-                if (rooms[roomId].players.length > 0) {
-                    rooms[roomId].host = rooms[roomId].players[0].id;
-                } else {
-                    roomToDelete = roomId;
+        disconnectTimeouts[playerId] = setTimeout(() => {
+            console.log(`⏳ Temps écoulé : suppression définitive du joueur ${playerId}`);
+            let roomToDelete = [];
+
+            for (const roomId in rooms) {
+                const room = rooms[roomId];
+
+                // Retirer le joueur de la room
+                room.players = room.players.filter(player => player.id !== playerId);
+
+                if (roomReadyPlayers[roomId]) {
+                    roomReadyPlayers[roomId].delete(playerId);
+                }
+
+                if (room.host === playerId) {
+                    if (room.players.length > 0) {
+                        room.host = room.players[0].id;
+                    } else {
+                        roomToDelete.push(roomId);
+                    }
+                }
+
+                if (room.players.length === 0) {
+                    roomToDelete.push(roomId);
                 }
             }
-        }
 
-        if (roomToDelete) {
-            delete rooms[roomToDelete];
-        }
+            roomToDelete.forEach(roomId => {
+                delete rooms[roomId];
+                delete roomReadyPlayers[roomId];
+                delete roomRecipeTotals[roomId];
+                console.log(`🧹 Room supprimée car vide : ${roomId}`);
+            });
 
-        io.emit('updateRooms', rooms);
+            delete playerSockets[playerId];
+            delete disconnectTimeouts[playerId];
+
+            io.emit('updateRooms', rooms);
+        }, 10000); // Attend 10 secondes avant suppression définitive
     });
+
+    socket.on('reconnectPlayer', (roomId, playerId) => {
+        console.log(`🔁 Tentative de reconnexion pour playerId: ${playerId}`);
+        if (disconnectTimeouts[playerId]) {
+            console.log('❌ Timeout trouvé, on le clear');
+            clearTimeout(disconnectTimeouts[playerId]);
+            delete disconnectTimeouts[playerId];
+        } else {
+            console.log('⚠️ Aucun timeout trouvé pour ce joueur, trop tard ?');
+        }
+
+        if (rooms[roomId]) {
+            const player = rooms[roomId].players.find(p => p.id === playerId);
+            if (player) {
+                playerSockets[playerId] = socket.id;
+                socket.join(roomId);
+                console.log(`🔄 Reconnexion du joueur ${player.name} (${playerId}) dans la room ${roomId}`);
+                io.to(roomId).emit('updatePlayers', rooms[roomId].players, rooms[roomId].host);
+                io.emit('updateRooms', rooms); // <-- Ajoute ça si tu veux garder les rooms à jour
+            }
+        }
+
+    });
+
 
 
     socket.on('sendIngredient', (data) => {

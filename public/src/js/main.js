@@ -99,11 +99,13 @@ function step3() {
 
 function readyToStartP1() {
     document.getElementById("step3-instructions-P1").style.display = "none";
+    document.getElementById("Waiting").style.display = "flex";
     socket.emit("playerReadyForGame", roomId, playerId);
 }
 
 function readyToStartP2() {
     document.getElementById("step3-instructions-P2").style.display = "none";
+    document.getElementById("Waiting").style.display = "flex";
     socket.emit("playerReadyForGame", roomId, playerId);
 }
 
@@ -517,7 +519,6 @@ drake.on('drop', (el, target) => {
     const isGiveZone = target.classList.contains("give");
 
     if (forbiddenTakeZones.includes(target.id)) {
-        console.log("⛔ Impossible de déposer ici (zone de réception uniquement).");
         const id = el.getAttribute("data-id");
         el.remove();
         if (id) {
@@ -541,27 +542,27 @@ drake.on('drop', (el, target) => {
         }
     }
 
-    if (target.id == "Player1GiveZone" && playerRole == "P1") {
-        sendToPlayer(el, "P2");
-        return;
-    }
-
-    if (target.id == "Player2GiveZone" && playerRole == "P2") {
-        sendToPlayer(el, "P1");
-        return;
-    }
-
-    // --- AUTRES ZONES ---
     const allowedZoneClasses = ['drop-zone', 'verification-zone', 'ingredient-zone'];
     const isAllowedZone = allowedZoneClasses.some(cls => target.classList.contains(cls));
+    const imageCount = Array.from(target.children).filter(child => child.tagName === "IMG" || child.tagName === "DIV").length;
+    const limit = target.classList.contains('verification-zone') ? 6 : maxIngredients;
 
+    // ✅ Appliquer la limite aussi pour les GiveZone
+    if (
+        (target.id === "Player1GiveZone" && playerRole === "P1") ||
+        (target.id === "Player2GiveZone" && playerRole === "P2")
+    ) {
+        if (imageCount < limit) {
+            sendToPlayer(el, playerRole === "P1" ? "P2" : "P1");
+        } else {
+            console.log("Zone déjà pleine (give zone).");
+            el.remove();
+        }
+        return;
+    }
 
     if (isAllowedZone) {
-        const isVerificationZone = target.classList.contains('verification-zone');
         const isDropZone = target.classList.contains('drop-zone');
-
-        const limit = isVerificationZone ? 6 : maxIngredients;
-        const imageCount = Array.from(target.children).filter(child => child.tagName === "IMG").length;
 
         if (imageCount < limit) {
             el.draggable = false;
@@ -573,12 +574,10 @@ drake.on('drop', (el, target) => {
                 probarCanUpdate = true;
 
                 setTimeout(() => {
-                    if (helpClic == false) {
+                    if (helpClic === false) {
                         apDisap(".clicindicateur", "block");
                     }
                 }, 2000);
-
-
             }
         } else {
             console.log("Zone déjà pleine.");
@@ -597,6 +596,7 @@ drake.on('drop', (el, target) => {
         }
     }
 });
+
 
 function sendToPlayer(el, to) {
     const isCut = !el.src;
@@ -634,8 +634,36 @@ drake.containers.push(document.getElementById("Player1TakeZone"));
 drake.containers.push(document.getElementById("Player2TakeZone"));
 drake.containers.push(document.getElementById("Player2VerificationZone"));
 drake.containers.push(document.getElementById("Player1VerificationZone"));
+drake.containers.push(document.getElementById("Player2VerificationZoneCasserole"));
+drake.containers.push(document.getElementById("Player1VerificationZoneCasserole"));
 drake.containers.push(player1GiveZone);
 drake.containers.push(player2GiveZone);
+
+
+drake.on('drop', (el, target) => {
+
+    if (target.id === "Player2VerificationZoneCasserole") {
+        const newTarget = document.getElementById("Player2VerificationZone");
+
+        if (newTarget.children.length < 5) {
+            newTarget.appendChild(el);
+            drake.containers.push(newTarget);
+        } else {
+            el.remove();
+        }
+    }
+
+    if (target.id === "Player1VerificationZoneCasserole") {
+        const newTarget = document.getElementById("Player1VerificationZone");
+
+        if (newTarget.children.length < 5) {
+            newTarget.appendChild(el);
+            drake.containers.push(newTarget);
+        } else {
+            el.remove();
+        }
+    }
+});
 
 
 function initializeDropZones() {
@@ -676,7 +704,8 @@ function setupDragAndDropLogic() {
         const isVerificationZone = target.classList.contains('verification-zone');
         const limit = isVerificationZone ? 6 : maxIngredients;
 
-        const imageCount = Array.from(target.children).filter(child => child.tagName === "IMG").length;
+        const imageCount = Array.from(target.children).filter(child => child.tagName === "IMG" || child.tagName === "DIV").length;
+
 
         if (target.classList.contains('drop-zone') || isVerificationZone) {
             if (imageCount < limit) {
@@ -927,7 +956,7 @@ socket.on('ingredientRemoved', (data) => {
 
 socket.on("GameCanBigin", () => {
     console.log("🎮 Le jeu peut commencer!");
-
+    document.getElementById("Waiting").style.display = "none";
     if (playerRole === "P1") {
         document.getElementById("Player1Game").style.display = "block";
         displayRandomRecipe("Player1Recipe");

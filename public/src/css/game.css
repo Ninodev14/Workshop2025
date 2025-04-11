@@ -4,6 +4,14 @@
     height: 100vh;
 }
 
+.gu-mirror {
+    opacity: 1 !important;
+}
+
+.gu-transit {
+    opacity: 0 !important;
+}
+
 .instructionContener {
     background-color: #F1E1E1;
     position: absolute;
@@ -228,6 +236,7 @@
 }
 
 .plat img {
+    margin-top: -40px;
     width: auto;
     height: 100%;
 }
@@ -270,13 +279,13 @@
     flex-direction: row;
     flex-wrap: wrap-reverse;
     align-content: flex-start;
-    justify-content: space-between;
+    justify-content: center;
     align-items: flex-start;
     position: relative;
 }
 
 .verification-zone>* {
-    flex: 0 0 calc(33.33% - 10px);
+    /* flex: 0 0 calc(33.33% - 10px); */
     box-sizing: border-box;
 }
 
@@ -482,6 +491,14 @@ button.active-btn {
 }
 
 .take {
+    background-image: url(../img/game/Take.png);
+}
+
+#Player2TakeZone {
+    background-image: url(../img/game/Give.png);
+}
+
+#Player2GiveZone {
     background-image: url(../img/game/Take.png);
 }
 
