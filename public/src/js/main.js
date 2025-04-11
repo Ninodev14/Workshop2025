@@ -645,11 +645,10 @@ drake.on('drop', (el, target) => {
     if (target.id === "Player2VerificationZoneCasserole") {
         const newTarget = document.getElementById("Player2VerificationZone");
 
-        if (newTarget.children.length < 6) {
+        if (newTarget.children.length < 5) {
             newTarget.appendChild(el);
             drake.containers.push(newTarget);
         } else {
-            console.log("La zone de vérification Player2 est pleine (max 6 éléments).");
             el.remove();
         }
     }
@@ -657,11 +656,10 @@ drake.on('drop', (el, target) => {
     if (target.id === "Player1VerificationZoneCasserole") {
         const newTarget = document.getElementById("Player1VerificationZone");
 
-        if (newTarget.children.length < 6) {
+        if (newTarget.children.length < 5) {
             newTarget.appendChild(el);
             drake.containers.push(newTarget);
         } else {
-            console.log("La zone de vérification Player1 est pleine (max 6 éléments).");
             el.remove();
         }
     }
