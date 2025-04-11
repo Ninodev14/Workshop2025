@@ -32,7 +32,6 @@ const additionalImages = [
     "src/img/ingredients/Chocolat.png",
     "src/img/ingredients/Chorizo.png",
     "src/img/ingredients/Citron.png",
-    "src/img/ingredients/Cookie.png",
     "src/img/ingredients/Cornichon.png",
     "src/img/ingredients/Creme.png",
     "src/img/ingredients/Eau.png",
@@ -425,7 +424,6 @@ function anomationCook() {
 
 function showRecipe() {
 
-    console.log(recipeName);
     const recipeImagePath = `src/img/recipes/${recipeName}.png`;
 
     appearPlat = document.querySelectorAll(".imgplat");
@@ -442,7 +440,6 @@ function showRecipe() {
         });
 
         apDisap('.casseroleContainer', "none")
-
         apDisap('.txtTuto', "none")
         apDisap('.txtFinisBad', "block")
 
@@ -451,9 +448,6 @@ function showRecipe() {
     } else {
         appearPlat.forEach(element => {
 
-            const img = new Image();
-            img.src = recipeImagePath;
-            img.alt = recipeName
 
             element.src = recipeImagePath;
             element.alt = recipeName;
@@ -461,6 +455,7 @@ function showRecipe() {
 
         });
 
+        apDisap('.casseroleContainer', "none")
         apDisap('.txtTuto', "none")
         apDisap('.txtFinishGood', "block")
 
@@ -476,7 +471,6 @@ function showRecipe() {
 
     apDisap(".Contenerassiet", "flex");
 
-
     apDisap(".btnNextRecipe", "flex");
 
 
@@ -489,9 +483,6 @@ function nextRecipe() {
     const transitionDiv = document.getElementById("next-recipe-transition");
     transitionDiv.style.display = "block";
 
-    toFlex = document.querySelectorAll(".casseroleContainer");
-    toNone = document.querySelectorAll(".Contenerassiet");
-
 
 
     transitionDiv.style.display = "none";
@@ -500,23 +491,20 @@ function nextRecipe() {
     document.getElementById("Player2IngredientZone").innerHTML = '';
     document.getElementById("Player1VerificationZone").innerHTML = '';
     document.getElementById("Player2VerificationZone").innerHTML = '';
+    
     if (playerRole === "P1") {
         displayRandomRecipe("Player1Recipe");
     } else if (playerRole === "P2") {
         displayRandomRecipe("Player2Recipe");
     }
-    toNone.forEach(element => {
-        element.style.display = "none";
-    });
-    toFlex.forEach(element => {
-        element.style.display = "flex";
-    });
 
 
+    apDisap(".Contenerassiet", "none");
+    apDisap(".casseroleContainer", "flex");
     apDisap(".btnNextRecipe", "none");
-    apDisap('.txtTuto', "block")
-    apDisap('.txtFinishGood', "none")
-    apDisap('.txtFinisBad', "none")
+    apDisap('.txtTuto', "block");
+    apDisap('.txtFinishGood', "none");
+    apDisap('.txtFinisBad', "none");
 
 
 
