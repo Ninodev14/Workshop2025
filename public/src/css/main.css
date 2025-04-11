@@ -346,7 +346,7 @@ button {
     }
 }
 
-@media screen and (max-height: 1000px) {
+@media screen and (max-height: 920px) {
     .screen-warning {
         display: flex;
     }

@@ -634,8 +634,38 @@ drake.containers.push(document.getElementById("Player1TakeZone"));
 drake.containers.push(document.getElementById("Player2TakeZone"));
 drake.containers.push(document.getElementById("Player2VerificationZone"));
 drake.containers.push(document.getElementById("Player1VerificationZone"));
+drake.containers.push(document.getElementById("Player2VerificationZoneCasserole"));
+drake.containers.push(document.getElementById("Player1VerificationZoneCasserole"));
 drake.containers.push(player1GiveZone);
 drake.containers.push(player2GiveZone);
+
+
+drake.on('drop', (el, target) => {
+
+    if (target.id === "Player2VerificationZoneCasserole") {
+        const newTarget = document.getElementById("Player2VerificationZone");
+
+        if (newTarget.children.length < 6) {
+            newTarget.appendChild(el);
+            drake.containers.push(newTarget);
+        } else {
+            console.log("La zone de vérification Player2 est pleine (max 6 éléments).");
+            el.remove();
+        }
+    }
+
+    if (target.id === "Player1VerificationZoneCasserole") {
+        const newTarget = document.getElementById("Player1VerificationZone");
+
+        if (newTarget.children.length < 6) {
+            newTarget.appendChild(el);
+            drake.containers.push(newTarget);
+        } else {
+            console.log("La zone de vérification Player1 est pleine (max 6 éléments).");
+            el.remove();
+        }
+    }
+});
 
 
 function initializeDropZones() {
