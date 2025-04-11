@@ -37,7 +37,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    gap: 48px;
+    gap: 3vh;
 }
 
 #roomNameDisplay {
@@ -58,4 +58,10 @@
     flex-direction: column;
     gap: 5px;
     justify-content: center;
+}
+
+@media screen and (max-width: 1100px) {
+    .name-box {
+        margin-top: 0px !important;
+    }
 }
