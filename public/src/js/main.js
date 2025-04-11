@@ -1042,7 +1042,7 @@ socket.on("GameCanBigin", () => {
             rotateNeedle(needle, secondesLocal * 2); // 2° par seconde
 
             // Condition pour arrêter l'intervalle après 180 secondes
-            if (secondesLocal === 18000) {
+            if (secondesLocal === 180) {
                 clearInterval(chronoLocal);
                 // Appeler la fonction pour gérer la fin du jeu
                 endGame();
