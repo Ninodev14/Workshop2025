@@ -35,7 +35,7 @@
 
 .cuistoImg {
     max-width: 56vw;
-    height: auto;
+    max-height: 90vh;
 }
 
 .textExplicationContener {
@@ -132,8 +132,8 @@
 }
 
 .drop-zone {
-    width: 270px;
-    height: 120px;
+    width: 40vh;
+    height: 20vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -334,8 +334,8 @@ button.active-btn {
 
 #Player2DropZone {
     margin-top: -40px;
-    width: 240px;
-    height: 200px;
+    width: 34vh;
+    height: 30vh;
     background-image: url(../img/game/evier.png);
     background-size: contain;
     background-repeat: no-repeat;
@@ -490,8 +490,8 @@ button.active-btn {
 
 .give,
 .take {
-    width: 24vh;
-    height: 10vh;
+    width: 30vh;
+    height: 14vh;
     background-image: url(../img/game/Give.png);
     border-radius: 10px;
     display: flex;
