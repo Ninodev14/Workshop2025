@@ -503,7 +503,7 @@ function nextRecipe() {
     document.getElementById("Player2IngredientZone").innerHTML = '';
     document.getElementById("Player1VerificationZone").innerHTML = '';
     document.getElementById("Player2VerificationZone").innerHTML = '';
-    
+
     if (playerRole === "P1") {
         displayRandomRecipe("Player1Recipe");
     } else if (playerRole === "P2") {
@@ -548,7 +548,9 @@ drake.on('drop', (el, target) => {
     if (forbiddenTakeZones.includes(target.id)) {
         const id = el.getAttribute("data-id");
         el.remove();
+        console.log("COUCOUUU1")
         if (id) {
+
             socket.emit("removeIngredient", {
                 id,
                 roomId,
@@ -560,7 +562,9 @@ drake.on('drop', (el, target) => {
 
     if (!isGiveZone) {
         const id = el.getAttribute("data-id");
+        console.log("COUCOUUU2" + id)
         if (id) {
+
             socket.emit("removeIngredient", {
                 id,
                 roomId,
@@ -612,7 +616,6 @@ drake.on('drop', (el, target) => {
 
                 drake.on('out', (el, container, source) => {
                     if (container.classList.contains('drop-zone')) {
-                        console.log("💨 Élément sorti de la drop-zone !");
                         // Tu peux exécuter ta logique ici (réinitialiser, enlever barre, etc.)
                         apDisap(".clicindicateur", "none");
                         apDisap(".progressbar", "none");
@@ -627,9 +630,9 @@ drake.on('drop', (el, target) => {
             el.remove();
         }
     } else {
-        console.log("Zone incorrecte, l'élément disparaît.");
         const id = el.getAttribute("data-id");
         el.remove();
+        console.log("COUCOUUU3")
         if (id) {
             socket.emit("removeIngredient", {
                 id,
@@ -906,11 +909,23 @@ socket.on("receiveIngredient", (data) => {
             img.alt = data.alt;
             img.classList.add("ingredient-img");
             img.setAttribute("data-state", data.state || "0");
-            img.setAttribute("data-id", id);
+            img.setAttribute('data-id', id);
             img.draggable = false;
             zone.appendChild(img);
             img.style.animation = 'none';
-            WashItem(img);
+            const src = img.src;
+            const altText = img.alt;
+
+            const wrapper = document.createElement("div");
+            wrapper.classList.add("washed-img");
+            wrapper.setAttribute("data-state", "2");
+            wrapper.setAttribute("data-alt", altText);
+            wrapper.setAttribute("data-src", src)
+
+
+            img.parentNode.replaceChild(wrapper, img);
+            wrapper.appendChild(img);
+            wrapper.setAttribute('data-id', id);
 
         } else {
             const img = document.createElement("img");
@@ -1028,7 +1043,7 @@ socket.on("GameCanBigin", () => {
             rotateNeedle(needle, secondesLocal * 2); // 2° par seconde
 
             // Condition pour arrêter l'intervalle après 180 secondes
-            if (secondesLocal === 180) {
+            if (secondesLocal === 18000) {
                 clearInterval(chronoLocal);
                 // Appeler la fonction pour gérer la fin du jeu
                 endGame();
