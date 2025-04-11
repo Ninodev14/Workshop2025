@@ -58,6 +58,19 @@ const additionalImages = [
     "src/img/ingredients/Tomate.png",
     "src/img/ingredients/Vanille.png",
     "src/img/ingredients/Yaourt.png",
+    "src/img/ingredients/Amande.png",
+    "src/img/ingredients/Cafe.png",
+    "src/img/ingredients/Canelle.png",
+    "src/img/ingredients/CompotePomme.png",
+    "src/img/ingredients/Concombre.png",
+    "src/img/ingredients/Epinards.png",
+    "src/img/ingredients/FloconAvoine.png",
+    "src/img/ingredients/Herbes.png",
+    "src/img/ingredients/HuileOlive.png",
+    "src/img/ingredients/Mais.png",
+    "src/img/ingredients/Noix.png",
+    "src/img/ingredients/OignonRouge.png",
+    "src/img/ingredients/PatateDouce.png",
 
 ];
 
@@ -936,6 +949,7 @@ function WashItem(imgElement) {
 
 socket.on('ingredientRemoved', (data) => {
     const ingredient = document.querySelector(`[data-id="${data.id}"]`);
+    console.log("ici?");
 
     if (ingredient) {
 

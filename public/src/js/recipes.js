@@ -123,10 +123,7 @@ const recipes = [
 
 
 
-    /*
-
-    //PAS TOUS LES INGREIDENTS
-
+    
 
 
      {
@@ -136,7 +133,7 @@ const recipes = [
             { src: "src/img/ingredients/Citron.png", state: 1 },
             { src: "src/img/ingredients/Riz.png", state: 2 },
             { src: "src/img/ingredients/Poivre.png", state: 0 },
-            { src: "src/img/ingredients/Huile.png", state: 0 }
+            { src: "src/img/ingredients/HuileOlive.png", state: 0 }
         ]
     },
 
@@ -147,7 +144,7 @@ const recipes = [
         ingredients: [
             { src: "src/img/ingredients/Oeuf.png", state: 2 },
             { src: "src/img/ingredients/lait.png", state: 0 },
-            { src: "src/img/ingredients/Epinard.png", state: 0 },
+            { src: "src/img/ingredients/Epinards.png", state: 0 },
             { src: "src/img/ingredients/Fromage.png", state: 1 },
             { src: "src/img/ingredients/Jambon.png", state: 1 }
         ]
@@ -161,7 +158,7 @@ const recipes = [
         ingredients: [
             { src: "src/img/ingredients/Poulet.png", state: 1 },
             { src: "src/img/ingredients/Poivre.png", state: 0 },
-            { src: "src/img/ingredients/Huile.png", state: 0 },
+            { src: "src/img/ingredients/HuileOlive.png", state: 0 },
             { src: "src/img/ingredients/PatateDouce.png", state: 2 },
             { src: "src/img/ingredients/Herbes.png", state: 0 }
         ]
@@ -173,7 +170,7 @@ const recipes = [
         name: "SteakFrite",
         ingredients: [
             { src: "src/img/ingredients/Steak.png", state: 1 },
-            { src: "src/img/ingredients/PatateDouce.png", state: 1 },
+            { src: "src/img/ingredients/Patate.png", state: 1 },
             { src: "src/img/ingredients/Tomate.png", state: 0 },
             { src: "src/img/ingredients/PetitPois.png", state: 2 },
             { src: "src/img/ingredients/Poivre.png", state: 0 }
@@ -231,7 +228,7 @@ const recipes = [
             { src: "src/img/ingredients/Chocolat.png", state: 1 },
             { src: "src/img/ingredients/Farine.png", state: 0 },
             { src: "src/img/ingredients/Sucre.png", state: 0 },
-            { src: "src/img/ingredients/CompoteDePomme.png", state: 0 },
+            { src: "src/img/ingredients/CompotePomme.png", state: 0 },
             { src: "src/img/ingredients/Oeuf.png", state: 2 }
         ]
     },
@@ -245,7 +242,7 @@ const recipes = [
         ingredients: [
             { src: "src/img/ingredients/Chocolat.png", state: 1 },
             { src: "src/img/ingredients/Farine.png", state: 0 },
-            { src: "src/img/ingredients/compote.png", state: 0 },
+            { src: "src/img/ingredients/CompotePomme.png", state: 0 },
             { src: "src/img/ingredients/Sucre.png", state: 0 },
             { src: "src/img/ingredients/Oeuf.png", state: 2 }
         ]
@@ -269,9 +266,9 @@ const recipes = [
         ingredients: [
             { src: "src/img/ingredients/Pomme.png", state: 2 },
             { src: "src/img/ingredients/Farine.png", state: 0 },
-            { src: "src/img/ingredients/CompoteDePomme.png", state: 0 },
+            { src: "src/img/ingredients/CompotePomme.png", state: 0 },
             { src: "src/img/ingredients/Canelle.png", state: 1 },
-            { src: "src/img/ingredients/Amende.png", state: 0 }
+            { src: "src/img/ingredients/Amande.png", state: 0 }
         ]
     },
 
@@ -282,7 +279,7 @@ const recipes = [
             { src: "src/img/ingredients/Tomate.png", state: 2 },
             { src: "src/img/ingredients/OignonRouge.png", state: 0 },
             { src: "src/img/ingredients/Concombre.png", state: 0 },
-            { src: "src/img/ingredients/Huile.png", state: 1 }
+            { src: "src/img/ingredients/HuileOlive.png", state: 1 }
         ]
     },
 
@@ -290,7 +287,7 @@ const recipes = [
 
 
 
-    */
+    
 
 
     
