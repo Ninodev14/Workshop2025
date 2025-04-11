@@ -452,8 +452,8 @@ function anomationCook() {
             setTimeout(() => {
                 flash.remove();
 
-            }, 1500);
-        }, 1500);
+            }, 1000);
+        }, 2000);
     });
 }
 
@@ -565,16 +565,18 @@ let isIngredientInZone = {
     Player2: false
 };
 
-drake.on('drop', (el, target) => {
+drake.on('drop', (el, target, source) => {
     const forbiddenTakeZones = ["Player1TakeZone", "Player2TakeZone"];
     const isGiveZone = target.classList.contains("give");
+    const isFromTakeZone = source && forbiddenTakeZones.includes(source.id);
 
-    if (forbiddenTakeZones.includes(target.id)) {
+    if (isFromTakeZone && isGiveZone) {
+
         const id = el.getAttribute("data-id");
-        el.remove();
-        console.log("COUCOUUU1")
-        if (id) {
 
+        console.log("Déplacé de Take vers Give");
+
+        if (id) {
             socket.emit("removeIngredient", {
                 id,
                 roomId,
@@ -583,10 +585,8 @@ drake.on('drop', (el, target) => {
         }
         return;
     }
-
     if (!isGiveZone) {
         const id = el.getAttribute("data-id");
-        console.log("COUCOUUU2" + id)
         if (id) {
 
             socket.emit("removeIngredient", {
@@ -808,7 +808,7 @@ function isInPlayer1DropZone(imgElement) {
 function transformIngredient(imgToCut) {
     const player1DropZone = document.getElementById("Player1DropZone");
     const player2DropZone = document.getElementById("Player2DropZone");
-
+    console.log("transformIngredient")
     const id = imgToCut.src;
     if (!clickCounts[id]) clickCounts[id] = 0;
 
@@ -850,7 +850,7 @@ function transformIngredient(imgToCut) {
 
         const isInP1Zone = Array.from(player1DropZone.children).includes(imgToCut);
         const isInP2Zone = Array.from(player2DropZone.children).includes(imgToCut);
-
+        console.log("ezeze")
         if (isInP1Zone || isInP2Zone) {
             clickCounts[id] += 1;
             if (clickCounts[id] > 10) clickCounts[id] = 10;
