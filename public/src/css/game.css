@@ -110,7 +110,7 @@
     transform: translateY(-50%);
     right: 100%;
     width: auto;
-    height: 60px;
+    height: 70px;
     cursor: grab;
     transition: transform 0.3s ease-in-out;
     animation: moveright 10s linear;
@@ -151,7 +151,7 @@
 
 .ingredient-img {
     width: auto;
-    height: 60px;
+    height: 70px;
     cursor: pointer;
 }
 
@@ -296,7 +296,7 @@
     margin-top: -20px;
     top: 0%;
     width: auto;
-    height: 60px;
+    height: 70px;
     right: 0;
     transform: translateY(0%);
 }
@@ -531,7 +531,7 @@ button.active-btn {
 }
 
 .ImgRicipe {
-    height: 60px;
+    height: 70px;
     width: auto;
 }
 
@@ -781,4 +781,22 @@ button.active-btn {
     pointer-events: none;
     z-index: 9999;
     transition: opacity 0.6s ease;
+}
+
+@media screen and (max-height: 700px) {
+    .ImgRicipe {
+        height: 50px;
+    }
+
+    .ingredient-img {
+        height: 50px;
+    }
+
+    .ingredient-img {
+        height: 50px;
+    }
+
+    .verification-zone img {
+        height: 50px;
+    }
 }
