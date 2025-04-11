@@ -705,3 +705,27 @@ button.active-btn {
     z-index: 1;
     display: block;
 }
+
+.clicindicateur {
+    position: absolute;
+    height: auto;
+    bottom: -10px;
+    width: 100px;
+    left: 100px;
+    z-index: 1000;
+    animation: moveUpDown 2s ease-in-out infinite;
+}
+
+@keyframes moveUpDown {
+    0% {
+        bottom: -10px;
+    }
+
+    50% {
+        bottom: 10px;
+    }
+
+    100% {
+        bottom: -10px;
+    }
+}
