@@ -5,16 +5,16 @@ let maxIngredients = 2;
 const roomId = new URLSearchParams(window.location.search).get('roomId');
 
 
-window.addEventListener('beforeunload', (event) => {
+// window.addEventListener('beforeunload', (event) => {
 
-    const message = "Êtes-vous sûr de vouloir quitter/recharger cette page ?";
-    setTimeout(() => {
-        window.location.href = '/index.html';
-    }, 500);
+//     const message = "Êtes-vous sûr de vouloir quitter/recharger cette page ?";
+//     setTimeout(() => {
+//         window.location.href = '/index.html';
+//     }, 500);
 
-    event.returnValue = message;
-    return message;
-});
+//     event.returnValue = message;
+//     return message;
+// });
 
 
 socket.on('connect', () => {
