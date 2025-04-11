@@ -631,21 +631,36 @@ button.active-btn {
     opacity: 1 !important;
 }
 
+.ContenerProgressBar {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .progressbar {
-    width: 80px;
+    position: absolute;
+    top: -30px;
+    width: 120px;
     height: 20px;
     display: flex;
-    background-color: #f3f3f3;
-    border: #000 solid 1px;
+    background-image: url(../img/game/JaugeContour.png);
+    background-size: contain;
+    background-repeat: no-repeat;
     overflow: hidden;
     transition: width 0.2s ease-in-out;
     justify-content: flex-start;
     align-items: center;
+    z-index: 0;
 }
 
 .progressbarRemplisage {
-    background-color: #4caf50;
-    height: 100%;
+    z-index: -1;
+    position: relative;
+    border-radius: 50px;
+    background-color: #B06BCE;
+    height: 80%;
+    margin-left: 1px;
     width: 0%;
     transition: width 0.2s ease-in-out;
 }
@@ -689,4 +704,28 @@ button.active-btn {
     position: relative;
     z-index: 1;
     display: block;
+}
+
+.clicindicateur {
+    position: absolute;
+    height: auto;
+    bottom: -10px;
+    width: 100px;
+    left: 100px;
+    z-index: 1000;
+    animation: moveUpDown 2s ease-in-out infinite;
+}
+
+@keyframes moveUpDown {
+    0% {
+        bottom: -10px;
+    }
+
+    50% {
+        bottom: 10px;
+    }
+
+    100% {
+        bottom: -10px;
+    }
 }

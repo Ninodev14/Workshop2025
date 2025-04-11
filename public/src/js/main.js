@@ -3,7 +3,19 @@ const socket = io();
 let playerRole = null;
 let maxIngredients = 2;
 const roomId = new URLSearchParams(window.location.search).get('roomId');
+
+
 socket.on('connect', () => {
+    socket.on('playerDisconnected', (data) => {
+        const { playerId, roomId } = data;
+        console.log(`Le joueur ${playerId} de la room ${roomId} s'est déconnecté.`);
+        const disconnectMessage = document.getElementById('disconnect-message');
+        disconnectMessage.style.display = 'flex';
+        const goHomeBtn = document.getElementById('go-home-btn');
+        goHomeBtn.addEventListener('click', () => {
+            window.location.href = '/'; // Redirection vers l'index (page d'accueil)
+        });
+    });
     const playerId = localStorage.getItem('playerId');
     const roomId = new URLSearchParams(window.location.search).get('roomId');
 
@@ -822,7 +834,7 @@ function transformIngredient(imgToCut) {
         helpClic = true;
         apDisap(".clicindicateur", "none");
         if (probarCanUpdate == true) {
-            apDisap(".progressbar", "block");
+            apDisap(".progressbar", "flex");
 
 
         }
@@ -1119,4 +1131,3 @@ function goToLobbyPage() {
 function goToIndexPage() {
     window.location.href = "index.html";
 }
-
