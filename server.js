@@ -170,6 +170,15 @@ io.on('connection', (socket) => {
                         roomToDelete.push(roomId);
                     }
 
+                    // Si la room a encore un autre joueur, on informe ce joueur
+                    if (room.players.length === 1) {
+                        const otherPlayerId = room.players[0].id;
+                        const socketId = playerSockets[otherPlayerId];
+                        if (socketId) {
+                            io.to(socketId).emit('playerDisconnected', { playerId, roomId });
+                        }
+                    }
+
                 }
 
                 roomToDelete.forEach(roomId => {
@@ -186,6 +195,7 @@ io.on('connection', (socket) => {
             }, 10000); // Attend 10 secondes avant suppression définitive
         }
     });
+
 
 
     socket.on('reconnectPlayer', (roomId, playerId) => {
