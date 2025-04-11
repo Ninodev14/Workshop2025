@@ -165,12 +165,10 @@ io.on('connection', (socket) => {
                         }
                     }
 
-                    // Vérifie si tous les joueurs sont déconnectés avant de supprimer la room
                     if (room.players.length === 0 && !room.players.some(player => playerSockets[player.id])) {
                         roomToDelete.push(roomId);
                     }
 
-                    // Si la room a encore un autre joueur, on informe ce joueur
                     if (room.players.length === 1) {
                         const otherPlayerId = room.players[0].id;
                         const socketId = playerSockets[otherPlayerId];
