@@ -182,7 +182,7 @@ const recipes = [
      {
         name: "Lasagne",
         ingredients: [
-            { src: "src/img/ingredients/Epinard.png", state: 2 },
+            { src: "src/img/ingredients/Epinards.png", state: 2 },
             { src: "src/img/ingredients/SauceTomate.png", state: 0 },
             { src: "src/img/ingredients/Pates.png", state: 2 },
             { src: "src/img/ingredients/Herbes.png", state: 0 },

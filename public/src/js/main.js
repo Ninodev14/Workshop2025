@@ -603,9 +603,25 @@ drake.on('drop', (el, target) => {
                 setTimeout(() => {
                     if (helpClic === false) {
                         apDisap(".clicindicateur", "block");
+
                     }
+
+
                 }, 2000);
+
+
+                drake.on('out', (el, container, source) => {
+                    if (container.classList.contains('drop-zone')) {
+                        console.log("💨 Élément sorti de la drop-zone !");
+                        // Tu peux exécuter ta logique ici (réinitialiser, enlever barre, etc.)
+                        apDisap(".clicindicateur", "none");
+                        apDisap(".progressbar", "none");
+                    }
+                });
+
+
             }
+
         } else {
             console.log("Zone déjà pleine.");
             el.remove();
@@ -963,7 +979,6 @@ function WashItem(imgElement) {
 
 socket.on('ingredientRemoved', (data) => {
     const ingredient = document.querySelector(`[data-id="${data.id}"]`);
-    console.log("ici?");
 
     if (ingredient) {
 
@@ -1071,6 +1086,7 @@ function apDisap(classHtml, stateTo) {
 
 }
 
+
 function endGame() {
     const Player2Game = document.getElementById("Player2Game");
     Player2Game.style.display = "none";
@@ -1115,3 +1131,4 @@ function goToLobbyPage() {
 function goToIndexPage() {
     window.location.href = "index.html";
 }
+
