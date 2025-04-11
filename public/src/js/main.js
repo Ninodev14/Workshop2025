@@ -5,6 +5,18 @@ let maxIngredients = 2;
 const roomId = new URLSearchParams(window.location.search).get('roomId');
 
 
+window.addEventListener('beforeunload', (event) => {
+
+    const message = "Êtes-vous sûr de vouloir quitter/recharger cette page ?";
+    setTimeout(() => {
+        window.location.href = '/index.html';
+    }, 500);
+
+    event.returnValue = message;
+    return message;
+});
+
+
 socket.on('connect', () => {
     socket.on('playerDisconnected', (data) => {
         const { playerId, roomId } = data;
@@ -13,7 +25,7 @@ socket.on('connect', () => {
         disconnectMessage.style.display = 'flex';
         const goHomeBtn = document.getElementById('go-home-btn');
         goHomeBtn.addEventListener('click', () => {
-            window.location.href = '/'; // Redirection vers l'index (page d'accueil)
+            window.location.href = '/';
         });
     });
     const playerId = localStorage.getItem('playerId');
