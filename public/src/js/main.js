@@ -1045,10 +1045,10 @@ socket.on("GameCanBigin", () => {
             secondesLocal++;
 
             // Calcul des degrés d'avancée de l'aiguille par seconde
-            rotateNeedle(needle, secondesLocal * 2); // 2° par seconde
+            rotateNeedle(needle, secondesLocal * 1); // 2° par seconde
 
             // Condition pour arrêter l'intervalle après 180 secondes
-            if (secondesLocal === 180) {
+            if (secondesLocal === 360) {
                 clearInterval(chronoLocal);
                 // Appeler la fonction pour gérer la fin du jeu
                 endGame();

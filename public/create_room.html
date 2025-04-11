@@ -30,14 +30,14 @@
                 <label for="room-name" class="h4">Nom de l'équipe:</label>
                 <div class="inputGomme">
                     <img src="src/img/Image pour la création d'équipe.svg" onclick="errase(this)" alt="">
-                    <input type="text" id="room-name" placeholder="Écrire le nom de l'équipe " class="h3" required maxlength="10">
+                    <input type="text" pattern="^[a-zA-Z0-9 ]+$" id="room-name" placeholder="Écrire le nom de l'équipe " class="h3" required maxlength="10">
                 </div>
             </div>
             <div class="FormText">
                 <label for="player-name" class="h4">Votre nom: </label>
                 <div class="inputGomme">
                     <img src="src/img/Image pour la création d'équipe.svg" onclick="errase(this)" alt="">
-                    <input type="text" id="player-name" placeholder="Écrire son nom ici " class="h3" required maxlength="10">
+                    <input type="text" pattern="^[a-zA-Z0-9 ]+$" id="player-name" placeholder="Écrire son nom ici " class="h3" required maxlength="10">
                 </div>
             </div>
             <button type="submit" class="btnBoncy" id="submit-btn" disabled>Suite</button>

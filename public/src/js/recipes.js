@@ -196,7 +196,7 @@ const recipes = [
 
 
      {
-        name: "RizCantonais",
+        name: "RizCantonnais",
         ingredients: [
             { src: "src/img/ingredients/Riz.png", state: 0 },
             { src: "src/img/ingredients/Jambon.png", state: 1 },

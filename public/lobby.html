@@ -52,7 +52,7 @@
                 <p>Nom du joueur </p>
                 <div class="inputGomme">
                     <img src="src/img/Image pour la création d'équipe.svg" onclick="errase(this)" alt="">
-                    <input type="text" id="player-name" class="h3" placeholder="Votre nom">
+                    <input pattern="^[a-zA-Z0-9 ]+$" type="text" id="player-name" class="h3" placeholder="Votre nom">
                 </div>
             </div>
             <button class="btnBoncy" id="join-btn" onclick="confirmJoinRoom()" disabled>Rejoindre cette équipe</button>
