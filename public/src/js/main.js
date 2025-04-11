@@ -18,16 +18,16 @@ const roomId = new URLSearchParams(window.location.search).get('roomId');
 
 
 socket.on('connect', () => {
-    socket.on('playerDisconnected', (data) => {
-        const { playerId, roomId } = data;
-        console.log(`Le joueur ${playerId} de la room ${roomId} s'est déconnecté.`);
-        const disconnectMessage = document.getElementById('disconnect-message');
-        disconnectMessage.style.display = 'flex';
-        const goHomeBtn = document.getElementById('go-home-btn');
-        goHomeBtn.addEventListener('click', () => {
-            window.location.href = '/';
-        });
-    });
+    // socket.on('playerDisconnected', (data) => {
+    //     const { playerId, roomId } = data;
+    //     console.log(`Le joueur ${playerId} de la room ${roomId} s'est déconnecté.`);
+    //     const disconnectMessage = document.getElementById('disconnect-message');
+    //     disconnectMessage.style.display = 'flex';
+    //     const goHomeBtn = document.getElementById('go-home-btn');
+    //     goHomeBtn.addEventListener('click', () => {
+    //         window.location.href = '/';
+    //     });
+    // });
     const playerId = localStorage.getItem('playerId');
     const roomId = new URLSearchParams(window.location.search).get('roomId');
 
