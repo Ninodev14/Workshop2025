@@ -345,9 +345,3 @@ button {
         display: flex;
     }
 }
-
-@media screen and (max-height: 920px) {
-    .screen-warning {
-        display: flex;
-    }
-}
