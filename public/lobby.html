@@ -82,20 +82,24 @@
             }
 
             Object.entries(rooms).forEach(([roomId, room]) => {
+                // Si la room n'est plus disponible (la partie a commencé), on ne l'affiche pas
+                if (!room) return; // Si la room a été supprimée par le serveur, on saute cette itération
+
                 const li = document.createElement('li');
                 li.classList.add('room-item');
                 li.innerHTML = `
-                <p class="h3">Equipe</p>
-                <div class="beautruc">
-                    <div></div>
-                    <strong class="h3">${room.name}</strong> 
-                    <div class="h3">(${room.players.length}/${room.maxPlayers})</div>
-                </div>
-                <button class="btnBoncy" onclick="showNamePrompt('${roomId}', '${room.name}')">Rejoindre</button>
-            `;
+            <p class="h3">Equipe</p>
+            <div class="beautruc">
+                <div></div>
+                <strong class="h3">${room.name}</strong> 
+                <div class="h3">(${room.players.length}/${room.maxPlayers})</div>
+            </div>
+            <button class="btnBoncy" onclick="showNamePrompt('${roomId}', '${room.name}')">Rejoindre</button>
+        `;
                 roomList.appendChild(li);
             });
         });
+
 
         function showNamePrompt(roomId, roomName) {
             selectedRoomId = roomId;

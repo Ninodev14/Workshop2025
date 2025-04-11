@@ -81,9 +81,16 @@
 
 
         socket.on('connect', () => {
-            console.log("🔄 Tentative de reconnexion...");
-            if (roomId && playerId) {
+            const playerId = localStorage.getItem('playerId');
+            const roomId = new URLSearchParams(window.location.search).get('roomId');
+
+            console.log("📦 Récupération localStorage => playerId:", playerId, "roomId:", roomId);
+
+            if (playerId && roomId) {
+                console.log("🔁 Envoi de reconnectPlayer au serveur");
                 socket.emit('reconnectPlayer', roomId, playerId);
+            } else {
+                console.log("❌ Aucune info de reconnexion trouvée");
             }
         });
 
