@@ -851,22 +851,22 @@ function transformIngredient(imgToCut) {
         const isInP1Zone = Array.from(player1DropZone.children).includes(imgToCut);
         const isInP2Zone = Array.from(player2DropZone.children).includes(imgToCut);
         if (isInP1Zone || isInP2Zone) {
-            clickCounts[id] += 1;
-            if (clickCounts[id] > 10) clickCounts[id] = 10;
-
-            updateProgress();
-
+            clickCounts[id] += 1;+updateProgress();
             if (clickCounts[id] >= 10) {
                 apDisap(".progressbar", "none")
+                
+                // Reset le compteur après transformation
+                clickCounts[id] = 0;
+                updateProgress(); // Pour réinitialiser la barre
+            
                 if (isInP1Zone) {
                     cutImageInTwo(imgToCut);
                 } else if (isInP2Zone) {
                     WashItem(imgToCut);
-
                 }
                 clearInterval(decayInterval); // stop la baisse
                 probarCanUpdate = false;
-            } else {
+            }else {
                 decayTimeout = setTimeout(() => {
                     startDecay();
                 }, 1000); // commence à baisser après 1 sec d'inactivité
@@ -1083,8 +1083,9 @@ socket.on("updateRecipe", (total) => {
         element.innerHTML = globalScore;
     });
 
-    if (globalScore >= 7) {
-        endGame();
+    if (globalScore >= 2) {
+        
+        //endGame();
     }
 
     setTimeout(() => {

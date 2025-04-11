@@ -262,32 +262,36 @@ io.on('connection', (socket) => {
 
     socket.on('TotRecipeDone', (data) => {
         console.log(`📨 Recette reçue de ${socket.id} pour room ${data.roomId}`);
-
-
-
+    
         if (!rooms[data.roomId]) {
             console.log(`❌ Room introuvable : ${data.roomId}`);
             return;
         }
-
+    
         // Initialise le total s'il n'existe pas encore
         if (!roomRecipeTotals[data.roomId]) {
             roomRecipeTotals[data.roomId] = 0;
         }
-
+    
+        // Empêcher l'incrémentation multiple si le même joueur a déjà envoyé une recette dans cette room
+        if (data.alreadyProcessed) {
+            console.log(`⚠️ Recette déjà traitée pour la room ${data.roomId}`);
+            return; // On sort ici pour éviter de comptabiliser plusieurs fois
+        }
+    
         // Incrémentation
-
         roomRecipeTotals[data.roomId]++;
         let total = roomRecipeTotals[data.roomId];
-
+    
         console.log(`🍲 Total de recettes pour la room ${data.roomId} : ${total}`);
-
+    
         // Envoi du nouveau total aux joueurs de la room
-        io.to(data.roomId).emit('updateRecipe', { total })
-
-
-
+        io.to(data.roomId).emit('updateRecipe', { total });
+    
+        // Marquer la recette comme traitée pour éviter des doubles comptes
+        data.alreadyProcessed = true;  // On marque que la recette a été traitée
     });
+    
 
 
 
