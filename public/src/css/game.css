@@ -236,6 +236,7 @@
 }
 
 .plat img {
+    margin-top: -40px;
     width: auto;
     height: 100%;
 }
