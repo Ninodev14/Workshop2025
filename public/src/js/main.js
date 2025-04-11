@@ -176,6 +176,7 @@ function spawnRandomIngredient(zoneId) {
     randomImg.classList.add("ingredient-img");
     randomImg.draggable = true;
     randomImg.style.animationDelay = '0s';
+    randomImg.setAttribute("data-state", "0");
 
     animationZone.appendChild(randomImg);
     registerInitialZone(randomImg, animationZone);
@@ -522,7 +523,6 @@ function nextRecipe() {
 
 
     transitionDiv.style.display = "none";
-    //messageDiv.style.display = "none";
     document.getElementById("Player1IngredientZone").innerHTML = '';
     document.getElementById("Player2IngredientZone").innerHTML = '';
     document.getElementById("Player1VerificationZone").innerHTML = '';
@@ -838,12 +838,12 @@ function transformIngredient(imgToCut) {
     };
 
     imgToCut.addEventListener('click', () => {
+        console.log("cliiiiiiiiiiiiiiiiiiiic22")
+
         helpClic = true;
         apDisap(".clicindicateur", "none");
         if (probarCanUpdate == true) {
             apDisap(".progressbar", "flex");
-
-
         }
         clearTimeout(decayTimeout);
         clearInterval(decayInterval);
@@ -852,6 +852,7 @@ function transformIngredient(imgToCut) {
         const isInP2Zone = Array.from(player2DropZone.children).includes(imgToCut);
 
         if (isInP1Zone || isInP2Zone) {
+            console.log("cliiiiiiiiiiiiiiiiiiiic")
             clickCounts[id] += 1;
             if (clickCounts[id] > 10) clickCounts[id] = 10;
 
