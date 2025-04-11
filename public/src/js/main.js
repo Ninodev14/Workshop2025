@@ -434,7 +434,7 @@ function validateRecipeCompletion(targetDivId) {
             console.log(`[${playerRole}] envoie TotRecipeDone`);
             socket.emit("TotRecipeDone", data);
         } else {
-            
+
             stateRecipe = false;
             console.log(stateRecipe);
             anomationCook();
@@ -857,7 +857,7 @@ function transformIngredient(imgToCut) {
         const isInP1Zone = Array.from(player1DropZone.children).includes(imgToCut);
         const isInP2Zone = Array.from(player2DropZone.children).includes(imgToCut);
         if (isInP1Zone || isInP2Zone) {
-            clickCounts[id] += 1; +updateProgress();
+            clickCounts[id] += 1; + updateProgress();
             if (clickCounts[id] >= 10) {
                 apDisap(".progressbar", "none")
 
@@ -1090,7 +1090,7 @@ socket.on("updateRecipe", (total) => {
     });
 
     if (globalScore >= 6) {
-
+        document.getElementsByClassName(".textExplication").innerHTML = "Bravo, vous avez terminé à temps ! Voyons votre travail ...";
         endGame();
     }
 
