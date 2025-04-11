@@ -3,6 +3,19 @@ const socket = io();
 let playerRole = null;
 let maxIngredients = 2;
 const roomId = new URLSearchParams(window.location.search).get('roomId');
+socket.on('connect', () => {
+    const playerId = localStorage.getItem('playerId');
+    const roomId = new URLSearchParams(window.location.search).get('roomId');
+
+    console.log("📦 Récupération localStorage => playerId:", playerId, "roomId:", roomId);
+
+    if (playerId && roomId) {
+        console.log("🔁 Envoi de reconnectPlayer au serveur");
+        socket.emit('reconnectPlayer', roomId, playerId);
+    } else {
+        console.log("❌ Aucune info de reconnexion trouvée");
+    }
+});
 const playerId = localStorage.getItem("playerId");
 const playerName = localStorage.getItem("playerName");
 let helpClic = false;
@@ -64,6 +77,7 @@ const additionalImages = [
 let weightedPool = additionalImages.slice();
 
 socket.emit('requestRole', roomId, playerId, (response) => {
+    console.log("🔁 Envoi de requestRole au serveur", response, roomId);
     if (response.success) {
         playerRole = response.role;
         console.log("🎭 Rôle assigné à l'entrée du jeu :", playerRole);
@@ -812,7 +826,7 @@ function transformIngredient(imgToCut) {
                 if (isInP1Zone) {
                     cutImageInTwo(imgToCut);
                 } else if (isInP2Zone) {
-                    WashItem(imgToCut); 
+                    WashItem(imgToCut);
 
                 }
                 clearInterval(decayInterval); // stop la baisse
@@ -855,7 +869,7 @@ socket.on("receiveIngredient", (data) => {
 
             imageContainer.appendChild(img);
             cutImageInTwo(img);
-            zone.appendChild(imageContainer); 
+            zone.appendChild(imageContainer);
 
         } else if (data.state == "2") {
             const img = document.createElement("img");
@@ -925,13 +939,13 @@ function WashItem(imgElement) {
     const wrapper = document.createElement("div");
     wrapper.classList.add("washed-img");
     wrapper.setAttribute("data-state", "2");
-    wrapper.setAttribute("data-alt",altText);
+    wrapper.setAttribute("data-alt", altText);
     wrapper.setAttribute("data-src", src)
 
 
     imgElement.parentNode.replaceChild(wrapper, imgElement);
     wrapper.appendChild(imgElement);
-    
+
 }
 
 socket.on('ingredientRemoved', (data) => {
