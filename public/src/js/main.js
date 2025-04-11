@@ -184,7 +184,7 @@ function spawnRandomIngredient(zoneId) {
 function startIngredientSpawning(zoneId) {
     setInterval(() => {
         spawnRandomIngredient(zoneId);
-    }, 2000);
+    }, 1500);
 }
 
 function startGame() {
@@ -268,12 +268,20 @@ function displayRandomRecipe(targetDivId) {
 
     container.appendChild(ingredientsDiv);
 
-    weightedPool = additionalImages.concat(
-        recipe.ingredients.flatMap(ing => {
-            const src = typeof ing === 'object' ? ing.src : ing;
-            return Array(3).fill(src);
-        })
-    );
+    const GOOD_INGREDIENT_WEIGHT = 12;
+    const BAD_INGREDIENT_WEIGHT = 1;
+
+    const recipeIngredientPool = recipe.ingredients.flatMap(ing => {
+        const src = typeof ing === 'object' ? ing.src : ing;
+        return Array(GOOD_INGREDIENT_WEIGHT).fill(src);
+    });
+
+    const additionalImagePool = additionalImages.flatMap(src => {
+        return Array(BAD_INGREDIENT_WEIGHT).fill(src);
+    });
+
+    weightedPool = recipeIngredientPool.concat(additionalImagePool);
+
 
     const zoneId = targetDivId === "Player1Recipe" ? "Player1IngredientZone" : "Player2IngredientZone";
     const animationZone = document.getElementById(zoneId);
@@ -317,7 +325,6 @@ function monitorVerificationZone(zoneId, buttonId) {
 
     const observer = new MutationObserver(() => {
         const elements = Array.from(zone.children);
-        console.log(`Zone ${zoneId} contient ${elements.length} éléments.`);
 
         if (elements.length === 5) {
             button.disabled = false;
@@ -790,27 +797,7 @@ function isInPlayer1DropZone(imgElement) {
     return Array.from(player1DropZone.children).includes(imgElement);
 }
 
-function spawnRandomIngredient(zoneId) {
-    const randomImage = weightedPool[Math.floor(Math.random() * weightedPool.length)];
-    const animationZone = document.getElementById(zoneId);
 
-    const randomImg = document.createElement("img");
-    const altText = randomImage.split('/').pop().replace('.png', '');
-
-    randomImg.src = randomImage;
-    randomImg.alt = altText;
-    randomImg.classList.add("ingredient-img");
-    randomImg.draggable = true;
-    randomImg.style.animationDelay = '0s';
-    randomImg.setAttribute('data-state', '0');
-
-    animationZone.appendChild(randomImg);
-    registerInitialZone(randomImg, animationZone);
-
-    clickCounts[randomImg.src] = 0;
-
-    transformIngredient(randomImg);
-}
 
 
 function transformIngredient(imgToCut) {
