@@ -846,7 +846,7 @@ function transformIngredient(imgToCut) {
         helpClic = true;
         apDisap(".clicindicateur", "none");
         if (probarCanUpdate == true) {
-            apDisap(".progressbar", "block");
+            apDisap(".progressbar", "flex");
 
 
         }
