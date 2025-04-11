@@ -4,13 +4,14 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    }
+}
 
 #create-form {
+    margin-top: 24px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    align-items: start;
+    gap: 48px;
+    align-items: center
 }
 
 #player-name {
@@ -45,7 +46,7 @@
     outline: none;
 }
 
-#room-name{
+#room-name {
     background-color: #fff;
     height: 80px;
     width: 100%;

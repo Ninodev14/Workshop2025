@@ -364,3 +364,7 @@ button {
     padding: 20px;
     box-sizing: border-box;
 }
+
+.FormText {
+    text-align: left;
+}

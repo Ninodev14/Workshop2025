@@ -27,21 +27,27 @@
     height: 100vh;
     background: #F1E1E1;
     display: flex;
-    align-items: center;
+    align-items: start;
     justify-content: center;
 }
 
-.name-box {
+.name-prompt .name-box {
+    margin-top: 100px;
     display: flex;
     flex-direction: column;
-    text-align: center;
+    justify-content: flex-start;
     align-items: center;
-    gap: 20px;
-    width: 80vw;
+    gap: 48px;
 }
 
 #roomNameDisplay {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    text-align: center;
     background-color: #FFFFFF;
+    justify-content: center;
+    align-items: center;
 }
 
 .player-name-contener {

@@ -23,7 +23,7 @@
 <body>
     <div class="top-page">
         <button class="btnBoncy btnquitter" onclick="goToIndexPage()" style="z-index: 999999;">
-        Quitter
+            Quitter
         </button>
     </div>
 
@@ -38,22 +38,26 @@
             <button class="btnBoncy btncreatroom" onclick="goToCreatePage()">Créer une Room</button>
         </div>
     </div>
-
+    <img class="cuistoAbsolute" src="src/img/cuisto.png" alt="">
 
     <div id="namePrompt" class="name-prompt" style="display: none;">
-
         <div class="name-box">
             <h1 class="Titre">Équipe</h1>
-            <h3 id="roomNameDisplay">...</h3>
             <div class="player-name-contener">
-                <p>Ton nom de joueur :</p>
+                <p>L’équipe</p>
+                <h3 id="roomNameDisplay">...</h3>
+            </div>
+
+            <div class="player-name-contener">
+                <p>Nom du joueur </p>
                 <div class="inputGomme">
                     <img src="src/img/Image pour la création d'équipe.svg" onclick="errase(this)" alt="">
                     <input type="text" id="player-name" class="h3" placeholder="Votre nom">
                 </div>
             </div>
-            <button class="btnBoncy" onclick="confirmJoinRoom()">Rejoindre cette équipe</button>
+            <button class="btnBoncy" id="join-btn" onclick="confirmJoinRoom()" disabled>Rejoindre cette équipe</button>
             <button class="btnBoncy btncreatroom" onclick="hideNamePrompt()">Retour</button>
+            <img class="cuistoAbsolute" src="src/img/cuisto.png" alt="">
         </div>
     </div>
     <div id="screen-warning" class="screen-warning">
@@ -82,24 +86,34 @@
             }
 
             Object.entries(rooms).forEach(([roomId, room]) => {
-                // Si la room n'est plus disponible (la partie a commencé), on ne l'affiche pas
-                if (!room) return; // Si la room a été supprimée par le serveur, on saute cette itération
+                if (!room) return;
 
                 const li = document.createElement('li');
                 li.classList.add('room-item');
                 li.innerHTML = `
-            <p class="h3">Equipe</p>
-            <div class="beautruc">
-                <div></div>
-                <strong class="h3">${room.name}</strong> 
-                <div class="h3">(${room.players.length}/${room.maxPlayers})</div>
-            </div>
-            <button class="btnBoncy" onclick="showNamePrompt('${roomId}', '${room.name}')">Rejoindre</button>
-        `;
+                    <p class="h3">Equipe</p>
+                    <div class="beautruc">
+                        <div></div>
+                        <strong class="h3">${room.name}</strong> 
+                        <div class="h3">(${room.players.length}/${room.maxPlayers})</div>
+                    </div>
+                    <button class="btnBoncy" onclick="showNamePrompt('${roomId}', '${room.name}')">Rejoindre</button>
+                `;
                 roomList.appendChild(li);
             });
         });
 
+        function checkPlayerName() {
+            const playerName = document.getElementById('player-name').value.trim();
+            const joinBtn = document.getElementById('join-btn');
+
+            if (playerName !== "") {
+                joinBtn.disabled = false;
+            } else {
+                joinBtn.disabled = true;
+            }
+        }
+        document.getElementById('player-name').addEventListener('input', checkPlayerName);
 
         function showNamePrompt(roomId, roomName) {
             selectedRoomId = roomId;
@@ -111,6 +125,7 @@
         function hideNamePrompt() {
             document.getElementById("namePrompt").style.display = "none";
             document.getElementById("player-name").value = "";
+            document.getElementById('join-btn').disabled = true;
         }
 
         function confirmJoinRoom() {
@@ -139,8 +154,6 @@
     </script>
     <script src="src/js/errase.js"></script>
 
-
 </body>
-
 
 </html>
