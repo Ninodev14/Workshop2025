@@ -438,18 +438,23 @@ function validateRecipeCompletion(targetDivId) {
 function anomationCook() {
 
 
-    apDisap('.casseroleContainer', "none")
+    const flash = document.createElement('div');
+    flash.className = 'flash-overlay';
+    document.body.appendChild(flash);
 
-    /*
-    //LANCER l'animation ici !!
+    requestAnimationFrame(() => {
+        flash.style.opacity = '1';
 
-    setTimeout(() => {
-        showRecipe()
-    }, 1000);
-    */
+        setTimeout(() => {
+            apDisap('.casseroleContainer', "none");
+            flash.style.opacity = '0';
+            showRecipe();
+            setTimeout(() => {
+                flash.remove();
 
-    showRecipe()
-
+            }, 1500);
+        }, 1500);
+    });
 }
 
 
