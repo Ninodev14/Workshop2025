@@ -303,7 +303,6 @@ function displayRandomRecipe(targetDivId) {
 
         animationZone.appendChild(animatedImg);
         registerInitialZone(animatedImg, animationZone);
-        transformIngredient(animatedImg);
     });
 
     const validateButtonId = targetDivId === "Player1Recipe" ? "validateButtonP1" : "validateButtonP2";
