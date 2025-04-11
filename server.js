@@ -192,7 +192,7 @@ io.on('connection', (socket) => {
                 delete disconnectTimeouts[playerId];
 
                 io.emit('updateRooms', rooms);
-            }, 10000); // Attend 10 secondes avant suppression définitive
+            }, 20000);
         }
     });
 
