@@ -1,5 +1,5 @@
 const socket = io();
-
+let IsAlreadyValidate = false;
 let playerRole = null;
 let maxIngredients = 2;
 const roomId = new URLSearchParams(window.location.search).get('roomId');
@@ -203,7 +203,8 @@ function displayRandomRecipe(targetDivId) {
     const recipe = recipes[Math.floor(Math.random() * recipes.length)];
     const container = document.getElementById(targetDivId);
     recipeName = recipe.name;
-
+    console.log("ffzfzzf")
+    IsAlreadyValidate = false;
 
 
     //const title = document.createElement("h3");
@@ -345,95 +346,100 @@ function monitorVerificationZone(zoneId, buttonId) {
 let stateRecipe = null;
 
 function validateRecipeCompletion(targetDivId) {
-    const expectedZoneId = targetDivId === "Player1Recipe" ? "Player1VerificationZone" : "Player2VerificationZone";
-    const dropZone = document.getElementById(expectedZoneId);
-    const recipeDiv = document.getElementById(targetDivId);
+    if (IsAlreadyValidate == false) {
+        IsAlreadyValidate = true;
+        const expectedZoneId = targetDivId === "Player1Recipe" ? "Player1VerificationZone" : "Player2VerificationZone";
+        const dropZone = document.getElementById(expectedZoneId);
+        const recipeDiv = document.getElementById(targetDivId);
 
-    function getDroppedIngredientData(element) {
-        // Cas d'un élément lavé ou découpé contenu dans une div
-        if (element.tagName === "DIV") {
-            const alt = element.getAttribute('data-alt');
-            const state = element.getAttribute('data-state');
+        function getDroppedIngredientData(element) {
+            // Cas d'un élément lavé ou découpé contenu dans une div
+            if (element.tagName === "DIV") {
+                const alt = element.getAttribute('data-alt');
+                const state = element.getAttribute('data-state');
 
-            if (alt && state) {
+                if (alt && state) {
+                    return {
+                        text: alt,
+                        state: state
+                    };
+                }
+
+                // Si la div contient une image, on récupère les infos depuis celle-ci
+                const img = element.querySelector('img');
+                if (img) {
+                    const altText = img.alt || img.getAttribute('data-alt');
+                    const state = img.getAttribute('data-state');
+                    return {
+                        text: altText,
+                        state: state
+                    };
+                }
+            }
+
+            // Cas d'un élément image directe
+            if (element.tagName === "IMG") {
                 return {
-                    text: alt,
-                    state: state
+                    text: element.alt || element.getAttribute('data-alt'),
+                    state: element.getAttribute('data-state')
                 };
             }
 
-            // Si la div contient une image, on récupère les infos depuis celle-ci
-            const img = element.querySelector('img');
-            if (img) {
-                const altText = img.alt || img.getAttribute('data-alt');
-                const state = img.getAttribute('data-state');
+            console.warn("⚠️ Élément non reconnu :", element);
+            return null;
+        }
+
+        // Lecture des ingrédients de la recette attendue
+        const recipeIngredients = Array.from(recipeDiv.querySelectorAll("img"))
+            .filter(img => img.getAttribute('data-state') !== null)
+            .map(img => {
                 return {
-                    text: altText,
-                    state: state
+                    text: img.src.split('/').pop().replace('.png', ''),
+                    state: img.getAttribute('data-state')
                 };
-            }
-        }
+            });
 
-        // Cas d'un élément image directe
-        if (element.tagName === "IMG") {
-            return {
-                text: element.alt || element.getAttribute('data-alt'),
-                state: element.getAttribute('data-state')
+        // Lecture des ingrédients déposés
+        const droppedIngredients = Array.from(dropZone.children)
+            .map(el => getDroppedIngredientData(el))
+            .filter(data => data !== null);
+
+        // Comparaison
+        const missingIngredients = recipeIngredients.filter(recipeIng =>
+            !droppedIngredients.some(droppedIng =>
+                droppedIng.text === recipeIng.text && droppedIng.state === recipeIng.state
+            )
+        );
+
+        const incorrectIngredients = droppedIngredients.filter(droppedIng =>
+            !recipeIngredients.some(recipeIng =>
+                recipeIng.text === droppedIng.text && recipeIng.state === droppedIng.state
+            )
+        );
+
+        console.log("❓ Ingrédients manquants :", missingIngredients);
+        console.log("🚫 Ingrédients incorrects :", incorrectIngredients);
+
+        const messageDiv = document.getElementById("recipe-validation-message");
+        messageDiv.style.display = "block";
+
+        if (missingIngredients.length === 0 && incorrectIngredients.length === 0) {
+            stateRecipe = true;
+            anomationCook();
+
+            const data = {
+                roomId: roomId
             };
+            console.log("feefefzrgrzgf")
+            console.log(`[${playerRole}] envoie TotRecipeDone`);
+            socket.emit("TotRecipeDone", data);
+        } else {
+            
+            stateRecipe = false;
+            console.log(stateRecipe);
+            anomationCook();
+
         }
-
-        console.warn("⚠️ Élément non reconnu :", element);
-        return null;
-    }
-
-    // Lecture des ingrédients de la recette attendue
-    const recipeIngredients = Array.from(recipeDiv.querySelectorAll("img"))
-        .filter(img => img.getAttribute('data-state') !== null)
-        .map(img => {
-            return {
-                text: img.src.split('/').pop().replace('.png', ''),
-                state: img.getAttribute('data-state')
-            };
-        });
-
-    // Lecture des ingrédients déposés
-    const droppedIngredients = Array.from(dropZone.children)
-        .map(el => getDroppedIngredientData(el))
-        .filter(data => data !== null);
-
-    // Comparaison
-    const missingIngredients = recipeIngredients.filter(recipeIng =>
-        !droppedIngredients.some(droppedIng =>
-            droppedIng.text === recipeIng.text && droppedIng.state === recipeIng.state
-        )
-    );
-
-    const incorrectIngredients = droppedIngredients.filter(droppedIng =>
-        !recipeIngredients.some(recipeIng =>
-            recipeIng.text === droppedIng.text && recipeIng.state === droppedIng.state
-        )
-    );
-
-    console.log("❓ Ingrédients manquants :", missingIngredients);
-    console.log("🚫 Ingrédients incorrects :", incorrectIngredients);
-
-    const messageDiv = document.getElementById("recipe-validation-message");
-    messageDiv.style.display = "block";
-
-    if (missingIngredients.length === 0 && incorrectIngredients.length === 0) {
-        stateRecipe = true;
-        anomationCook();
-
-        const data = {
-            roomId: roomId
-        };
-
-        console.log(`[${playerRole}] envoie TotRecipeDone`);
-        socket.emit("TotRecipeDone", data);
-    } else {
-        stateRecipe = false;
-        console.log(stateRecipe);
-        anomationCook();
     }
 }
 
@@ -851,14 +857,14 @@ function transformIngredient(imgToCut) {
         const isInP1Zone = Array.from(player1DropZone.children).includes(imgToCut);
         const isInP2Zone = Array.from(player2DropZone.children).includes(imgToCut);
         if (isInP1Zone || isInP2Zone) {
-            clickCounts[id] += 1;+updateProgress();
+            clickCounts[id] += 1; +updateProgress();
             if (clickCounts[id] >= 10) {
                 apDisap(".progressbar", "none")
-                
+
                 // Reset le compteur après transformation
                 clickCounts[id] = 0;
                 updateProgress(); // Pour réinitialiser la barre
-            
+
                 if (isInP1Zone) {
                     cutImageInTwo(imgToCut);
                 } else if (isInP2Zone) {
@@ -866,7 +872,7 @@ function transformIngredient(imgToCut) {
                 }
                 clearInterval(decayInterval); // stop la baisse
                 probarCanUpdate = false;
-            }else {
+            } else {
                 decayTimeout = setTimeout(() => {
                     startDecay();
                 }, 1000); // commence à baisser après 1 sec d'inactivité
@@ -1083,9 +1089,9 @@ socket.on("updateRecipe", (total) => {
         element.innerHTML = globalScore;
     });
 
-    if (globalScore >= 2) {
-        
-        //endGame();
+    if (globalScore >= 6) {
+
+        endGame();
     }
 
     setTimeout(() => {
